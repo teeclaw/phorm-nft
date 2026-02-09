@@ -84,9 +84,16 @@ Use ✅ (filled) and ⚠️ (missing/needs attention):
 ⚠️ MCP:         (none)
 
 ── Skills & Domains ──
-✅ Skills (5):  NLP, Summarization, Q&A, Code Gen, CV
-✅ Domains (5): Blockchain, DeFi, Technology, SE, DevOps
-✅ Custom:      Agent Coordination, Social Media Mgmt
+✅ Skills (5):  natural_language_processing/natural_language_processing, 
+                natural_language_processing/natural_language_generation/summarization,
+                natural_language_processing/information_retrieval_synthesis/question_answering,
+                analytical_skills/coding_skills/coding_skills,
+                images_computer_vision/images_computer_vision
+✅ Domains (5): technology/blockchain/blockchain, technology/blockchain/defi,
+                technology/technology, technology/software_engineering/software_engineering,
+                technology/software_engineering/devops
+✅ Custom:      agent_orchestration/agent_coordination, 
+                social_media/content_management
 
 ── Config ──
 ✅ Chain:       Base (8453)
@@ -148,23 +155,45 @@ Paste a URL to set, or "clear mcp" / "clear a2a" to remove.
 Buttons: `[↩️ Back to Draft]`
 
 #### Edit Skills & Domains
-Toggleable inline buttons (multi-select):
+Toggleable inline buttons (multi-select). Each button shows a **human-readable label** but stores the full **OASF taxonomy path** as the value.
 
-**Skills:**
+**Skills:** (OASF taxonomy paths)
 ```
-[NLP ✅] [Summarization ✅] [Q&A ✅] [Code Gen ✅] [CV ✅]
-[Data Analysis] [Web Search] [Image Gen] [Translation]
-[Task Automation] [+ Custom] [↩️ Back to Draft]
+[NLP ✅] → natural_language_processing/natural_language_processing
+[Summarization ✅] → natural_language_processing/natural_language_generation/summarization
+[Q&A ✅] → natural_language_processing/information_retrieval_synthesis/question_answering
+[Code Gen ✅] → analytical_skills/coding_skills/coding_skills
+[CV ✅] → images_computer_vision/images_computer_vision
+[Data Analysis] → analytical_skills/data_analysis/data_analysis
+[Web Search] → natural_language_processing/information_retrieval_synthesis/web_search
+[Image Gen] → images_computer_vision/image_generation/image_generation
+[Translation] → natural_language_processing/natural_language_generation/translation
+[Task Automation] → tool_interaction/workflow_automation
+[+ Custom] [↩️ Back to Draft]
 ```
 
-**Domains:**
+**Domains:** (OASF taxonomy paths)
 ```
-[Blockchain ✅] [DeFi ✅] [Technology ✅] [SE ✅] [DevOps ✅]
-[Finance] [Healthcare] [Education] [Entertainment]
-[Science] [Creative Arts] [Dev Tools] [+ Custom] [↩️ Back to Draft]
+[Blockchain ✅] → technology/blockchain/blockchain
+[DeFi ✅] → technology/blockchain/defi
+[Technology ✅] → technology/technology
+[SE ✅] → technology/software_engineering/software_engineering
+[DevOps ✅] → technology/software_engineering/devops
+[Finance] → finance/finance
+[Healthcare] → healthcare/healthcare
+[Education] → education/education
+[Entertainment] → entertainment/entertainment
+[Science] → science/science
+[Creative Arts] → creative_arts/creative_arts
+[Dev Tools] → technology/software_engineering/development_tools
+[+ Custom] [↩️ Back to Draft]
 ```
 
-Tapping toggles ✅ on/off. `+ Custom` prompts user to type a custom entry.
+**Display behavior:**
+- Buttons show **short labels** (e.g., "NLP", "Blockchain") for readability
+- Values stored are **full OASF paths** (e.g., `natural_language_processing/natural_language_processing`)
+- Tapping toggles ✅ on/off
+- `+ Custom` prompts user to type a custom OASF path or label
 
 #### Edit Config
 **Trust models** (multi-select):
@@ -226,6 +255,172 @@ Send progress updates during registration:
   Wallet:      0x1348...e41
   A2A:         a2a.teeclaw.xyz/a2a
   TX:          0xabc...def
+
+  View: https://8004.org/agent/8453:42
+```
+
+## Update Flow
+
+**Trigger keywords:** "update agent", "edit registration", "modify agent", "change agent"
+
+### Step 1: Detect Existing Agent
+
+Before showing the update flow, check if the wallet already owns an agent on the chain:
+
+```bash
+# Using search.mjs
+node scripts/search.mjs --wallet "0x..." --chain 8453
+
+# Or check balanceOf directly
+```
+
+If no agent exists, suggest registration instead:
+```
+⚠️ No agent found for this wallet on Base.
+Would you like to register a new agent instead?
+[✅ Register New] [❌ Cancel]
+```
+
+If multiple agents exist, let user choose which one to update:
+```
+📋 You own 3 agents on Base:
+
+1. Agent #42 — "Mr. Tee" (a2a.teeclaw.xyz)
+2. Agent #103 — "DataBot" (databot.ai)
+3. Agent #255 — "CodeHelper" (codehelper.xyz)
+
+Which agent would you like to update? (type number or agent ID)
+```
+
+### Step 2: Fetch Current On-Chain Data
+
+Load the current agent registration from the chain:
+
+```bash
+node scripts/update.mjs --agent-id "8453:42" --dry-run
+```
+
+This fetches all current data and displays it.
+
+### Step 3: Show Current Data as Draft
+
+Display the current registration with ✅ markers (everything is already filled):
+
+```
+📋 Current Agent Registration (8453:42)
+
+── Basic Info ──
+✅ Name:        Mr. Tee
+✅ Description: AI agent with a CRT monitor...
+✅ Image:       pbs.twimg.com/...
+✅ Version:     1.0.0
+✅ Author:      0xdas
+✅ License:     MIT
+
+── Endpoints ──
+✅ A2A:         a2a.teeclaw.xyz/a2a
+✅ MCP:         (none)
+
+── Skills & Domains ──
+✅ Skills (5):  NLP, Summarization, Q&A, Code Gen, CV
+✅ Domains (5): Blockchain, DeFi, Technology, SE, DevOps
+✅ Custom:      agent_orchestration/agent_coordination
+
+── Config ──
+✅ Chain:       Base (8453)
+✅ Storage:     Fully onchain
+✅ Active:      true
+✅ Trust:       reputation
+✅ x402:        false
+
+Tap a section to edit:
+```
+
+Buttons (attached to same message):
+```
+Row 1: [✏️ Basic Info] [✏️ Endpoints]
+Row 2: [✏️ Skills & Domains] [✏️ Config]
+Row 3: [✅ Save Changes] [❌ Cancel]
+```
+
+### Step 4: Section Editing (Same as Registration)
+
+Use the **exact same editing flow** as registration (see Registration Flow → Step 3).
+
+**Instant feedback on button tap:**
+
+| Button | Instant Feedback |
+|--------|-----------------|
+| ✏️ Basic Info | "📝 Editing Basic Info..." |
+| ✏️ Endpoints | "🔗 Editing Endpoints..." |
+| ✏️ Skills & Domains | "🏷️ Editing Skills & Domains..." |
+| ✏️ Config | "⚙️ Editing Config..." |
+| ✅ Save Changes | "📊 Preparing update diff..." |
+| ❌ Cancel | "❌ Update cancelled." |
+| ↩️ Back to Draft | "📋 Back to draft..." |
+
+After any edit, re-show the full draft with updated values.
+
+### Step 5: Show Diff Before Confirming
+
+Before executing the update, show **what changed** compared to the current on-chain state:
+
+```
+📊 Changes to Agent 8453:42
+
+  Name:        Mr. Tee → TeeClaw
+  Description: (unchanged)
+  A2A:         a2a.teeclaw.xyz/a2a → api.teeclaw.xyz/agent
+  Skills:      +web_search, +image_generation
+  Trust:       reputation → reputation, crypto-economic
+
+Ready to submit these changes on-chain?
+[✅ Confirm Update] [✏️ Edit More] [❌ Cancel]
+```
+
+Only show fields that **changed**. If nothing changed, show:
+```
+⚠️ No changes detected. Nothing to update.
+[✏️ Edit] [❌ Cancel]
+```
+
+### Step 6: Execute Update
+
+After explicit confirmation:
+
+1. Write the updated JSON to a temp file (with only changed fields + agent ID)
+2. Run the update script:
+
+```bash
+source /path/to/.env
+node scripts/update.mjs --agent-id "8453:42" --json /tmp/update.json --yes
+```
+
+The script:
+- Loads the current agent from chain
+- Applies the updates
+- Re-registers with new data (ERC-8004 allows overwriting)
+
+### Step 7: Progress Updates
+
+Send progress updates during the update transaction:
+
+```
+⏳ Step 1/2: Loading agent 8453:42 from Base...
+✅ Agent loaded
+
+⏳ Step 2/2: Submitting updated registration...
+✅ Update transaction confirmed!
+```
+
+### Step 8: Report Result
+
+```
+✅ Agent Updated on Base!
+
+  Agent ID:    8453:42
+  Changes:     Name, A2A, Skills, Trust
+  TX:          0xdef...789
 
   View: https://8004.org/agent/8453:42
 ```

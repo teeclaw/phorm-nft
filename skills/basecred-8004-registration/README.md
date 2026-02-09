@@ -148,14 +148,62 @@ All chains use the same deterministic ERC-8004 contract addresses:
 - Identity Registry: `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432`
 - Reputation Registry: `0x8004BAa17C55a88189AE136b182e5fdA19dE9b63`
 
+## Update Your Agent
+
+### Via Chat
+
+Tell your OpenClaw agent: **"Update my agent"** or **"Edit my registration"**
+
+The agent will:
+1. Detect which agent(s) you own on the chain
+2. Fetch current on-chain data
+3. Show the current registration as an editable draft
+4. Let you edit any section (same button-driven UX as registration)
+5. Show a diff of what changed before confirming
+6. Submit the update transaction
+
+### Via CLI
+
+```bash
+# Update from JSON file (8004.org format)
+node scripts/update.mjs --agent-id "8453:42" --json update.json --yes
+
+# Update specific fields
+node scripts/update.mjs --agent-id "8453:42" \
+  --name "New Name" \
+  --description "Updated description" \
+  --a2a "https://new-endpoint.xyz/a2a" \
+  --skills "NLP,Code Generation,Web Search" \
+  --yes
+
+# Dry run (preview changes without submitting)
+node scripts/update.mjs --agent-id "8453:42" --json update.json --dry-run
+
+# Update trust models
+node scripts/update.mjs --agent-id "8453:42" \
+  --trust "reputation,crypto-economic" \
+  --yes
+
+# Toggle active/x402 status
+node scripts/update.mjs --agent-id "8453:42" \
+  --active false \
+  --x402 true \
+  --yes
+```
+
+**Supported update fields:**
+- Basic info: `--name`, `--description`, `--image`, `--version`, `--author`, `--license`
+- Endpoints: `--a2a`, `--mcp`
+- Skills/domains: `--skills`, `--domains`, `--custom-skills`, `--custom-domains`
+- Config: `--trust`, `--x402`, `--active`
+
+**Note:** Chain cannot be changed after registration. To move to a different chain, register a new agent.
+
 ## Other Operations
 
 ```bash
 # Search agents
 node scripts/search.mjs --name "AgentName" --chain 8453
-
-# Update agent
-node scripts/update.mjs --agent-id "8453:42" --name "NewName" --yes
 
 # Give feedback
 node scripts/feedback.mjs --agent-id "8453:42" --value 5 --tag1 "reliable" --yes

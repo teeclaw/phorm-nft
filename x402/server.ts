@@ -14,6 +14,7 @@ import express from "express";
 import { paymentMiddleware, x402ResourceServer } from "@x402/express";
 import { ExactEvmScheme } from "@x402/evm/exact/server";
 import { HTTPFacilitatorClient } from "@x402/core/server";
+import { facilitator as cdpFacilitator, createCdpAuthHeaders } from "@coinbase/x402";
 import dotenv from "dotenv";
 
 dotenv.config({ path: "/home/phan_harry/.openclaw/.env" });
@@ -32,7 +33,12 @@ const facilitatorUrl = USE_TESTNET
   ? "https://www.x402.org/facilitator"
   : (process.env.X402_FACILITATOR_URL || "https://api.cdp.coinbase.com/platform/v2/x402");
 
-const payTo = "0x134820820d4f631ff949625189950bA7B3C57e41";
+// CDP auth headers for mainnet facilitator (JWT-based, per-endpoint)
+const createAuthHeaders = !USE_TESTNET
+  ? createCdpAuthHeaders(process.env.CDP_API_KEY_ID, process.env.CDP_API_KEY_SECRET)
+  : undefined;
+
+const payTo = "0xFdF53De20f46bAE2Fa6414e6F25EF1654E68Acd0";
 
 console.log("📺 x402 Server starting…");
 console.log(`Network:     ${label} (${network})`);
@@ -41,7 +47,7 @@ console.log(`Pay to:      ${payTo}`);
 console.log(`Port:        ${PORT}`);
 
 // ── Facilitator + Resource Server ──────────────────────────────
-const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl });
+const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl, createAuthHeaders });
 const resourceServer = new x402ResourceServer(facilitatorClient)
   .register(network, new ExactEvmScheme());
 

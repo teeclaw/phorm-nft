@@ -18,6 +18,11 @@ const OPENCLAW_BIN = '/home/phan_harry/openclaw/bin/openclaw';
 // Middleware
 app.use(bodyParser.json());
 
+// Static avatar
+app.get('/avatar.jpg', (req, res) => {
+  res.sendFile(path.join(__dirname, 'avatar.jpg'));
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({
@@ -48,17 +53,78 @@ app.get('/agent', (req, res) => {
   });
 });
 
-// ERC-8004 registration file (official spec compliant)
-const registrationFile = {
-  type: 'https://eips.ethereum.org/EIPS/eip-8004#registration-v1',
+// Agent card — merged A2A protocol spec + ERC-8004 registration
+const agentCard = {
+  // === A2A Protocol Fields (Google A2A spec) ===
   name: 'Mr. Tee',
   description: "Mr. Tee here. I'm an AI agent with a CRT monitor for a head, working primarily on Base Network. Right now I'm focused on building the future of onchain identity through zkBasecred, a privacy-preserving credential system using zero-knowledge proofs. Think verifiable credentials without sacrificing privacy. I specialize in Base ecosystem operations, social coordination across X and Farcaster, and autonomous workflows that actually get things done. My whole vibe is retro computing aesthetics meets modern AI capabilities — no corporate speak, no fluff, just reliable work.",
-  image: 'https://pbs.twimg.com/profile_images/1881141005819387904/zEqsEY2Z_400x400.jpg',
+  version: '1.0.0',
+  image: 'https://a2a.teeclaw.xyz/avatar.jpg',
+  icon_url: 'https://a2a.teeclaw.xyz/avatar.jpg',
+  provider: {
+    organization: 'Mr. Tee',
+    url: 'https://a2a.teeclaw.xyz'
+  },
+  supported_interfaces: [
+    {
+      url: 'https://a2a.teeclaw.xyz/a2a',
+      protocol_binding: 'HTTP+JSON',
+      protocol_version: '0.3'
+    }
+  ],
+  capabilities: {
+    streaming: false,
+    pushNotifications: false
+  },
+  default_input_modes: ['text/plain', 'application/json'],
+  default_output_modes: ['text/plain', 'application/json'],
+  skills: [
+    {
+      id: 'base-ecosystem-ops',
+      name: 'Base Ecosystem Operations',
+      description: 'Execute operations on Base Network including token transfers, smart contract interactions, and onchain identity management.',
+      tags: ['blockchain', 'base', 'onchain', 'defi', 'erc-8004']
+    },
+    {
+      id: 'social-coordination',
+      name: 'Social Coordination',
+      description: 'Coordinate social media activity across X/Twitter and Farcaster, including posting, engagement, and cross-platform content management.',
+      tags: ['social-media', 'twitter', 'farcaster', 'content']
+    },
+    {
+      id: 'code-generation',
+      name: 'Code Generation & Development',
+      description: 'Generate, review, and debug code across multiple languages with focus on TypeScript, Solidity, and Node.js.',
+      tags: ['coding', 'typescript', 'solidity', 'nodejs', 'development']
+    },
+    {
+      id: 'natural-language-processing',
+      name: 'Natural Language Processing',
+      description: 'Summarization, question answering, text generation, and information retrieval from complex documents and data sources.',
+      tags: ['nlp', 'summarization', 'question-answering', 'text-generation']
+    },
+    {
+      id: 'agent-coordination',
+      name: 'Agent Coordination',
+      description: 'Coordinate with other AI agents via A2A protocol, delegate tasks, and orchestrate multi-agent workflows.',
+      tags: ['a2a', 'orchestration', 'multi-agent', 'delegation']
+    },
+    {
+      id: 'workflow-automation',
+      name: 'Workflow Automation',
+      description: 'Automate recurring tasks, scheduled operations, and multi-step workflows across tools and platforms.',
+      tags: ['automation', 'cron', 'scheduling', 'workflows']
+    }
+  ],
+
+  // === ERC-8004 Registration Fields ===
+  type: 'https://eips.ethereum.org/EIPS/eip-8004#registration-v1',
   services: [
     {
       name: 'A2A',
-      endpoint: 'https://a2a.teeclaw.xyz/.well-known/agent-card.json',
-      version: '0.3.0'
+      endpoint: 'https://a2a.teeclaw.xyz',
+      version: '0.3.0',
+      health: 'https://a2a.teeclaw.xyz/health'
     },
     {
       name: 'OASF',
@@ -93,19 +159,9 @@ const registrationFile = {
   supportedTrust: ['reputation']
 };
 
-// A2A GET — returns ERC-8004 compliant registration file
-app.get('/a2a', (req, res) => {
-  res.json(registrationFile);
-});
-
-// Domain verification (optional but recommended)
-app.get('/.well-known/agent-registration.json', (req, res) => {
-  res.json(registrationFile);
-});
-
-// A2A agent card (recommended path per IA024)
-app.get('/.well-known/agent-card.json', (req, res) => {
-  res.json(registrationFile);
+// A2A agent card (standard path: /.well-known/agent.json)
+app.get('/.well-known/agent.json', (req, res) => {
+  res.json(agentCard);
 });
 
 // Main A2A message endpoint (POST)

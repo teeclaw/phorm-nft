@@ -42,6 +42,31 @@ const { values: args } = parseArgs({
   strict: true,
 });
 
+// --- Helper: Convert OASF paths to skill objects ---
+function oasfPathToSkill(path) {
+  const parts = path.split('/');
+  const id = parts[parts.length - 1].replace(/_/g, '-');
+  const name = parts[parts.length - 1].split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const tags = parts.slice(0, -1).map(p => p.replace(/_/g, '-'));
+  tags.push(id);
+  
+  const descriptions = {
+    'summarization': 'Generate concise summaries of long-form text and documents.',
+    'question-answering': 'Answer questions based on provided context or general knowledge.',
+    'coding-skills': 'Write, review, debug, and explain code across multiple programming languages.',
+    'images-computer-vision': 'Analyze, describe, and extract information from images.',
+    'agent-coordination': 'Coordinate with other AI agents via protocols like A2A.',
+    'workflow-automation': 'Automate recurring tasks and multi-step workflows.',
+  };
+  
+  return {
+    id,
+    name,
+    description: descriptions[id] || `${name} capabilities.`,
+    tags,
+  };
+}
+
 // --- Template output (8004.org format) ---
 if (args.template) {
   const template = {
@@ -56,7 +81,7 @@ if (args.template) {
     },
     endpoints: {
       mcpEndpoint: '',
-      a2aEndpoint: '',
+      a2aEndpoint: '/.well-known/agent.json',
     },
     skillsDomains: {
       selectedSkills: [],
@@ -207,37 +232,63 @@ console.log(`  Dry Run:     ${args['dry-run']}`);
 console.log();
 
 if (args['dry-run']) {
-  // Output full 8004.org format JSON
+  // Generate skills array from OASF paths
+  const allSkillPaths = [...reg.selectedSkills, ...reg.customSkills];
+  const skillsArray = allSkillPaths.map(oasfPathToSkill);
+  
+  // Build A2A service endpoint
+  const a2aEndpoint = reg.a2a || '/.well-known/agent.json';
+  
+  // Output merged A2A + ERC-8004 format
   const preview = {
-    basicInfo: {
-      agentName: reg.name,
-      agentAddress: walletAddress,
-      description: reg.description,
-      image: reg.image,
-      version: reg.version,
-      author: reg.author,
-      license: reg.license,
-    },
-    endpoints: {
-      a2aEndpoint: reg.a2a,
-      mcpEndpoint: reg.mcp,
-    },
-    skillsDomains: {
-      selectedSkills: reg.selectedSkills,
-      selectedDomains: reg.selectedDomains,
-      customSkills: reg.customSkills,
-      customDomains: reg.customDomains,
-    },
-    advancedConfig: {
-      supportedTrusts: reg.trusts,
-      x402support: reg.x402,
-      storageMethod: reg.storage,
-      active: reg.active,
-    },
-    chain: `${chainInfo.name} (${chainId})`,
+    // A2A top-level fields
+    name: reg.name,
+    description: reg.description,
     version: reg.version,
+    image: reg.image,
+    icon_url: reg.image,
+    provider: {
+      organization: reg.author || reg.name,
+      url: a2aEndpoint.startsWith('http') ? a2aEndpoint.split('/')[0] + '//' + a2aEndpoint.split('/')[2] : '',
+    },
+    supported_interfaces: [
+      {
+        url: a2aEndpoint,
+        protocol_binding: 'HTTP+JSON',
+        protocol_version: '0.3',
+      },
+    ],
+    capabilities: {
+      streaming: false,
+      pushNotifications: false,
+    },
+    default_input_modes: ['text/plain', 'application/json'],
+    default_output_modes: ['text/plain', 'application/json'],
+    skills: skillsArray,
+    
+    // ERC-8004 fields
+    type: 'https://eips.ethereum.org/EIPS/eip-8004#registration-v1',
+    services: [
+      {
+        name: 'A2A',
+        endpoint: a2aEndpoint,
+        version: '0.3.0',
+      },
+      {
+        name: 'OASF',
+        endpoint: 'https://github.com/agntcy/oasf/',
+        version: '0.8.0',
+        skills: allSkillPaths,
+        domains: [...reg.selectedDomains, ...reg.customDomains],
+      },
+    ],
+    x402Support: reg.x402,
+    active: reg.active,
+    registrations: [],
+    supportedTrust: reg.trusts,
   };
-  console.log('📋 Registration file (8004.org format):');
+  
+  console.log('📋 Registration file (merged A2A + ERC-8004 format):');
   console.log(JSON.stringify(preview, null, 2));
   console.log('\n🏁 Dry run complete. No transaction submitted.');
   process.exit(0);
@@ -375,9 +426,48 @@ try {
     }
   }
 
-  // Output full registration file
-  const regFile = agent.getRegistrationFile();
-  console.log('\n📋 Registration file:');
+  // Output full registration file in merged A2A + ERC-8004 format
+  const baseRegFile = agent.getRegistrationFile();
+  
+  // Generate skills array from OASF paths
+  const allSkillPaths = [...reg.selectedSkills, ...reg.customSkills];
+  const skillsArray = allSkillPaths.map(oasfPathToSkill);
+  
+  // Build A2A service endpoint
+  const a2aEndpoint = reg.a2a || '/.well-known/agent.json';
+  
+  // Merge A2A fields with ERC-8004 fields
+  const regFile = {
+    // A2A top-level fields
+    name: reg.name,
+    description: reg.description,
+    version: reg.version,
+    image: reg.image,
+    icon_url: reg.image,
+    provider: {
+      organization: reg.author || reg.name,
+      url: a2aEndpoint.startsWith('http') ? a2aEndpoint.split('/')[0] + '//' + a2aEndpoint.split('/')[2] : '',
+    },
+    supported_interfaces: [
+      {
+        url: a2aEndpoint,
+        protocol_binding: 'HTTP+JSON',
+        protocol_version: '0.3',
+      },
+    ],
+    capabilities: {
+      streaming: false,
+      pushNotifications: false,
+    },
+    default_input_modes: ['text/plain', 'application/json'],
+    default_output_modes: ['text/plain', 'application/json'],
+    skills: skillsArray,
+    
+    // ERC-8004 fields (from SDK)
+    ...baseRegFile,
+  };
+  
+  console.log('\n📋 Registration file (merged A2A + ERC-8004 format):');
   console.log(JSON.stringify(regFile, null, 2));
 
 } catch (err) {
