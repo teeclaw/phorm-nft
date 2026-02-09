@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-// ERC-8004 Agent Registration Script
-// Usage: node register.mjs --name "Agent" --description "Desc" [options]
-//    or: node register.mjs --json registration.json [--dry-run]
+// ERC-8004 Agent Registration Script (basecred-8004-registration)
+// Usage: node register.mjs --json registration.json [--chain 8453] [--dry-run] [--yes]
+//    or: node register.mjs --name "Agent" --description "Desc" [options]
+//    or: node register.mjs --template (output blank 8004.org JSON template)
 
 import { parseArgs } from 'node:util';
 import { createInterface } from 'node:readline';
@@ -9,13 +10,28 @@ import { readFileSync } from 'node:fs';
 
 const { values: args } = parseArgs({
   options: {
+    // Basic info
     name:        { type: 'string' },
     description: { type: 'string' },
     image:       { type: 'string' },
+    version:     { type: 'string' },
+    author:      { type: 'string' },
+    license:     { type: 'string' },
+    // Endpoints
     a2a:         { type: 'string' },
     mcp:         { type: 'string' },
+    // Skills & domains (comma-separated)
+    skills:      { type: 'string' },
+    domains:     { type: 'string' },
+    'custom-skills':  { type: 'string' },
+    'custom-domains': { type: 'string' },
+    // Advanced
     chain:       { type: 'string', default: process.env.CHAIN_ID || '8453' },
     storage:     { type: 'string', default: 'http' },
+    trust:       { type: 'string' },
+    x402:        { type: 'boolean', default: false },
+    active:      { type: 'boolean', default: true },
+    // Control
     json:        { type: 'string' },
     'dry-run':   { type: 'boolean', default: false },
     yes:         { type: 'boolean', default: false },
@@ -24,21 +40,35 @@ const { values: args } = parseArgs({
   strict: true,
 });
 
-// --- Template output ---
+// --- Template output (8004.org format) ---
 if (args.template) {
   const template = {
-    name: 'MyAgent',
-    description: 'A helpful AI agent',
-    image: '',
-    endpoints: [
-      { type: 'a2a', value: 'https://example.com/a2a' },
-      { type: 'mcp', value: 'https://example.com/mcp' },
-    ],
-    active: true,
-    x402support: false,
-    metadata: {
-      agentName: 'myagent',
+    basicInfo: {
+      agentName: '',
+      agentAddress: '',
+      description: '',
+      image: '',
+      version: '1.0.0',
+      author: '',
+      license: 'MIT',
     },
+    endpoints: {
+      mcpEndpoint: '',
+      a2aEndpoint: '',
+    },
+    skillsDomains: {
+      selectedSkills: [],
+      selectedDomains: [],
+      customSkills: [],
+      customDomains: [],
+    },
+    advancedConfig: {
+      supportedTrusts: [],
+      x402support: false,
+      storageMethod: 'http',
+      active: true,
+    },
+    version: '1.0.0',
   };
   console.log(JSON.stringify(template, null, 2));
   process.exit(0);
@@ -55,40 +85,49 @@ if (args.json) {
   }
 }
 
-// Normalize JSON input — support both SDK format and 8004.org web UI format
-function parseEndpoints(input) {
-  // SDK format: endpoints: [{ type: 'a2a', value: '...' }]
-  if (Array.isArray(input.endpoints)) {
-    return {
-      a2a: input.endpoints.find(e => e.type === 'a2a')?.value,
-      mcp: input.endpoints.find(e => e.type === 'mcp')?.value,
-    };
-  }
-  // 8004.org format: endpoints: { a2aEndpoint: '...', mcpEndpoint: '...' }
-  if (input.endpoints && typeof input.endpoints === 'object') {
-    return {
-      a2a: input.endpoints.a2aEndpoint || input.endpoints.a2a,
-      mcp: input.endpoints.mcpEndpoint || input.endpoints.mcp,
-    };
-  }
-  return {};
+// --- Normalize from 8004.org format or SDK format ---
+const bi = regInput.basicInfo || {};
+const ep = regInput.endpoints || {};
+const sd = regInput.skillsDomains || {};
+const ac = regInput.advancedConfig || {};
+
+// Helper: parse comma-separated string or use array
+function csvOrArray(cliVal, jsonVal) {
+  if (cliVal) return cliVal.split(',').map(s => s.trim()).filter(Boolean);
+  if (Array.isArray(jsonVal)) return jsonVal;
+  return [];
 }
 
-const eps = parseEndpoints(regInput);
-const name = args.name || regInput.name || regInput.basicInfo?.agentName;
-const description = args.description || regInput.description || regInput.basicInfo?.description;
-const image = args.image || regInput.image || regInput.basicInfo?.image || '';
-const a2aUrl = args.a2a || eps.a2a;
-const mcpUrl = args.mcp || eps.mcp;
-const metadata = regInput.metadata || {};
-const active = regInput.active ?? true;
-const x402support = regInput.x402support ?? false;
+// Resolve all fields (CLI overrides JSON)
+const reg = {
+  // Basic info
+  name:        args.name || bi.agentName || regInput.name || '',
+  description: args.description || bi.description || regInput.description || '',
+  image:       args.image || bi.image || regInput.image || '',
+  version:     args.version || bi.version || regInput.version || '1.0.0',
+  author:      args.author || bi.author || '',
+  license:     args.license || bi.license || 'MIT',
+  // Endpoints
+  a2a: args.a2a || ep.a2aEndpoint || ep.a2a || (Array.isArray(regInput.endpoints) ? regInput.endpoints.find(e => e.type === 'a2a')?.value : '') || '',
+  mcp: args.mcp || ep.mcpEndpoint || ep.mcp || (Array.isArray(regInput.endpoints) ? regInput.endpoints.find(e => e.type === 'mcp')?.value : '') || '',
+  // Skills & domains
+  selectedSkills:  csvOrArray(args.skills, sd.selectedSkills),
+  selectedDomains: csvOrArray(args.domains, sd.selectedDomains),
+  customSkills:    csvOrArray(args['custom-skills'], sd.customSkills),
+  customDomains:   csvOrArray(args['custom-domains'], sd.customDomains),
+  // Advanced
+  trusts:   args.trust ? args.trust.split(',').map(s => s.trim()) : (ac.supportedTrusts || []),
+  x402:     args.x402 || ac.x402support || false,
+  storage:  args.storage || ac.storageMethod || 'http',
+  active:   args.active ?? ac.active ?? true,
+};
 
-if (!name || !description) {
-  console.error('Error: --name and --description are required (or provide via --json)');
+if (!reg.name || !reg.description) {
+  console.error('Error: name and description are required (via --name/--description or --json)');
   process.exit(1);
 }
 
+// --- Chain ---
 const chainId = parseInt(args.chain, 10);
 const SUPPORTED_CHAINS = {
   8453:   { name: 'Base',      rpc: 'https://mainnet.base.org' },
@@ -109,13 +148,14 @@ if (!SUPPORTED_CHAINS[chainId]) {
 const chainInfo = SUPPORTED_CHAINS[chainId];
 const rpcUrl = process.env.RPC_URL || chainInfo.rpc;
 
+// --- Private key ---
 const privateKey = process.env.PRIVATE_KEY || process.env.AGENT_PRIVATE_KEY || process.env.MAIN_WALLET_PRIVATE_KEY;
 if (!privateKey && !args['dry-run']) {
   console.error('Error: PRIVATE_KEY, AGENT_PRIVATE_KEY, or MAIN_WALLET_PRIVATE_KEY env var required');
   process.exit(1);
 }
 
-// Derive wallet address from private key
+// Derive wallet address
 let walletAddress = '(dry-run)';
 if (privateKey) {
   try {
@@ -128,40 +168,74 @@ if (privateKey) {
 // --- DRAFT ---
 console.log('\n╔══════════════════════════════════════╗');
 console.log('║     AGENT REGISTRATION — DRAFT       ║');
-console.log('╚══════════════════════════════════════╝\n');
-console.log(`  Name:        ${name}`);
-console.log(`  Description: ${description}`);
-console.log(`  Image:       ${image || '(none)'}`);
-console.log(`  Wallet:      ${walletAddress}`);
-console.log(`  A2A URL:     ${a2aUrl || '(none)'}`);
-console.log(`  MCP URL:     ${mcpUrl || '(none)'}`);
+console.log('╚══════════════════════════════════════╝');
+
+console.log('\n  ── Basic Info ──');
+console.log(`  Name:        ${reg.name}`);
+console.log(`  Address:     ${walletAddress}`);
+console.log(`  Description: ${reg.description}`);
+console.log(`  Image:       ${reg.image || '(none)'}`);
+console.log(`  Version:     ${reg.version}`);
+console.log(`  Author:      ${reg.author || '(none)'}`);
+console.log(`  License:     ${reg.license}`);
+
+console.log('\n  ── Endpoints ──');
+console.log(`  A2A:         ${reg.a2a || '(none)'}`);
+console.log(`  MCP:         ${reg.mcp || '(none)'}`);
+
+console.log('\n  ── Skills & Domains ──');
+console.log(`  Skills:      ${reg.selectedSkills.length ? reg.selectedSkills.join(', ') : '(none)'}`);
+console.log(`  Domains:     ${reg.selectedDomains.length ? reg.selectedDomains.join(', ') : '(none)'}`);
+console.log(`  Custom Skills:  ${reg.customSkills.length ? reg.customSkills.join(', ') : '(none)'}`);
+console.log(`  Custom Domains: ${reg.customDomains.length ? reg.customDomains.join(', ') : '(none)'}`);
+
+console.log('\n  ── Config ──');
 console.log(`  Chain:       ${chainInfo.name} (${chainId})`);
-console.log(`  Storage:     ${args.storage}`);
-console.log(`  Active:      ${active}`);
-console.log(`  x402:        ${x402support}`);
-if (Object.keys(metadata).length > 0) {
-  console.log(`  Metadata:    ${JSON.stringify(metadata)}`);
-}
+console.log(`  Storage:     ${reg.storage === 'http' ? 'Fully onchain' : 'IPFS'}`);
+console.log(`  Active:      ${reg.active}`);
+console.log(`  x402:        ${reg.x402}`);
+console.log(`  Trust:       ${reg.trusts.length ? reg.trusts.join(', ') : '(none)'}`);
 console.log(`  Dry Run:     ${args['dry-run']}`);
 console.log();
 
 if (args['dry-run']) {
-  // Show the registration file that would be created
+  // Output full 8004.org format JSON
   const preview = {
-    name, description, image,
-    endpoints: [],
-    active, x402support, metadata,
+    basicInfo: {
+      agentName: reg.name,
+      agentAddress: walletAddress,
+      description: reg.description,
+      image: reg.image,
+      version: reg.version,
+      author: reg.author,
+      license: reg.license,
+    },
+    endpoints: {
+      a2aEndpoint: reg.a2a,
+      mcpEndpoint: reg.mcp,
+    },
+    skillsDomains: {
+      selectedSkills: reg.selectedSkills,
+      selectedDomains: reg.selectedDomains,
+      customSkills: reg.customSkills,
+      customDomains: reg.customDomains,
+    },
+    advancedConfig: {
+      supportedTrusts: reg.trusts,
+      x402support: reg.x402,
+      storageMethod: reg.storage,
+      active: reg.active,
+    },
     chain: `${chainInfo.name} (${chainId})`,
+    version: reg.version,
   };
-  if (a2aUrl) preview.endpoints.push({ type: 'a2a', value: a2aUrl });
-  if (mcpUrl) preview.endpoints.push({ type: 'mcp', value: mcpUrl });
-  if (walletAddress && walletAddress !== '(dry-run)') preview.walletAddress = walletAddress;
-  console.log('📋 Registration file preview:');
+  console.log('📋 Registration file (8004.org format):');
   console.log(JSON.stringify(preview, null, 2));
   console.log('\n🏁 Dry run complete. No transaction submitted.');
   process.exit(0);
 }
 
+// --- Confirm ---
 async function confirm(msg) {
   if (args.yes) return true;
   const rl = createInterface({ input: process.stdin, output: process.stdout });
@@ -186,31 +260,49 @@ try {
     chainId,
     rpcUrl,
     privateKey,
-    ipfs: args.storage === 'ipfs' ? (process.env.PINATA_JWT ? 'pinata' : 'filecoinPin') : undefined,
+    ipfs: reg.storage === 'ipfs' ? (process.env.PINATA_JWT ? 'pinata' : 'filecoinPin') : undefined,
     pinataJwt: process.env.PINATA_JWT,
   });
 
   // Create agent object
-  const agent = sdk.createAgent(name, description, image);
+  const agent = sdk.createAgent(reg.name, reg.description, reg.image);
 
-  // Set endpoints using proper SDK methods
-  if (a2aUrl) await agent.setA2A(a2aUrl);
-  if (mcpUrl) await agent.setMCP(mcpUrl);
+  // Set endpoints
+  if (reg.a2a) await agent.setA2A(reg.a2a);
+  if (reg.mcp) await agent.setMCP(reg.mcp);
 
-  // Set active/x402
-  agent.setActive(active);
-  agent.setX402Support(x402support);
-
-  // Set metadata
-  if (Object.keys(metadata).length > 0) {
-    agent.setMetadata(metadata);
+  // Set skills & domains (OASF)
+  for (const skill of [...reg.selectedSkills, ...reg.customSkills]) {
+    agent.addSkill(skill, false);
+  }
+  for (const domain of [...reg.selectedDomains, ...reg.customDomains]) {
+    agent.addDomain(domain, false);
   }
 
-  // Register — default is fully onchain (http), fallback to IPFS
+  // Set trust models
+  if (reg.trusts.length) {
+    agent.setTrust(
+      reg.trusts.includes('reputation'),
+      reg.trusts.includes('crypto-economic'),
+      reg.trusts.includes('tee-attestation'),
+    );
+  }
+
+  // Set active/x402
+  agent.setActive(reg.active);
+  agent.setX402Support(reg.x402);
+
+  // Set metadata (author, license, version)
+  const meta = {};
+  if (reg.author) meta.author = reg.author;
+  if (reg.license) meta.license = reg.license;
+  if (reg.version) meta.version = reg.version;
+  if (Object.keys(meta).length) agent.setMetadata(meta);
+
+  // Register
   let txHandle;
-  if (args.storage === 'http') {
-    // Fully onchain: agent URI points to A2A endpoint (or empty string)
-    const agentUri = a2aUrl || '';
+  if (reg.storage === 'http') {
+    const agentUri = reg.a2a || '';
     console.log(`📡 Registering fully onchain (URI: ${agentUri || '(none)'})`);
     txHandle = await agent.registerHTTP(agentUri);
   } else {

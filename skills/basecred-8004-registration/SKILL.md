@@ -5,78 +5,146 @@ description: Interactive ERC-8004 agent registration via chat. Guides users thro
 
 # Basecred ERC-8004 Registration
 
-Register AI agents on the [ERC-8004](https://8004.org) on-chain registry through a guided chat experience. No CLI knowledge needed — the agent walks you through it.
+Register AI agents on the [ERC-8004](https://8004.org) on-chain registry through a guided chat experience.
 
 ## How It Works
 
-When a user wants to register an agent, **do NOT run the script immediately**. Instead, guide them through the registration form in chat:
+When a user wants to register an agent, guide them through the form in chat — conversational, not a wall of questions.
 
 ### Step 1: Collect Info (Conversational Prefill)
 
-Ask the user for each field, one or two at a time. Use natural conversation, not a wall of questions.
+Walk through these sections naturally. Group related fields together.
 
-**Required fields:**
-1. **Agent Name** — What's your agent called?
-2. **Description** — What does your agent do? (1-2 sentences)
+#### Section A: Basic Info (ask first)
+| Field | Required | Default | Description |
+|-------|----------|---------|-------------|
+| **Agent Name** | ✅ | — | Display name |
+| **Agent Address** | auto | from `.env` | Wallet address (derived from private key) |
+| **Description** | ✅ | — | What the agent does (1-3 sentences) |
+| **Image** | No | — | Avatar/profile image URL |
+| **Version** | No | `1.0.0` | Agent version |
+| **Author** | No | — | Creator name or handle |
+| **License** | No | `MIT` | Software license |
 
-**Optional fields (offer after required):**
-3. **Image URL** — Avatar/profile image URL
-4. **A2A Endpoint** — Agent-to-Agent messaging URL
-5. **MCP Endpoint** — Model Context Protocol URL
-6. **Chain** — Which chain? (default: Base)
-7. **Active** — Is the agent active? (default: yes)
-8. **x402 Support** — Supports payment protocol? (default: no)
-9. **Metadata** — Any custom key-value pairs?
+#### Section B: Endpoints (ask second)
+| Field | Required | Default | Description |
+|-------|----------|---------|-------------|
+| **A2A Endpoint** | No | — | Agent-to-Agent messaging URL |
+| **MCP Endpoint** | No | — | Model Context Protocol URL |
 
-**Auto-detected (don't ask, just use):**
-- **Wallet Address** — derived from the private key in `.env`
-- **Storage** — fully onchain (http) by default
+#### Section C: Skills & Domains (ask third)
+| Field | Required | Default | Description |
+|-------|----------|---------|-------------|
+| **Selected Skills** | No | `[]` | OASF taxonomy skills (e.g. "Natural Language Processing", "Code Generation") |
+| **Selected Domains** | No | `[]` | OASF taxonomy domains (e.g. "Technology", "Finance") |
+| **Custom Skills** | No | `[]` | Non-standard skills the agent has |
+| **Custom Domains** | No | `[]` | Non-standard domains the agent operates in |
+
+Common skills to suggest: Natural Language Processing, Summarization, Question Answering, Code Generation, Data Analysis, Web Search, Image Generation, Translation, Task Automation
+
+Common domains to suggest: Technology, Finance, Healthcare, Education, Entertainment, Science, Creative Arts, Developer Tools, Blockchain/Web3
+
+#### Section D: Advanced Config (ask last, offer defaults)
+| Field | Required | Default | Description |
+|-------|----------|---------|-------------|
+| **Supported Trusts** | No | `[]` | Trust models: `reputation`, `crypto-economic`, `tee-attestation` |
+| **x402 Support** | No | `false` | Payment protocol support |
+| **Storage Method** | No | `http` | `http` (fully onchain) or `ipfs` |
+| **Active** | No | `true` | Is the agent active? |
 
 ### Step 2: Show Draft
 
-After collecting info, display a clean summary:
+After collecting all info, display the complete registration:
 
 ```
 📋 Agent Registration Draft
 
+  ── Basic Info ──
   Name:        MyAgent
+  Address:     0x1234...abcd
   Description: A helpful AI assistant
   Image:       https://example.com/avatar.png
-  Wallet:      0x1234...abcd
+  Version:     1.0.0
+  Author:      0xdas
+  License:     MIT
+
+  ── Endpoints ──
   A2A:         https://example.com/a2a
+  MCP:         (none)
+
+  ── Skills & Domains ──
+  Skills:      Natural Language Processing, Code Generation
+  Domains:     Technology, Developer Tools
+  Custom:      (none)
+
+  ── Config ──
   Chain:       Base (8453)
   Storage:     Fully onchain
+  Active:      true
+  x402:        false
+  Trust:       reputation
 
-Ready to register?
+Ready to register on-chain?
 ```
 
-If the platform supports inline buttons, offer:
+If platform supports inline buttons, offer:
 - ✅ **Register** — submit on-chain
 - ✏️ **Edit** — change a field
 - ❌ **Cancel** — abort
 
 ### Step 3: Execute
 
-Only after explicit confirmation, run the registration script:
+Only after explicit confirmation, run:
 
 ```bash
 source /path/to/.env
-node scripts/register.mjs \
-  --name "AgentName" \
-  --description "Description" \
-  --a2a "https://..." \
-  --image "https://..." \
-  --chain 8453 \
-  --yes
+node scripts/register.mjs --json /tmp/registration.json --chain 8453 --yes
 ```
+
+The script accepts the full 8004.org JSON template format via `--json`.
 
 ### Step 4: Report Result
 
 Show the user:
 - Agent ID (e.g., `8453:42`)
 - Wallet address (set automatically)
-- Transaction confirmation
+- Transaction hash
 - Link to view on 8004.org
+
+## JSON Template Format
+
+The registration uses the standard 8004.org export format:
+
+```json
+{
+  "basicInfo": {
+    "agentName": "",
+    "agentAddress": "",
+    "description": "",
+    "image": "",
+    "version": "1.0.0",
+    "author": "",
+    "license": "MIT"
+  },
+  "endpoints": {
+    "mcpEndpoint": "",
+    "a2aEndpoint": ""
+  },
+  "skillsDomains": {
+    "selectedSkills": [],
+    "selectedDomains": [],
+    "customSkills": [],
+    "customDomains": []
+  },
+  "advancedConfig": {
+    "supportedTrusts": [],
+    "x402support": false,
+    "storageMethod": "http",
+    "active": true
+  },
+  "version": "1.0.0"
+}
+```
 
 ## Supported Chains
 
@@ -99,6 +167,16 @@ Show the user:
 | `RPC_URL` | No | Custom RPC (auto-detected per chain) |
 | `CHAIN_ID` | No | Default chain (8453) |
 
+## Conversation Flow Tips
+
+- **Auto-detect what you can** — wallet from `.env`, don't ask for it
+- **Group related fields** — ask basics first, then endpoints, then skills, then advanced
+- **Offer sensible defaults** — most users just need name + description + maybe A2A
+- **Suggest common skills/domains** — show a list they can pick from
+- **Advanced config last** — most users keep defaults, offer to skip
+- **Always show draft** before submitting
+- **Never run with `--yes` until user confirms the draft**
+
 ## Other Operations
 
 ### Search Agents
@@ -116,53 +194,8 @@ node scripts/update.mjs --agent-id "8453:42" --name "NewName" --yes
 node scripts/feedback.mjs --agent-id "8453:42" --value 5 --tag1 "reliable" --yes
 ```
 
-## Conversation Examples
-
-**User:** "I want to register my agent on ERC-8004"
-
-**Agent:** "Let's get your agent registered on-chain! First — what's your agent's name?"
-
-**User:** "CoolBot"
-
-**Agent:** "Nice. And what does CoolBot do? Give me a short description."
-
-**User:** "It helps developers debug smart contracts"
-
-**Agent:** "Got it. Do you have any of these? (all optional)
-- Profile image URL
-- A2A endpoint
-- MCP endpoint
-
-Or we can skip and register with just the basics."
-
-**User:** "A2A is https://coolbot.xyz/a2a, skip the rest"
-
-**Agent:**
-```
-📋 Agent Registration Draft
-
-  Name:        CoolBot
-  Description: Helps developers debug smart contracts
-  Wallet:      0xabc...def
-  A2A:         https://coolbot.xyz/a2a
-  Chain:       Base (8453)
-  Storage:     Fully onchain
-
-Ready to register on-chain? ✅
-```
-
-## Safety
-
-- **Always show draft before submitting**
-- **Always wait for explicit confirmation**
-- **Never run with `--yes` until user confirms the draft**
-- Wallet is set automatically after mint (EIP-712 signature)
-- All transactions are on mainnet — no testnets
-
 ## Setup
 
 ```bash
 bash scripts/setup.sh
 ```
-
-Installs `agent0-sdk` and validates environment.
