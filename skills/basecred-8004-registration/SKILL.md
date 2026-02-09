@@ -19,6 +19,32 @@ When the user triggers registration, **auto-fill every field you can** from:
 
 **Do NOT ask questions one by one.** Prefill first, ask later.
 
+### Step 1.5: Explain Config Defaults
+
+Before showing the draft, briefly explain the config section so users understand what's pre-selected and what alternatives exist:
+
+```
+⚙️ Config defaults (you can change these later):
+
+Chain:    Base (8453) — where your agent lives on-chain
+          Others: Ethereum, Polygon, BNB, Arbitrum, Celo, Gnosis, Scroll
+
+Storage:  Fully onchain (http) — agent data stored directly on-chain
+          Alternative: IPFS — data pinned to IPFS, hash stored on-chain
+
+Trust:    Reputation — other agents/users rate your agent on-chain
+          Others: Crypto-Economic (staking/slashing guarantees)
+                  TEE Attestation (hardware-level trust proof)
+
+x402:     Off — no payment protocol
+          On: agent can charge for services via x402 payment protocol
+
+Active:   On — agent is discoverable and accepting requests
+          Off: registered but hidden from discovery
+```
+
+Keep this concise — show it once at the start, not repeated on every draft.
+
 ### Step 2: Show Full Draft with Status Indicators
 
 Present the complete registration with ✅ (filled) and ⚠️ (missing/needs attention):
