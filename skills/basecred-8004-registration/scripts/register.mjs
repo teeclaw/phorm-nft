@@ -255,6 +255,36 @@ async function confirm(msg) {
   });
 }
 
+// --- Safeguard: duplicate check ---
+const REGISTRY_ADDRESSES = {
+  IDENTITY: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
+  REPUTATION: '0x8004BAa17C55a88189AE136b182e5fdA19dE9b63',
+};
+
+if (walletAddress && walletAddress !== '(not set)') {
+  try {
+    const { createPublicClient, http: viemHttp } = await import('viem');
+    const pubClient = createPublicClient({ transport: viemHttp(rpcUrl) });
+    const balance = await pubClient.readContract({
+      address: REGISTRY_ADDRESSES.IDENTITY,
+      abi: [{ name: 'balanceOf', type: 'function', stateMutability: 'view', inputs: [{ name: 'owner', type: 'address' }], outputs: [{ type: 'uint256' }] }],
+      functionName: 'balanceOf',
+      args: [walletAddress],
+    });
+    if (Number(balance) > 0) {
+      console.log(`\n⚠️  Warning: This wallet already owns ${balance} agent(s) on ${chainInfo.name}.`);
+      console.log('   Registering again will create a duplicate.');
+      console.log('   Use update.mjs to modify an existing agent instead.');
+      if (!args.yes) {
+        if (!(await confirm('   Continue anyway?'))) {
+          console.log('Aborted.');
+          process.exit(0);
+        }
+      }
+    }
+  } catch { /* non-blocking — proceed if check fails */ }
+}
+
 if (!(await confirm('Submit this registration on-chain?'))) {
   console.log('Aborted.');
   process.exit(0);
@@ -263,12 +293,6 @@ if (!(await confirm('Submit this registration on-chain?'))) {
 // --- Execute ---
 try {
   const { SDK } = await import('agent0-sdk');
-
-  // Registry addresses are deterministic across all chains
-  const REGISTRY_ADDRESSES = {
-    IDENTITY: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
-    REPUTATION: '0x8004BAa17C55a88189AE136b182e5fdA19dE9b63',
-  };
 
   const sdk = new SDK({
     chainId,
