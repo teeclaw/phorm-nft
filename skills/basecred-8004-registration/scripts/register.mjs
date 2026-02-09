@@ -25,6 +25,8 @@ const { values: args } = parseArgs({
     domains:     { type: 'string' },
     'custom-skills':  { type: 'string' },
     'custom-domains': { type: 'string' },
+    // Wallet
+    wallet:      { type: 'string' },
     // Advanced
     chain:       { type: 'string', default: process.env.CHAIN_ID || '8453' },
     storage:     { type: 'string', default: 'http' },
@@ -155,14 +157,20 @@ if (!privateKey && !args['dry-run']) {
   process.exit(1);
 }
 
-// Derive wallet address
-let walletAddress = '(dry-run)';
-if (privateKey) {
+// Derive wallet address — from CLI --wallet, JSON agentAddress, or private key
+let walletAddress = args.wallet || bi.agentAddress || '';
+let walletSource = 'pasted';
+if (!walletAddress && privateKey) {
   try {
     const { privateKeyToAccount } = await import('viem/accounts');
     const pk = privateKey.startsWith('0x') ? privateKey : `0x${privateKey}`;
     walletAddress = privateKeyToAccount(pk).address;
+    walletSource = 'auto (.env)';
   } catch { /* ignore in dry-run */ }
+}
+if (!walletAddress) {
+  walletAddress = '(not set)';
+  walletSource = '⚠️ missing';
 }
 
 // --- DRAFT ---
@@ -172,7 +180,7 @@ console.log('╚═════════════════════�
 
 console.log('\n  ── Basic Info ──');
 console.log(`  Name:        ${reg.name}`);
-console.log(`  Address:     ${walletAddress}`);
+console.log(`  Address:     ${walletAddress} (${walletSource})`);
 console.log(`  Description: ${reg.description}`);
 console.log(`  Image:       ${reg.image || '(none)'}`);
 console.log(`  Version:     ${reg.version}`);
