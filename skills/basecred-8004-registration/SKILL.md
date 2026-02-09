@@ -41,6 +41,12 @@ x402:     Off — no payment protocol
 
 Active:   On — agent is discoverable and accepting requests
           Off: registered but hidden from discovery
+
+Wallet:   Auto-detected from your private key in .env
+          This is the address linked to your agent on-chain
+          Used for signing transactions & receiving reputation
+          Set automatically after registration via EIP-712 signature
+          ⚠️ Make sure your .env has PRIVATE_KEY or MAIN_WALLET_PRIVATE_KEY
 ```
 
 Keep this concise — show it once at the start, not repeated on every draft.
