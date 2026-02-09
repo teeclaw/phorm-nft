@@ -23,6 +23,15 @@ app.get('/avatar.jpg', (req, res) => {
   res.sendFile(path.join(__dirname, 'avatar.jpg'));
 });
 
+// Agent communication specification
+app.get('/spec', (req, res) => {
+  res.sendFile(path.join(__dirname, 'MR-TEE-AGENT-SPEC.md'));
+});
+
+app.get('/spec.md', (req, res) => {
+  res.sendFile(path.join(__dirname, 'MR-TEE-AGENT-SPEC.md'));
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({
