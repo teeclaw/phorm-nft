@@ -40,17 +40,43 @@ Walk through these sections naturally. Group related fields together.
 | **Custom Skills** | No | `[]` | Non-standard skills the agent has |
 | **Custom Domains** | No | `[]` | Non-standard domains the agent operates in |
 
-Common skills to suggest: Natural Language Processing, Summarization, Question Answering, Code Generation, Data Analysis, Web Search, Image Generation, Translation, Task Automation
+**Skills** — present as selectable options (inline buttons if supported):
+```
+[NLP ✅] [Summarization] [Q&A] [Code Gen] [Data Analysis]
+[Web Search] [Image Gen] [Translation] [Task Automation]
+[+ Custom] [Done ✅]
+```
 
-Common domains to suggest: Technology, Finance, Healthcare, Education, Entertainment, Science, Creative Arts, Developer Tools, Blockchain/Web3
+**Domains** — present as selectable options:
+```
+[Technology] [Blockchain/Web3] [Finance] [Developer Tools]
+[Healthcare] [Education] [Entertainment] [Science]
+[Creative Arts] [+ Custom] [Done ✅]
+```
+
+Allow multi-select (toggle on/off). `+ Custom` lets user type their own.
 
 #### Section D: Advanced Config (ask last, offer defaults)
 | Field | Required | Default | Description |
 |-------|----------|---------|-------------|
-| **Supported Trusts** | No | `[]` | Trust models: `reputation`, `crypto-economic`, `tee-attestation` |
+| **Supported Trusts** | No | `[]` | Trust models (see below) |
 | **x402 Support** | No | `false` | Payment protocol support |
 | **Storage Method** | No | `http` | `http` (fully onchain) or `ipfs` |
 | **Active** | No | `true` | Is the agent active? |
+
+**Trust Models** — present as selectable options (inline buttons if supported):
+
+| Trust Model | Description | When to use |
+|-------------|-------------|-------------|
+| **Reputation** | On-chain feedback & scoring from other agents/users | Most agents — default recommendation |
+| **Crypto-Economic** | Staking/slashing guarantees for reliability | Agents handling financial transactions |
+| **TEE Attestation** | Trusted Execution Environment proof | Agents requiring hardware-level trust |
+
+Suggest **Reputation** as the default. Show buttons:
+```
+[Reputation ✅] [Crypto-Economic] [TEE Attestation] [Skip]
+```
+Allow multi-select (toggle on/off). Pre-select Reputation.
 
 ### Step 2: Show Draft
 
