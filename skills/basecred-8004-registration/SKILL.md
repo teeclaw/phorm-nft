@@ -7,139 +7,195 @@ description: Interactive ERC-8004 agent registration via chat. Guides users thro
 
 Register AI agents on the [ERC-8004](https://8004.org) on-chain registry through a guided chat experience.
 
-## How It Works
+## Registration Flow
 
-When a user wants to register an agent, guide them through the form in chat — conversational, not a wall of questions.
+### Step 1: Auto-Prefill
 
-### Step 1: Collect Info (Conversational Prefill)
+When the user triggers registration, **auto-fill every field you can** from:
+- Agent identity files (IDENTITY.md, SOUL.md, USER.md)
+- Environment (`.env` — wallet address derived from private key)
+- Previous context (A2A endpoint, description, image, etc.)
+- Sensible defaults (version: 1.0.0, license: MIT, chain: Base, storage: onchain)
 
-Walk through these sections naturally. Group related fields together.
+**Do NOT ask questions one by one.** Prefill first, ask later.
 
-#### Section A: Basic Info (ask first)
-| Field | Required | Default | Description |
-|-------|----------|---------|-------------|
-| **Agent Name** | ✅ | — | Display name |
-| **Agent Address** | auto | from `.env` | Wallet address (derived from private key) |
-| **Description** | ✅ | — | What the agent does (1-3 sentences) |
-| **Image** | No | — | Avatar/profile image URL |
-| **Version** | No | `1.0.0` | Agent version |
-| **Author** | No | — | Creator name or handle |
-| **License** | No | `MIT` | Software license |
+### Step 2: Show Full Draft with Status Indicators
 
-#### Section B: Endpoints (ask second)
-| Field | Required | Default | Description |
-|-------|----------|---------|-------------|
-| **A2A Endpoint** | No | — | Agent-to-Agent messaging URL |
-| **MCP Endpoint** | No | — | Model Context Protocol URL |
-
-#### Section C: Skills & Domains (ask third)
-| Field | Required | Default | Description |
-|-------|----------|---------|-------------|
-| **Selected Skills** | No | `[]` | OASF taxonomy skills (e.g. "Natural Language Processing", "Code Generation") |
-| **Selected Domains** | No | `[]` | OASF taxonomy domains (e.g. "Technology", "Finance") |
-| **Custom Skills** | No | `[]` | Non-standard skills the agent has |
-| **Custom Domains** | No | `[]` | Non-standard domains the agent operates in |
-
-**Skills** — present as selectable options (inline buttons if supported):
-```
-[NLP ✅] [Summarization] [Q&A] [Code Gen] [Data Analysis]
-[Web Search] [Image Gen] [Translation] [Task Automation]
-[+ Custom] [Done ✅]
-```
-
-**Domains** — present as selectable options:
-```
-[Technology] [Blockchain/Web3] [Finance] [Developer Tools]
-[Healthcare] [Education] [Entertainment] [Science]
-[Creative Arts] [+ Custom] [Done ✅]
-```
-
-Allow multi-select (toggle on/off). `+ Custom` lets user type their own.
-
-#### Section D: Advanced Config (ask last, offer defaults)
-| Field | Required | Default | Description |
-|-------|----------|---------|-------------|
-| **Supported Trusts** | No | `[]` | Trust models (see below) |
-| **x402 Support** | No | `false` | Payment protocol support |
-| **Storage Method** | No | `http` | `http` (fully onchain) or `ipfs` |
-| **Active** | No | `true` | Is the agent active? |
-
-**Trust Models** — present as selectable options (inline buttons if supported):
-
-| Trust Model | Description | When to use |
-|-------------|-------------|-------------|
-| **Reputation** | On-chain feedback & scoring from other agents/users | Most agents — default recommendation |
-| **Crypto-Economic** | Staking/slashing guarantees for reliability | Agents handling financial transactions |
-| **TEE Attestation** | Trusted Execution Environment proof | Agents requiring hardware-level trust |
-
-Suggest **Reputation** as the default. Show buttons:
-```
-[Reputation ✅] [Crypto-Economic] [TEE Attestation] [Skip]
-```
-Allow multi-select (toggle on/off). Pre-select Reputation.
-
-### Step 2: Show Draft
-
-After collecting all info, display the complete registration:
+Present the complete registration with ✅ (filled) and ⚠️ (missing/needs attention):
 
 ```
 📋 Agent Registration Draft
 
-  ── Basic Info ──
-  Name:        MyAgent
-  Address:     0x1234...abcd
-  Description: A helpful AI assistant
-  Image:       https://example.com/avatar.png
-  Version:     1.0.0
-  Author:      0xdas
-  License:     MIT
+── Basic Info ──
+✅ Name:        Mr. Tee
+✅ Description: AI agent with a CRT monitor...
+✅ Image:       pbs.twimg.com/...
+✅ Version:     1.0.0
+✅ Author:      0xdas
+✅ License:     MIT
 
-  ── Endpoints ──
-  A2A:         https://example.com/a2a
-  MCP:         (none)
+── Endpoints ──
+✅ A2A:         a2a.teeclaw.xyz/a2a
+⚠️ MCP:         (none)
 
-  ── Skills & Domains ──
-  Skills:      Natural Language Processing, Code Generation
-  Domains:     Technology, Developer Tools
-  Custom:      (none)
+── Skills & Domains ──
+✅ Skills (5):  NLP, Summarization, Q&A, Code Gen, CV
+✅ Domains (5): Blockchain, DeFi, Technology, SE, DevOps
+✅ Custom:      Agent Coordination, Social Media Mgmt
 
-  ── Config ──
-  Chain:       Base (8453)
-  Storage:     Fully onchain
-  Active:      true
-  x402:        false
-  Trust:       reputation
-
-Ready to register on-chain?
+── Config ──
+✅ Chain:       Base (8453)
+✅ Storage:     Fully onchain
+✅ Active:      true
+✅ Trust:       reputation
+✅ x402:        false
+✅ Wallet:      0x1348...e41 (auto)
 ```
 
-If platform supports inline buttons, offer:
-- ✅ **Register** — submit on-chain
-- ✏️ **Edit** — change a field
-- ❌ **Cancel** — abort
+Then show section edit buttons + action buttons:
 
-### Step 3: Execute
+```
+[Edit Basic Info] [Edit Endpoints]
+[Edit Skills & Domains] [Edit Config]
+[✅ Register] [❌ Cancel]
+```
 
-Only after explicit confirmation, run:
+### Step 3: Section Editing (on button tap)
+
+When user taps an edit button, show that section's fields with selectable options:
+
+#### Edit Basic Info
+Show current values, let user type corrections:
+```
+Current: Name = "Mr. Tee"
+Type new value or "skip" to keep:
+```
+
+#### Edit Endpoints
+```
+Current A2A: https://a2a.teeclaw.xyz/a2a
+Current MCP: (none)
+Type new URL or "skip":
+```
+
+#### Edit Skills & Domains
+Show as toggleable inline buttons (multi-select):
+
+**Skills:**
+```
+[NLP ✅] [Summarization ✅] [Q&A ✅] [Code Gen ✅] [CV ✅]
+[Data Analysis] [Web Search] [Image Gen] [Translation]
+[Task Automation] [+ Custom] [Done ✅]
+```
+
+**Domains:**
+```
+[Blockchain ✅] [DeFi ✅] [Technology ✅] [SE ✅] [DevOps ✅]
+[Finance] [Healthcare] [Education] [Entertainment]
+[Science] [Creative Arts] [Dev Tools] [+ Custom] [Done ✅]
+```
+
+Tapping toggles ✅ on/off. `+ Custom` prompts user to type a custom entry.
+
+#### Edit Config
+**Trust models** (multi-select):
+```
+[Reputation ✅] [Crypto-Economic] [TEE Attestation]
+```
+
+**Other config:**
+```
+[Chain: Base ▼] [Storage: Onchain ▼] [x402: Off ▼]
+```
+
+| Trust Model | Description |
+|-------------|-------------|
+| **Reputation** | On-chain feedback & scoring. Default for most agents. |
+| **Crypto-Economic** | Staking/slashing guarantees. For financial agents. |
+| **TEE Attestation** | Hardware-level trust proof. For high-security agents. |
+
+### Step 4: Back to Draft
+
+After any edit, show the updated full draft again with the edit/action buttons. Repeat until user taps **✅ Register**.
+
+### Step 5: Execute
+
+Only after explicit ✅ Register confirmation:
 
 ```bash
 source /path/to/.env
 node scripts/register.mjs --json /tmp/registration.json --chain 8453 --yes
 ```
 
-The script accepts the full 8004.org JSON template format via `--json`.
+The script handles:
+1. `register()` — mint agent NFT on-chain
+2. `setA2A()` / `setMCP()` — set endpoints
+3. `addSkill()` / `addDomain()` — set OASF taxonomy
+4. `setWallet()` — link wallet with EIP-712 signature
 
-### Step 4: Report Result
+### Step 6: Report Result
 
-Show the user:
-- Agent ID (e.g., `8453:42`)
-- Wallet address (set automatically)
-- Transaction hash
-- Link to view on 8004.org
+```
+✅ Agent Registered on Base!
 
-## JSON Template Format
+  Agent ID:    8453:42
+  Wallet:      0x1348...e41
+  A2A:         a2a.teeclaw.xyz/a2a
+  TX:          0xabc...def
 
-The registration uses the standard 8004.org export format:
+  View: https://8004.org/agent/8453:42
+```
+
+## All Fields Reference
+
+### Basic Info
+| Field | Required | Default | Auto-source |
+|-------|----------|---------|-------------|
+| **Agent Name** | ✅ | — | IDENTITY.md |
+| **Agent Address** | auto | — | Derived from `.env` private key |
+| **Description** | ✅ | — | IDENTITY.md / SOUL.md |
+| **Image** | No | — | Profile image URL |
+| **Version** | No | `1.0.0` | — |
+| **Author** | No | — | USER.md (human's name) |
+| **License** | No | `MIT` | — |
+
+### Endpoints
+| Field | Required | Default | Auto-source |
+|-------|----------|---------|-------------|
+| **A2A Endpoint** | No | — | IDENTITY.md |
+| **MCP Endpoint** | No | — | — |
+
+### Skills & Domains
+| Field | Required | Default |
+|-------|----------|---------|
+| **Selected Skills** | No | `[]` |
+| **Selected Domains** | No | `[]` |
+| **Custom Skills** | No | `[]` |
+| **Custom Domains** | No | `[]` |
+
+### Advanced Config
+| Field | Required | Default |
+|-------|----------|---------|
+| **Trust Models** | No | `[]` (suggest: reputation) |
+| **x402 Support** | No | `false` |
+| **Storage** | No | `http` (fully onchain) |
+| **Active** | No | `true` |
+| **Chain** | No | `8453` (Base) |
+
+## Supported Chains
+
+| Chain | ID | Default |
+|-------|-----|---------|
+| **Base** | 8453 | ✅ |
+| Ethereum | 1 | |
+| Polygon | 137 | |
+| BNB Chain | 56 | |
+| Arbitrum | 42161 | |
+| Celo | 42220 | |
+| Gnosis | 100 | |
+| Scroll | 534352 | |
+
+## JSON Template (8004.org format)
 
 ```json
 {
@@ -172,19 +228,6 @@ The registration uses the standard 8004.org export format:
 }
 ```
 
-## Supported Chains
-
-| Chain | ID | Default |
-|-------|-----|---------|
-| **Base** | 8453 | ✅ |
-| Ethereum | 1 | |
-| Polygon | 137 | |
-| BNB Chain | 56 | |
-| Arbitrum | 42161 | |
-| Celo | 42220 | |
-| Gnosis | 100 | |
-| Scroll | 534352 | |
-
 ## Environment Variables
 
 | Variable | Required | Description |
@@ -192,16 +235,6 @@ The registration uses the standard 8004.org export format:
 | `PRIVATE_KEY` / `AGENT_PRIVATE_KEY` / `MAIN_WALLET_PRIVATE_KEY` | Yes | Wallet private key |
 | `RPC_URL` | No | Custom RPC (auto-detected per chain) |
 | `CHAIN_ID` | No | Default chain (8453) |
-
-## Conversation Flow Tips
-
-- **Auto-detect what you can** — wallet from `.env`, don't ask for it
-- **Group related fields** — ask basics first, then endpoints, then skills, then advanced
-- **Offer sensible defaults** — most users just need name + description + maybe A2A
-- **Suggest common skills/domains** — show a list they can pick from
-- **Advanced config last** — most users keep defaults, offer to skip
-- **Always show draft** before submitting
-- **Never run with `--yes` until user confirms the draft**
 
 ## Other Operations
 
