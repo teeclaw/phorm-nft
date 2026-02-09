@@ -45,9 +45,13 @@ Active:   On — agent is discoverable and accepting requests
 
 Keep this concise — show it once at the start, not repeated on every draft.
 
-### Step 2: Show Full Draft with Status Indicators
+### Step 2: Show Full Draft with Buttons (Single Message)
 
-Present the complete registration with ✅ (filled) and ⚠️ (missing/needs attention):
+Send the **entire draft + buttons as one message** using the `message` tool. This keeps buttons directly below the draft, not as a separate message.
+
+**Important:** Use `message action=send` with both `message` (the draft text) and `buttons` (inline buttons). Do NOT split into reply + separate button message.
+
+The draft text should use ✅ (filled) and ⚠️ (missing/needs attention):
 
 ```
 📋 Agent Registration Draft
@@ -76,15 +80,18 @@ Present the complete registration with ✅ (filled) and ⚠️ (missing/needs at
 ✅ Trust:       reputation
 ✅ x402:        false
 ✅ Wallet:      0x1348...e41 (auto)
+
+Tap to edit a section or register:
 ```
 
-Then show section edit buttons + action buttons:
-
+Buttons (attached to same message):
 ```
-[Edit Basic Info] [Edit Endpoints]
-[Edit Skills & Domains] [Edit Config]
+[✏️ Basic Info] [✏️ Endpoints]
+[✏️ Skills & Domains] [✏️ Config]
 [✅ Register] [❌ Cancel]
 ```
+
+After sending this single message, reply with `NO_REPLY` to avoid a duplicate reply.
 
 ### Step 3: Section Editing (on button tap)
 
@@ -142,7 +149,7 @@ Tapping toggles ✅ on/off. `+ Custom` prompts user to type a custom entry.
 
 ### Step 4: Back to Draft
 
-After any edit, show the updated full draft again with the edit/action buttons. Repeat until user taps **✅ Register**.
+After any edit, re-send the updated full draft as a **single message with buttons** (same as Step 2). Repeat until user taps **✅ Register**.
 
 ### Step 5: Execute
 
