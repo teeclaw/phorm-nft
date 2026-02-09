@@ -1,9 +1,20 @@
 {
+  "scripts": {
+    "x402:server": "tsx x402/server.ts",
+    "x402:client": "tsx x402/client.ts"
+  },
   "devDependencies": {
+    "dotenv": "^17.2.4",
+    "tsx": "^4.21.0",
     "viem": "^2.45.1"
   },
   "dependencies": {
+    "@x402/core": "^2.3.0",
+    "@x402/evm": "^2.3.0",
+    "@x402/express": "^2.3.0",
+    "@x402/fetch": "^2.3.0",
     "botchan": "^0.3.0",
-    "ethers": "^6.16.0"
+    "ethers": "^6.16.0",
+    "express": "^5.2.1"
   }
 }
