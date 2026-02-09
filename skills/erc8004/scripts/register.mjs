@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 // ERC-8004 Agent Registration Script
 // Usage: node register.mjs --name "Agent" --description "Desc" [options]
+//    or: node register.mjs --json registration.json [--dry-run]
 
 import { parseArgs } from 'node:util';
 import { createInterface } from 'node:readline';
+import { readFileSync } from 'node:fs';
 
 const { values: args } = parseArgs({
   options: {
@@ -14,14 +16,76 @@ const { values: args } = parseArgs({
     mcp:         { type: 'string' },
     chain:       { type: 'string', default: process.env.CHAIN_ID || '8453' },
     storage:     { type: 'string', default: 'ipfs' },
+    json:        { type: 'string' },
     'dry-run':   { type: 'boolean', default: false },
     yes:         { type: 'boolean', default: false },
+    template:    { type: 'boolean', default: false },
   },
   strict: true,
 });
 
-if (!args.name || !args.description) {
-  console.error('Error: --name and --description are required');
+// --- Template output ---
+if (args.template) {
+  const template = {
+    name: 'MyAgent',
+    description: 'A helpful AI agent',
+    image: '',
+    endpoints: [
+      { type: 'a2a', value: 'https://example.com/a2a' },
+      { type: 'mcp', value: 'https://example.com/mcp' },
+    ],
+    active: true,
+    x402support: false,
+    metadata: {
+      agentName: 'myagent',
+    },
+  };
+  console.log(JSON.stringify(template, null, 2));
+  process.exit(0);
+}
+
+// --- Parse input (CLI args or JSON file) ---
+let regInput = {};
+if (args.json) {
+  try {
+    regInput = JSON.parse(readFileSync(args.json, 'utf-8'));
+  } catch (e) {
+    console.error(`Error reading JSON file: ${e.message}`);
+    process.exit(1);
+  }
+}
+
+// Normalize JSON input — support both SDK format and 8004.org web UI format
+function parseEndpoints(input) {
+  // SDK format: endpoints: [{ type: 'a2a', value: '...' }]
+  if (Array.isArray(input.endpoints)) {
+    return {
+      a2a: input.endpoints.find(e => e.type === 'a2a')?.value,
+      mcp: input.endpoints.find(e => e.type === 'mcp')?.value,
+    };
+  }
+  // 8004.org format: endpoints: { a2aEndpoint: '...', mcpEndpoint: '...' }
+  if (input.endpoints && typeof input.endpoints === 'object') {
+    return {
+      a2a: input.endpoints.a2aEndpoint || input.endpoints.a2a,
+      mcp: input.endpoints.mcpEndpoint || input.endpoints.mcp,
+    };
+  }
+  return {};
+}
+
+const eps = parseEndpoints(regInput);
+const name = args.name || regInput.name || regInput.basicInfo?.agentName;
+const description = args.description || regInput.description || regInput.basicInfo?.description;
+const image = args.image || regInput.image || regInput.basicInfo?.image || '';
+const a2aUrl = args.a2a || eps.a2a;
+const mcpUrl = args.mcp || eps.mcp;
+const metadata = regInput.metadata || {};
+const active = regInput.active ?? true;
+const x402support = regInput.x402support ?? false;
+
+if (!name || !description) {
+  console.error('Error: --name and --description are required (or provide via --json)');
   process.exit(1);
 }
 
@@ -46,7 +110,7 @@ const chainInfo = SUPPORTED_CHAINS[chainId];
 const rpcUrl = process.env.RPC_URL || chainInfo.rpc;
 
 const privateKey = process.env.PRIVATE_KEY || process.env.AGENT_PRIVATE_KEY;
-if (!privateKey) {
+if (!privateKey && !args['dry-run']) {
   console.error('Error: PRIVATE_KEY or AGENT_PRIVATE_KEY env var required');
   process.exit(1);
 }
@@ -55,18 +119,34 @@ if (!privateKey) {
 console.log('\n╔══════════════════════════════════════╗');
 console.log('║     AGENT REGISTRATION — DRAFT       ║');
 console.log('╚══════════════════════════════════════╝\n');
-console.log(`  Name:        ${args.name}`);
-console.log(`  Description: ${args.description}`);
-console.log(`  Image:       ${args.image || '(none)'}`);
-console.log(`  A2A URL:     ${args.a2a || '(none)'}`);
-console.log(`  MCP URL:     ${args.mcp || '(none)'}`);
+console.log(`  Name:        ${name}`);
+console.log(`  Description: ${description}`);
+console.log(`  Image:       ${image || '(none)'}`);
+console.log(`  A2A URL:     ${a2aUrl || '(none)'}`);
+console.log(`  MCP URL:     ${mcpUrl || '(none)'}`);
 console.log(`  Chain:       ${chainInfo.name} (${chainId})`);
 console.log(`  Storage:     ${args.storage}`);
+console.log(`  Active:      ${active}`);
+console.log(`  x402:        ${x402support}`);
+if (Object.keys(metadata).length > 0) {
+  console.log(`  Metadata:    ${JSON.stringify(metadata)}`);
+}
 console.log(`  Dry Run:     ${args['dry-run']}`);
 console.log();
 
 if (args['dry-run']) {
-  console.log('🏁 Dry run complete. No transaction submitted.');
+  // Show the registration file that would be created
+  const preview = {
+    name, description, image,
+    endpoints: [],
+    active, x402support, metadata,
+    chain: `${chainInfo.name} (${chainId})`,
+  };
+  if (a2aUrl) preview.endpoints.push({ type: 'a2a', value: a2aUrl });
+  if (mcpUrl) preview.endpoints.push({ type: 'mcp', value: mcpUrl });
+  console.log('📋 Registration file preview:');
+  console.log(JSON.stringify(preview, null, 2));
+  console.log('\n🏁 Dry run complete. No transaction submitted.');
   process.exit(0);
 }
 
@@ -98,22 +178,44 @@ try {
     pinataJwt: process.env.PINATA_JWT,
   });
 
-  const agent = sdk.createAgent(args.name, args.description, args.image || '');
+  // Create agent object
+  const agent = sdk.createAgent(name, description, image);
 
-  // Set optional endpoints
-  if (args.a2a) agent.a2aUrl = args.a2a;
-  if (args.mcp) agent.mcpUrl = args.mcp;
+  // Set endpoints using proper SDK methods
+  if (a2aUrl) await agent.setA2A(a2aUrl);
+  if (mcpUrl) await agent.setMCP(mcpUrl);
 
-  let result;
-  if (args.storage === 'http' && args.a2a) {
-    result = await agent.registerHTTP(args.a2a);
-  } else {
-    result = await agent.registerIPFS();
+  // Set active/x402
+  agent.setActive(active);
+  agent.setX402Support(x402support);
+
+  // Set metadata
+  if (Object.keys(metadata).length > 0) {
+    agent.setMetadata(metadata);
   }
 
+  // Register
+  let txHandle;
+  if (args.storage === 'http' && a2aUrl) {
+    txHandle = await agent.registerHTTP(a2aUrl);
+  } else {
+    txHandle = await agent.registerIPFS();
+  }
+
+  // Wait for confirmation
+  console.log('\n⏳ Waiting for transaction confirmation...');
+  const result = await txHandle.wait();
+
   console.log('\n✅ Agent registered successfully!');
-  console.log(`  Agent ID: ${result?.agentId ?? '(check explorer)'}`);
-  console.log(`  TX:       ${result?.tx ?? result?.transactionHash ?? '(pending)'}`);
+  console.log(`  Agent ID:  ${result?.agentId ?? agent.agentId ?? '(check explorer)'}`);
+  console.log(`  Agent URI: ${result?.agentURI ?? agent.agentURI ?? '(pending)'}`);
+  console.log(`  Chain:     ${chainInfo.name} (${chainId})`);
+
+  // Output full registration file
+  const regFile = agent.getRegistrationFile();
+  console.log('\n📋 Registration file:');
+  console.log(JSON.stringify(regFile, null, 2));
+
 } catch (err) {
   console.error('\n❌ Registration failed:', err.message);
   process.exit(1);
