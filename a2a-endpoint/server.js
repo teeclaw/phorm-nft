@@ -57,20 +57,28 @@ const registrationFile = {
   services: [
     {
       name: 'A2A',
-      endpoint: 'https://a2a.teeclaw.xyz/a2a',
+      endpoint: 'https://a2a.teeclaw.xyz/.well-known/agent-card.json',
       version: '0.3.0'
     },
     {
       name: 'OASF',
       endpoint: 'https://github.com/agntcy/oasf/',
-      version: '0.8',
+      version: '0.8.0',
       skills: [
-        'Natural Language Processing', 'Summarization', 'Question Answering',
-        'Code Generation', 'Computer Vision', 'Agent Coordination', 'Social Media Management'
+        'natural_language_processing/natural_language_processing',
+        'natural_language_processing/natural_language_generation/summarization',
+        'natural_language_processing/information_retrieval_synthesis/question_answering',
+        'analytical_skills/coding_skills/coding_skills',
+        'images_computer_vision/images_computer_vision',
+        'agent_orchestration/agent_coordination',
+        'tool_interaction/workflow_automation'
       ],
       domains: [
-        'Blockchain', 'DeFi', 'Technology', 'Software Engineering',
-        'DevOps', 'Base Network Ecosystem', 'Onchain Identity'
+        'technology/blockchain/blockchain',
+        'technology/blockchain/defi',
+        'technology/technology',
+        'technology/software_engineering/software_engineering',
+        'technology/software_engineering/devops'
       ]
     }
   ],
@@ -92,6 +100,11 @@ app.get('/a2a', (req, res) => {
 
 // Domain verification (optional but recommended)
 app.get('/.well-known/agent-registration.json', (req, res) => {
+  res.json(registrationFile);
+});
+
+// A2A agent card (recommended path per IA024)
+app.get('/.well-known/agent-card.json', (req, res) => {
   res.json(registrationFile);
 });
 
