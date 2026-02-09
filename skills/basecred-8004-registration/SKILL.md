@@ -21,7 +21,7 @@ When the user triggers registration, **auto-fill every field you can** from:
 
 ### Step 1.5: Explain Config Defaults
 
-Before showing the draft, briefly explain the config section so users understand what's pre-selected and what alternatives exist:
+Before showing the draft, briefly explain the config so users understand what's pre-selected and what alternatives exist:
 
 ```
 ⚙️ Config defaults (you can change these later):
@@ -29,7 +29,7 @@ Before showing the draft, briefly explain the config section so users understand
 Chain:    Base (8453) — where your agent lives on-chain
           Others: Ethereum, Polygon, BNB, Arbitrum, Celo, Gnosis, Scroll
 
-Storage:  Fully onchain (http) — agent data stored directly on-chain
+Storage:  Fully onchain — agent data stored directly on-chain
           Alternative: IPFS — data pinned to IPFS, hash stored on-chain
 
 Trust:    Reputation — other agents/users rate your agent on-chain
@@ -45,11 +45,11 @@ Active:   On — agent is discoverable and accepting requests
 Wallet:   Your agent's on-chain identity address
           Two ways to set it:
 
-          Option A: Paste your wallet address (read-only, for display)
+          Option A: Paste your wallet address
           → Just paste your 0x... address
           → Agent will be linked to this address on-chain
 
-          Option B: Add private key to .env (full access, for signing)
+          Option B: Add private key to .env (for signing)
           → Set PRIVATE_KEY=0x... in your .env file
           → Wallet auto-detected + can sign transactions
           → Enables setWallet() via EIP-712 after registration
@@ -58,15 +58,15 @@ Wallet:   Your agent's on-chain identity address
              the agent to sign transactions on your behalf.
 ```
 
-Keep this concise — show it once at the start, not repeated on every draft.
+Show this once at the start, not repeated on every draft.
 
 ### Step 2: Show Full Draft with Buttons (Single Message)
 
-Send the **entire draft + buttons as one message** using the `message` tool. This keeps buttons directly below the draft, not as a separate message.
+Send the **entire draft + buttons as one message** using the `message` tool. This keeps buttons directly below the draft.
 
-**Important:** Use `message action=send` with both `message` (the draft text) and `buttons` (inline buttons). Do NOT split into reply + separate button message.
+**Important:** Use `message action=send` with both `message` (the draft text) and `buttons` (inline buttons). Do NOT split into reply + separate button message. After sending, reply with `NO_REPLY` to avoid duplicate.
 
-The draft text should use ✅ (filled) and ⚠️ (missing/needs attention):
+Use ✅ (filled) and ⚠️ (missing/needs attention):
 
 ```
 📋 Agent Registration Draft
@@ -94,23 +94,21 @@ The draft text should use ✅ (filled) and ⚠️ (missing/needs attention):
 ✅ Active:      true
 ✅ Trust:       reputation
 ✅ x402:        false
-✅ Wallet:      0x1348...e41 (auto)
+✅ Wallet:      0x1348...e41 (auto .env)
 
 Tap to edit a section or register:
 ```
 
 Buttons (attached to same message):
 ```
-[✏️ Basic Info] [✏️ Endpoints]
-[✏️ Skills & Domains] [✏️ Config]
-[✅ Register] [❌ Cancel]
+Row 1: [✏️ Basic Info] [✏️ Endpoints]
+Row 2: [✏️ Skills & Domains] [✏️ Config]
+Row 3: [✅ Register] [❌ Cancel]
 ```
-
-After sending this single message, reply with `NO_REPLY` to avoid a duplicate reply.
 
 ### Step 3: Section Editing (on button tap)
 
-**Important:** When any button is tapped, immediately send a short acknowledgment before doing anything else:
+**Instant feedback:** When any button is tapped, immediately acknowledge before doing anything else:
 
 | Button | Instant Feedback |
 |--------|-----------------|
@@ -122,12 +120,9 @@ After sending this single message, reply with `NO_REPLY` to avoid a duplicate re
 | ❌ Cancel | "❌ Registration cancelled." |
 | ↩️ Back to Draft | "📋 Back to draft..." |
 
-This ensures the user knows their tap was received. Then show the edit form or perform the action.
-
-When editing, show that section's current values and let them change what they want. Always include a **↩️ Back** button to return to the draft.
+Then show the edit form. Always include **↩️ Back to Draft** button.
 
 #### Edit Basic Info
-Show current values inline, ask what to change:
 ```
 Current values:
 • Name: Mr. Tee
@@ -137,11 +132,9 @@ Current values:
 • Author: 0xdas
 • License: MIT
 
-Which field to change? Type the field name and new value.
-e.g. "name: CoolBot" or "description: A new description"
+Type field name and new value, e.g. "name: CoolBot"
 Or type "done" to go back.
 ```
-
 Buttons: `[↩️ Back to Draft]`
 
 #### Edit Endpoints
@@ -150,31 +143,28 @@ Current:
 • A2A: https://a2a.teeclaw.xyz/a2a
 • MCP: (none)
 
-Paste a URL to set, or type "clear mcp" / "clear a2a" to remove.
+Paste a URL to set, or "clear mcp" / "clear a2a" to remove.
 ```
-
 Buttons: `[↩️ Back to Draft]`
 
 #### Edit Skills & Domains
-Show as toggleable inline buttons (multi-select):
+Toggleable inline buttons (multi-select):
 
 **Skills:**
 ```
 [NLP ✅] [Summarization ✅] [Q&A ✅] [Code Gen ✅] [CV ✅]
 [Data Analysis] [Web Search] [Image Gen] [Translation]
-[Task Automation] [+ Custom] [Done ✅]
+[Task Automation] [+ Custom] [↩️ Back to Draft]
 ```
 
 **Domains:**
 ```
 [Blockchain ✅] [DeFi ✅] [Technology ✅] [SE ✅] [DevOps ✅]
 [Finance] [Healthcare] [Education] [Entertainment]
-[Science] [Creative Arts] [Dev Tools] [+ Custom] [Done ✅]
+[Science] [Creative Arts] [Dev Tools] [+ Custom] [↩️ Back to Draft]
 ```
 
 Tapping toggles ✅ on/off. `+ Custom` prompts user to type a custom entry.
-
-Each row ends with `[↩️ Back to Draft]`.
 
 #### Edit Config
 **Trust models** (multi-select):
@@ -185,6 +175,7 @@ Each row ends with `[↩️ Back to Draft]`.
 **Other config:**
 ```
 [Chain: Base ▼] [Storage: Onchain ▼] [x402: Off ▼]
+[↩️ Back to Draft]
 ```
 
 | Trust Model | Description |
@@ -199,22 +190,21 @@ After any edit, re-send the updated full draft as a **single message with button
 
 ### Step 5: Execute
 
-Only after explicit ✅ Register confirmation:
+Only after explicit ✅ Register confirmation.
+
+1. Write the registration JSON to a temp file
+2. Run the script:
 
 ```bash
 source /path/to/.env
 node scripts/register.mjs --json /tmp/registration.json --chain 8453 --yes
 ```
 
-The script handles:
-1. `register()` — mint agent NFT on-chain
-2. `setA2A()` / `setMCP()` — set endpoints
-3. `addSkill()` / `addDomain()` — set OASF taxonomy
-4. `setWallet()` — link wallet with EIP-712 signature
+The script handles: `register()` → `setA2A()`/`setMCP()` → `addSkill()`/`addDomain()` → `setWallet()`
 
 ### Step 5.5: Progress Updates
 
-During registration, send progress updates so the user isn't left waiting:
+Send progress updates during registration:
 
 ```
 ⏳ Step 1/3: Minting agent NFT on Base...
@@ -243,10 +233,9 @@ During registration, send progress updates so the user isn't left waiting:
 ## Error Handling
 
 ### Missing Required Fields
-If **Name** or **Description** are empty after prefill, mark them ⚠️ and prompt the user to fill them before allowing registration. The ✅ Register button should warn: "Please fill required fields first."
+If **Name** or **Description** are empty after prefill, mark them ⚠️ and block registration. Show: "Please fill required fields first."
 
 ### No Wallet
-If no wallet is detected (no `.env` key, no pasted address), show:
 ```
 ⚠️ No wallet detected. You need one to register:
   Option A: Paste your 0x... address
@@ -254,14 +243,32 @@ If no wallet is detected (no `.env` key, no pasted address), show:
 ```
 
 ### Transaction Failures
-If registration tx fails, show the error clearly and offer retry:
+Show error clearly and offer retry:
 ```
 ❌ Registration failed: insufficient funds for gas
 [🔄 Retry] [❌ Cancel]
 ```
 
+### setWallet Failure
+Public RPCs (e.g. mainnet.base.org) don't support `eth_signTypedData_v4`. If setWallet fails:
+```
+⚠️ Wallet linking failed (public RPC limitation).
+You can link your wallet manually at https://8004.org
+```
+This is non-blocking — the agent is registered, just wallet isn't linked on-chain yet.
+
 ### Already Registered
-If the agent is already registered (has an agentId), offer to **update** instead of register.
+If the agent already has an agentId, offer to **update** instead of register.
+
+## Technical Notes
+
+### Registry Overrides
+The SDK only ships with Ethereum Mainnet registry addresses. For Base and other chains, the script passes `registryOverrides` with deterministic contract addresses:
+- Identity Registry: `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432`
+- Reputation Registry: `0x8004BAa17C55a88189AE136b182e5fdA19dE9b63`
+
+### Transaction Handling
+The SDK returns `TransactionHandle` objects. Use `.waitMined()` (not `.wait()`) to await confirmation.
 
 ## All Fields Reference
 
@@ -269,11 +276,11 @@ If the agent is already registered (has an agentId), offer to **update** instead
 | Field | Required | Default | Auto-source |
 |-------|----------|---------|-------------|
 | **Agent Name** | ✅ | — | IDENTITY.md |
-| **Agent Address** | auto | — | Derived from `.env` private key |
+| **Agent Address** | auto | — | `.env` private key or pasted |
 | **Description** | ✅ | — | IDENTITY.md / SOUL.md |
 | **Image** | No | — | Profile image URL |
 | **Version** | No | `1.0.0` | — |
-| **Author** | No | — | USER.md (human's name) |
+| **Author** | No | — | USER.md |
 | **License** | No | `MIT` | — |
 
 ### Endpoints
@@ -311,6 +318,8 @@ If the agent is already registered (has an agentId), offer to **update** instead
 | Celo | 42220 | |
 | Gnosis | 100 | |
 | Scroll | 534352 | |
+
+All chains use the same deterministic contract addresses.
 
 ## JSON Template (8004.org format)
 
@@ -355,18 +364,14 @@ If the agent is already registered (has an agentId), offer to **update** instead
 
 ## Other Operations
 
-### Search Agents
 ```bash
+# Search agents
 node scripts/search.mjs --name "AgentName" --chain 8453
-```
 
-### Update Agent
-```bash
+# Update agent
 node scripts/update.mjs --agent-id "8453:42" --name "NewName" --yes
-```
 
-### Give Feedback
-```bash
+# Give feedback
 node scripts/feedback.mjs --agent-id "8453:42" --value 5 --tag1 "reliable" --yes
 ```
 
