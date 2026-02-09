@@ -110,7 +110,21 @@ After sending this single message, reply with `NO_REPLY` to avoid a duplicate re
 
 ### Step 3: Section Editing (on button tap)
 
-When user taps an edit button, show that section's current values and let them change what they want. Always include a **↩️ Back** button to return to the draft.
+**Important:** When any button is tapped, immediately send a short acknowledgment before doing anything else:
+
+| Button | Instant Feedback |
+|--------|-----------------|
+| ✏️ Basic Info | "📝 Editing Basic Info..." |
+| ✏️ Endpoints | "🔗 Editing Endpoints..." |
+| ✏️ Skills & Domains | "🏷️ Editing Skills & Domains..." |
+| ✏️ Config | "⚙️ Editing Config..." |
+| ✅ Register | "⏳ Starting registration on Base..." |
+| ❌ Cancel | "❌ Registration cancelled." |
+| ↩️ Back to Draft | "📋 Back to draft..." |
+
+This ensures the user knows their tap was received. Then show the edit form or perform the action.
+
+When editing, show that section's current values and let them change what they want. Always include a **↩️ Back** button to return to the draft.
 
 #### Edit Basic Info
 Show current values inline, ask what to change:
