@@ -264,12 +264,21 @@ if (!(await confirm('Submit this registration on-chain?'))) {
 try {
   const { SDK } = await import('agent0-sdk');
 
+  // Registry addresses are deterministic across all chains
+  const REGISTRY_ADDRESSES = {
+    IDENTITY: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
+    REPUTATION: '0x8004BAa17C55a88189AE136b182e5fdA19dE9b63',
+  };
+
   const sdk = new SDK({
     chainId,
     rpcUrl,
     privateKey,
     ipfs: reg.storage === 'ipfs' ? (process.env.PINATA_JWT ? 'pinata' : 'filecoinPin') : undefined,
     pinataJwt: process.env.PINATA_JWT,
+    registryOverrides: {
+      [chainId]: REGISTRY_ADDRESSES,
+    },
   });
 
   // Create agent object
@@ -320,7 +329,7 @@ try {
 
   // Wait for confirmation
   console.log('\n⏳ Waiting for transaction confirmation...');
-  const result = await txHandle.wait();
+  const result = await txHandle.waitMined();
 
   console.log('\n✅ Agent registered successfully!');
   console.log(`  Agent ID:  ${result?.agentId ?? agent.agentId ?? '(check explorer)'}`);
@@ -334,7 +343,7 @@ try {
       const walletTxHandle = await agent.setWallet(walletAddress);
       if (walletTxHandle) {
         console.log('⏳ Waiting for wallet confirmation...');
-        await walletTxHandle.wait();
+        await walletTxHandle.waitMined();
       }
       console.log(`✅ Agent wallet set: ${walletAddress}`);
     } catch (err) {
