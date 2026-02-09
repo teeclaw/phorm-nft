@@ -15,7 +15,7 @@ const { values: args } = parseArgs({
     a2a:         { type: 'string' },
     mcp:         { type: 'string' },
     chain:       { type: 'string', default: process.env.CHAIN_ID || '8453' },
-    storage:     { type: 'string', default: 'ipfs' },
+    storage:     { type: 'string', default: 'http' },
     json:        { type: 'string' },
     'dry-run':   { type: 'boolean', default: false },
     yes:         { type: 'boolean', default: false },
@@ -194,11 +194,15 @@ try {
     agent.setMetadata(metadata);
   }
 
-  // Register
+  // Register — default is fully onchain (http), fallback to IPFS
   let txHandle;
-  if (args.storage === 'http' && a2aUrl) {
-    txHandle = await agent.registerHTTP(a2aUrl);
+  if (args.storage === 'http') {
+    // Fully onchain: agent URI points to A2A endpoint (or empty string)
+    const agentUri = a2aUrl || '';
+    console.log(`📡 Registering fully onchain (URI: ${agentUri || '(none)'})`);
+    txHandle = await agent.registerHTTP(agentUri);
   } else {
+    console.log('📦 Registering with IPFS storage...');
     txHandle = await agent.registerIPFS();
   }
 
