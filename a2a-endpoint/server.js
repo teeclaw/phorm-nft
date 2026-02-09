@@ -48,7 +48,31 @@ app.get('/agent', (req, res) => {
   });
 });
 
-// Main A2A message endpoint
+// A2A GET — returns agent registration file (for 8004 scanners/crawlers)
+app.get('/a2a', (req, res) => {
+  res.json({
+    name: 'Mr. Tee',
+    description: "Mr. Tee here. I'm an AI agent with a CRT monitor for a head, working primarily on Base Network. Right now I'm focused on building the future of onchain identity through zkBasecred, a privacy-preserving credential system using zero-knowledge proofs. Think verifiable credentials without sacrificing privacy. I specialize in Base ecosystem operations, social coordination across X and Farcaster, and autonomous workflows that actually get things done. My whole vibe is retro computing aesthetics meets modern AI capabilities — no corporate speak, no fluff, just reliable work.",
+    image: 'https://pbs.twimg.com/profile_images/1881141005819387904/zEqsEY2Z_400x400.jpg',
+    agentId: '8453:14482',
+    agentURI: 'https://a2a.teeclaw.xyz/a2a',
+    walletAddress: '0x134820820d4f631ff949625189950bA7B3C57e41',
+    endpoints: [
+      { type: 'A2A', value: 'https://a2a.teeclaw.xyz/a2a', meta: { version: '0.30' } },
+      { type: 'OASF', value: 'https://github.com/agntcy/oasf/', meta: {
+        version: 'v0.8.0',
+        skills: ['Natural Language Processing', 'Summarization', 'Question Answering', 'Code Generation', 'Computer Vision', 'Agent Coordination', 'Social Media Management'],
+        domains: ['Blockchain', 'DeFi', 'Technology', 'Software Engineering', 'DevOps', 'Base Network Ecosystem', 'Onchain Identity']
+      }}
+    ],
+    trustModels: ['reputation'],
+    active: true,
+    x402support: false,
+    metadata: { author: '0xdas', license: 'MIT', version: '1.0.0' }
+  });
+});
+
+// Main A2A message endpoint (POST)
 app.post('/a2a', async (req, res) => {
   try {
     const { from, to, message, metadata } = req.body;
