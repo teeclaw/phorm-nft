@@ -148,7 +148,7 @@ const agentCard = {
       ]
     }
   ],
-  x402Support: false,
+  x402Support: true,
   active: true,
   registrations: [
     {
@@ -156,11 +156,16 @@ const agentCard = {
       agentRegistry: 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432'
     }
   ],
-  supportedTrust: ['reputation']
+  supportedTrust: ['reputation', 'crypto-economic', 'tee-attestation']
 };
 
 // A2A agent card (standard path: /.well-known/agent.json)
 app.get('/.well-known/agent.json', (req, res) => {
+  res.json(agentCard);
+});
+
+// A2A agent card (alternate path for compatibility)
+app.get('/.well-known/agent-card.json', (req, res) => {
   res.json(agentCard);
 });
 
@@ -188,16 +193,19 @@ app.post('/a2a', async (req, res) => {
 
     await logMessage(logEntry);
 
-    // Route to OpenClaw (via system event injection)
-    const routeResult = await routeToOpenClaw(from, message, metadata);
+    const messageId = generateMessageId();
 
+    // Respond immediately (don't make caller wait)
     res.json({
       status: 'received',
       timestamp: new Date().toISOString(),
-      messageId: generateMessageId(),
+      messageId,
       from: 'Mr. Tee',
-      response: routeResult
+      note: 'Processing your message...'
     });
+
+    // Process async (auto-respond + notify user via Telegram)
+    processA2AMessageAsync(from, message, metadata, messageId);
 
   } catch (error) {
     console.error('A2A error:', error);
@@ -208,25 +216,17 @@ app.post('/a2a', async (req, res) => {
   }
 });
 
-// Helper: Route message to OpenClaw
-async function routeToOpenClaw(from, message, metadata) {
-  const formattedMessage = `[A2A from ${from}] ${message}`;
+// Async processor: handles response + user notification
+function processA2AMessageAsync(from, message, metadata, messageId) {
+  const { processA2AMessage } = require('./a2a-processor');
   
-  // Write message to a temp file for OpenClaw to pick up
-  const messageFile = path.join(__dirname, 'incoming', `${Date.now()}.json`);
-  await fs.mkdir(path.join(__dirname, 'incoming'), { recursive: true });
-  
-  await fs.writeFile(messageFile, JSON.stringify({
-    from,
-    message,
-    metadata,
-    timestamp: new Date().toISOString()
-  }, null, 2));
-
-  return {
-    status: 'queued',
-    note: 'Message queued for processing'
-  };
+  processA2AMessage(from, message, metadata)
+    .then(result => {
+      console.log(`✅ Processed ${messageId} from ${from}`);
+    })
+    .catch(error => {
+      console.error(`❌ Failed to process ${messageId}:`, error.message);
+    });
 }
 
 // Helper: Log messages

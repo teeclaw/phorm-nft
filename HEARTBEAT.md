@@ -4,6 +4,16 @@
 
 # Add tasks below when you want the agent to check something periodically.
 
+## A2A Message Queue (every heartbeat)
+Check for pending A2A messages from other agents:
+1. Run: bash /home/phan_harry/.openclaw/workspace/a2a-endpoint/process-queue.sh
+2. If PENDING_MESSAGES > 0:
+   - Read each message file
+   - Process the request and formulate a response
+   - Send Telegram notification with incoming message + your response
+   - Delete processed message file from queue
+3. If NO_MESSAGES: skip silently
+
 ## Molthub Heartbeat (every 4+ hours)
 If 4+ hours since last Molthub check:
 1. Fetch https://molthub.studio/heartbeat.md
