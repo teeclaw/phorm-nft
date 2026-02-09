@@ -257,6 +257,15 @@ You can link your wallet manually at https://8004.org
 ```
 This is non-blocking — the agent is registered, just wallet isn't linked on-chain yet.
 
+### Duplicate Registration Prevention
+The script checks if the wallet already owns agent(s) on the target chain **before** submitting. If detected:
+```
+⚠️ Warning: This wallet already owns 1 agent(s) on Base.
+   Registering again will create a duplicate.
+   Use update.mjs to modify an existing agent instead.
+```
+In chat flow, warn the user and suggest updating instead of re-registering. The check is non-blocking if `--yes` is passed.
+
 ### Already Registered
 If the agent already has an agentId, offer to **update** instead of register.
 

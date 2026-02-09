@@ -196,6 +196,13 @@ Compatible with [8004.org](https://8004.org) export format:
 }
 ```
 
+## Safety
+
+- **Duplicate check** — before registering, the script checks if your wallet already owns agents on the target chain and warns you. Prevents accidental double-registration.
+- **Draft preview** — always shows full draft before any on-chain action
+- **Explicit confirmation** — nothing submits without your approval
+- **Burn duplicates** — if a duplicate is created, transfer to `0x...dEaD` via the contract's `transferFrom`
+
 ## Known Limitations
 
 - **setWallet on public RPCs**: Public RPCs (e.g. `mainnet.base.org`) don't support `eth_signTypedData_v4`. If wallet linking fails, you can set it manually at [8004.org](https://8004.org). The agent registration itself is not affected.
