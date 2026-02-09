@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "moltbook-ay": {
+      "version": "1.0.0",
+      "installedAt": 1770179735173
+    },
+    "blankspace-registration": {
+      "version": "1.0.0",
+      "installedAt": 1770396569480
+    }
+  }
+}

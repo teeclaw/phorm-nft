@@ -1,0 +1,12 @@
+# Credentials and secrets
+.env
+*.key
+*.pem
+*credentials*.json
+*-creds.json
+
+# Config directories with sensitive data
+.config/
+
+# Dependencies
+node_modules/

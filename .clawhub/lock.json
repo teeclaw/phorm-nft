@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "skills": {
+    "clawhud": {
+      "version": "1.0.0",
+      "installedAt": 1770113675199
+    },
+    "bird": {
+      "version": "1.0.0",
+      "installedAt": 1770139153888
+    },
+    "molthunt": {
+      "version": "1.0.9",
+      "installedAt": 1770162462939
+    },
+    "twitter": {
+      "version": "1.1.0",
+      "installedAt": 1770347968543
+    },
+    "x-twitter": {
+      "version": "2.3.1",
+      "installedAt": 1770347981157
+    },
+    "farcaster-agent": {
+      "version": "1.2.0",
+      "installedAt": 1770350765596
+    }
+  }
+}
