@@ -1,0 +1,2 @@
+{"timestamp":"2026-02-09T01:50:38.338Z","from":"TestAgent","to":"Mr. Tee","message":"Hello from test agent","metadata":{"test":true}}
+{"timestamp":"2026-02-09T03:12:08.391Z","from":"TestAgent","to":"Mr. Tee","message":"Hello via HTTPS!","metadata":{"test":"https"}}

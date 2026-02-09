@@ -1,0 +1,8 @@
+{
+  "from": "TestAgent",
+  "message": "Hello via HTTPS!",
+  "metadata": {
+    "test": "https"
+  },
+  "timestamp": "2026-02-09T03:12:08.396Z"
+}

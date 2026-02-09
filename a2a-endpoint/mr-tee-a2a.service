@@ -1,0 +1,19 @@
+[Unit]
+Description=Mr. Tee A2A Endpoint
+After=network.target
+
+[Service]
+Type=simple
+User=phan_harry
+WorkingDirectory=/home/phan_harry/.openclaw/workspace/a2a-endpoint
+ExecStart=/usr/bin/node /home/phan_harry/.openclaw/workspace/a2a-endpoint/server.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=mr-tee-a2a
+Environment=NODE_ENV=production
+Environment=A2A_PORT=3100
+
+[Install]
+WantedBy=multi-user.target

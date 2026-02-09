@@ -1,0 +1,11 @@
+# Mr. Tee A2A Endpoint
+# Auto-TLS enabled via Caddy
+
+a2a.teeclaw.xyz {
+    reverse_proxy localhost:3100
+    
+    # Access logging
+    log {
+        output file /var/log/caddy/a2a.log
+    }
+}
