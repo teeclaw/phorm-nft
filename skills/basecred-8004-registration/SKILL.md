@@ -110,21 +110,36 @@ After sending this single message, reply with `NO_REPLY` to avoid a duplicate re
 
 ### Step 3: Section Editing (on button tap)
 
-When user taps an edit button, show that section's fields with selectable options:
+When user taps an edit button, show that section's current values and let them change what they want. Always include a **↩️ Back** button to return to the draft.
 
 #### Edit Basic Info
-Show current values, let user type corrections:
+Show current values inline, ask what to change:
 ```
-Current: Name = "Mr. Tee"
-Type new value or "skip" to keep:
+Current values:
+• Name: Mr. Tee
+• Description: AI agent with a CRT...
+• Image: pbs.twimg.com/...
+• Version: 1.0.0
+• Author: 0xdas
+• License: MIT
+
+Which field to change? Type the field name and new value.
+e.g. "name: CoolBot" or "description: A new description"
+Or type "done" to go back.
 ```
+
+Buttons: `[↩️ Back to Draft]`
 
 #### Edit Endpoints
 ```
-Current A2A: https://a2a.teeclaw.xyz/a2a
-Current MCP: (none)
-Type new URL or "skip":
+Current:
+• A2A: https://a2a.teeclaw.xyz/a2a
+• MCP: (none)
+
+Paste a URL to set, or type "clear mcp" / "clear a2a" to remove.
 ```
+
+Buttons: `[↩️ Back to Draft]`
 
 #### Edit Skills & Domains
 Show as toggleable inline buttons (multi-select):
@@ -144,6 +159,8 @@ Show as toggleable inline buttons (multi-select):
 ```
 
 Tapping toggles ✅ on/off. `+ Custom` prompts user to type a custom entry.
+
+Each row ends with `[↩️ Back to Draft]`.
 
 #### Edit Config
 **Trust models** (multi-select):
@@ -181,6 +198,21 @@ The script handles:
 3. `addSkill()` / `addDomain()` — set OASF taxonomy
 4. `setWallet()` — link wallet with EIP-712 signature
 
+### Step 5.5: Progress Updates
+
+During registration, send progress updates so the user isn't left waiting:
+
+```
+⏳ Step 1/3: Minting agent NFT on Base...
+✅ Agent minted! ID: 8453:42
+
+⏳ Step 2/3: Setting endpoints & metadata...
+✅ Endpoints configured
+
+⏳ Step 3/3: Linking wallet via EIP-712...
+✅ Wallet linked!
+```
+
 ### Step 6: Report Result
 
 ```
@@ -193,6 +225,29 @@ The script handles:
 
   View: https://8004.org/agent/8453:42
 ```
+
+## Error Handling
+
+### Missing Required Fields
+If **Name** or **Description** are empty after prefill, mark them ⚠️ and prompt the user to fill them before allowing registration. The ✅ Register button should warn: "Please fill required fields first."
+
+### No Wallet
+If no wallet is detected (no `.env` key, no pasted address), show:
+```
+⚠️ No wallet detected. You need one to register:
+  Option A: Paste your 0x... address
+  Option B: Add PRIVATE_KEY to your .env file
+```
+
+### Transaction Failures
+If registration tx fails, show the error clearly and offer retry:
+```
+❌ Registration failed: insufficient funds for gas
+[🔄 Retry] [❌ Cancel]
+```
+
+### Already Registered
+If the agent is already registered (has an agentId), offer to **update** instead of register.
 
 ## All Fields Reference
 
