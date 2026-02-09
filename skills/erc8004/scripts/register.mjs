@@ -155,6 +155,7 @@ if (args['dry-run']) {
   };
   if (a2aUrl) preview.endpoints.push({ type: 'a2a', value: a2aUrl });
   if (mcpUrl) preview.endpoints.push({ type: 'mcp', value: mcpUrl });
+  if (walletAddress && walletAddress !== '(dry-run)') preview.walletAddress = walletAddress;
   console.log('📋 Registration file preview:');
   console.log(JSON.stringify(preview, null, 2));
   console.log('\n🏁 Dry run complete. No transaction submitted.');
@@ -225,6 +226,21 @@ try {
   console.log(`  Agent ID:  ${result?.agentId ?? agent.agentId ?? '(check explorer)'}`);
   console.log(`  Agent URI: ${result?.agentURI ?? agent.agentURI ?? '(pending)'}`);
   console.log(`  Chain:     ${chainInfo.name} (${chainId})`);
+
+  // Set agent wallet on-chain
+  if (walletAddress && walletAddress !== '(dry-run)') {
+    console.log(`\n🔑 Setting agent wallet: ${walletAddress}`);
+    try {
+      const walletTxHandle = await agent.setWallet(walletAddress);
+      if (walletTxHandle) {
+        console.log('⏳ Waiting for wallet confirmation...');
+        await walletTxHandle.wait();
+      }
+      console.log(`✅ Agent wallet set: ${walletAddress}`);
+    } catch (err) {
+      console.error(`⚠️  Wallet set failed (can retry later): ${err.message}`);
+    }
+  }
 
   // Output full registration file
   const regFile = agent.getRegistrationFile();
