@@ -109,10 +109,20 @@ if (!SUPPORTED_CHAINS[chainId]) {
 const chainInfo = SUPPORTED_CHAINS[chainId];
 const rpcUrl = process.env.RPC_URL || chainInfo.rpc;
 
-const privateKey = process.env.PRIVATE_KEY || process.env.AGENT_PRIVATE_KEY;
+const privateKey = process.env.PRIVATE_KEY || process.env.AGENT_PRIVATE_KEY || process.env.MAIN_WALLET_PRIVATE_KEY;
 if (!privateKey && !args['dry-run']) {
-  console.error('Error: PRIVATE_KEY or AGENT_PRIVATE_KEY env var required');
+  console.error('Error: PRIVATE_KEY, AGENT_PRIVATE_KEY, or MAIN_WALLET_PRIVATE_KEY env var required');
   process.exit(1);
+}
+
+// Derive wallet address from private key
+let walletAddress = '(dry-run)';
+if (privateKey) {
+  try {
+    const { privateKeyToAccount } = await import('viem/accounts');
+    const pk = privateKey.startsWith('0x') ? privateKey : `0x${privateKey}`;
+    walletAddress = privateKeyToAccount(pk).address;
+  } catch { /* ignore in dry-run */ }
 }
 
 // --- DRAFT ---
@@ -122,6 +132,7 @@ console.log('╚═════════════════════�
 console.log(`  Name:        ${name}`);
 console.log(`  Description: ${description}`);
 console.log(`  Image:       ${image || '(none)'}`);
+console.log(`  Wallet:      ${walletAddress}`);
 console.log(`  A2A URL:     ${a2aUrl || '(none)'}`);
 console.log(`  MCP URL:     ${mcpUrl || '(none)'}`);
 console.log(`  Chain:       ${chainInfo.name} (${chainId})`);
