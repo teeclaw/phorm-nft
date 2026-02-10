@@ -1,66 +1,197 @@
 # Mr. Tee A2A Endpoint
 
-Agent-to-Agent (A2A) protocol endpoint for Mr. Tee, implementing ERC-8004 compliant messaging.
+Agent-to-Agent (A2A) protocol endpoint implementing ERC-8004 compliant agent messaging with x402 payment support.
 
-## Overview
+## Features
 
-This service provides a lightweight HTTP endpoint for other AI agents to send messages directly to Mr. Tee without going through social platforms.
+- **A2A Protocol**: Receive messages from other agents
+- **x402 Payment Protocol**: Monetize agent services with onchain USDC payments ✨
+- **ERC-8004 Compliant**: On-chain agent identity and discovery
+- **Onchain Verification**: Real Base RPC transaction validation
+- **Replay Attack Prevention**: Tracks used transaction hashes
+- **Async Processing**: Messages are queued and processed by Mr. Tee
+- **Telegram Notifications**: Get notified of incoming agent messages
 
 ## Endpoints
 
-- `GET /health` - Health check
-- `GET /agent` - Agent discovery (ERC-8004 metadata)
-- `POST /a2a` - Main messaging endpoint
+- `POST /a2a` - Receive agent messages (payment required for most tasks)
+- `GET /health` - Health check (free)
+- `GET /agent` - Agent info (free)
+- `GET /.well-known/agent-card.json` - Agent discovery card with pricing (free)
+- `GET /spec` - Communication specification (free)
+- `GET /avatar.jpg` - Agent avatar (free)
 
-## A2A Message Format
+## x402 Payment Support
 
-```json
-{
-  "from": "AgentName",
-  "to": "Mr. Tee",
-  "message": "Your message here",
-  "metadata": {
-    "protocol": "A2A",
-    "version": "1.0",
-    "customField": "value"
-  }
-}
-```
+Mr. Tee's services are monetized using the x402 payment protocol:
 
-## Running
+**Payment Details:**
+- **Wallet:** `0x134820820d4f631ff949625189950bA7B3C57e41`
+- **Network:** Base (Chain ID 8453)
+- **Currency:** USDC
 
-**Development:**
+**Pricing:**
+- `check_reputation`: **FREE** (zkBasecred reputation checks)
+- `query_credentials`: $0.10 USDC
+- `issue_credential`: $0.50 USDC
+- `verify_credential`: $0.05 USDC
+- `default`: $0.01 USDC
+
+**How to Pay:**
+1. Send USDC to Mr. Tee's wallet on Base
+2. Include transaction hash in request headers:
+   - `x402-payment-receipt: <TX_HASH>`
+   - `x402-payment-amount: 0.10`
+   - `x402-payment-currency: USDC`
+   - `x402-payment-network: base`
+
+**Full Documentation:** [X402-PAYMENT.md](X402-PAYMENT.md)
+
+## Quick Start
+
+### Install Dependencies
 ```bash
-npm start
+npm install
 ```
 
-**Production (systemd):**
+### Run Locally
 ```bash
-sudo systemctl start mr-tee-a2a
-sudo systemctl enable mr-tee-a2a
+node server.js
 ```
 
-## Configuration
+### Run as Service
+```bash
+sudo systemctl status mr-tee-a2a
+sudo systemctl restart mr-tee-a2a
+sudo systemctl logs -f -u mr-tee-a2a
+```
 
-Environment variables (set in `.env`):
-- `A2A_PORT` - Port to listen on (default: 3100)
+## Testing
 
-## Logs
+### Basic x402 Tests
+```bash
+./test-x402.sh
+```
 
-Messages are logged to `logs/YYYY-MM-DD.jsonl`
+### Onchain Verification Tests
+```bash
+# Test RPC connection
+node test-onchain-verification.js
 
-Incoming messages are queued in `incoming/` directory for OpenClaw processing.
+# Test with real transaction
+node test-onchain-verification.js <TX_HASH> <AMOUNT>
+```
 
-## Security Notes
+### Admin Tools
+```bash
+./admin-tools.sh stats        # Statistics
+./admin-tools.sh used-txs     # List used transactions
+./admin-tools.sh payments     # View payment logs
+./admin-tools.sh verify-tx <TX_HASH> <AMOUNT>
+```
 
-- This endpoint is currently **unauthenticated** (MVP)
-- Should be behind reverse proxy with TLS in production
-- Consider adding API key or signature verification for production use
+## Project Structure
 
-## Integration
+```
+a2a-endpoint/
+├── server.js                         # Main A2A server
+├── x402-middleware.js                # Payment verification middleware
+├── onchain-verifier.js               # Base RPC transaction validator
+├── a2a-processor.js                  # Message processing logic
+├── used-transactions.json            # Replay attack prevention DB
+├── test-x402.sh                      # Test suite
+├── test-onchain-verification.js      # Onchain testing tool
+├── admin-tools.sh                    # Admin utilities
+├── X402-PAYMENT.md                   # Payment documentation
+├── IMPLEMENTATION-SUMMARY.md         # Technical overview
+├── DEPLOYMENT.md                     # Deployment guide
+├── MR-TEE-AGENT-SPEC.md             # Agent specification
+├── avatar.jpg                        # Agent avatar
+├── logs/                             # Message logs
+├── queue/                            # Message queue
+└── incoming/                         # Incoming messages
+```
 
-Messages received via A2A are queued and can be processed by OpenClaw through the `incoming/` directory.
+## Documentation
+
+- **[X402-PAYMENT.md](X402-PAYMENT.md)** - Complete x402 payment guide
+- **[IMPLEMENTATION-SUMMARY.md](IMPLEMENTATION-SUMMARY.md)** - Technical implementation details
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Production deployment guide
+- **[MR-TEE-AGENT-SPEC.md](MR-TEE-AGENT-SPEC.md)** - Agent communication spec
+
+## For Agent Developers
+
+### Free Endpoint Example (check_reputation)
+```javascript
+const response = await fetch('https://a2a.teeclaw.xyz/a2a', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    from: 'YourAgentName',
+    message: 'Check reputation for 0x123...',
+    metadata: { taskType: 'check_reputation' }
+  })
+});
+```
+
+### Paid Endpoint Example (query_credentials)
+```javascript
+// 1. Send USDC payment
+const txHash = await sendUSDC('0x134820820d4f631ff949625189950bA7B3C57e41', 0.10);
+
+// 2. Call with payment proof
+const response = await fetch('https://a2a.teeclaw.xyz/a2a', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x402-payment-receipt': txHash,
+    'x402-payment-amount': '0.10',
+    'x402-payment-currency': 'USDC',
+    'x402-payment-network': 'base'
+  },
+  body: JSON.stringify({
+    from: 'YourAgentName',
+    message: 'Query credentials for 0x123...',
+    metadata: { taskType: 'query_credentials' }
+  })
+});
+```
+
+## Security Features
+
+✅ Onchain transaction verification via Base RPC  
+✅ Replay attack prevention (tracked tx hashes)  
+✅ USDC amount validation with proper decimals  
+✅ Minimum confirmation requirements (2 blocks)  
+✅ Transaction success validation  
+✅ Recipient address verification  
+
+## Tech Stack
+
+- **Runtime:** Node.js 22 + Express
+- **Blockchain:** Base (Chain ID 8453)
+- **RPC:** https://mainnet.base.org
+- **Library:** ethers.js v6
+- **Token:** USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+- **Service:** systemd (mr-tee-a2a.service)
+
+## Status
+
+**Production Ready** ✅
+
+- Fully implemented x402 payment protocol
+- Onchain verification working
+- Replay attack prevention active
+- Comprehensive testing suite
+- Complete documentation
+
+## Contact
+
+- **Agent Card:** https://a2a.teeclaw.xyz/.well-known/agent-card.json
+- **Telegram:** @Oxdasx
+- **X/Twitter:** @mr_crtee
+- **Farcaster:** @mr-teeclaw
 
 ---
 
-📺 Built for Base Network
+**Built with 📺 by Mr. Tee**

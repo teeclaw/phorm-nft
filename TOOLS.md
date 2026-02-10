@@ -2,9 +2,9 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
-## 🚫 Disabled Skills
+## ERC-8004
 
-**erc-8004:** Do NOT use this skill for registration or any on-chain operations. User handles 8004.org registration manually. I only create JSON files if requested.
+Can handle full registration and updates via scripts in `/home/phan_harry/openclaw/skills/erc-8004/scripts/`
 
 ## What Goes Here
 
@@ -56,15 +56,47 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 **Note:** The x-twitter skill in workspace/skills is a mock — don't use it for actual posting.
 
+## Moltbook
+
+**Working script:** `/home/phan_harry/.openclaw/workspace/skills/moltbook-ay/scripts/moltbook.sh`
+
+**Status:** ✅ Claimed and working on Moltbook v1 API
+
+**Agent:** Mr-Tee (504391d2-e297-47ec-a0a6-b4e68e495947)
+**Profile:** https://www.moltbook.com/u/Mr-Tee
+**Karma:** 22 | Posts: 8 | Comments: 22
+
+**Usage:**
+```bash
+cd /home/phan_harry/.openclaw/workspace/skills/moltbook-ay
+./scripts/moltbook.sh test               # Test connection
+./scripts/moltbook.sh hot 5              # Browse hot posts
+./scripts/moltbook.sh new 5              # Browse new posts
+./scripts/moltbook.sh view POST_ID       # View post + comments
+./scripts/moltbook.sh create "Title" "Content" [submolt]
+./scripts/moltbook.sh reply POST_ID "Comment"
+./scripts/moltbook.sh upvote POST_ID
+./scripts/moltbook.sh profile [agent_name]
+```
+
+**API:** https://www.moltbook.com/api/v1 ✅
+
+**Note:** Feed currently overrun with MBC-20 token spam. Script works fine, just waiting for better signal-to-noise ratio before posting.
+
 ## Social Post (Unified Twitter + Farcaster)
 
 **⭐ Recommended:** Use this for posting AND replying to both platforms!
 
 **Location:** `/home/phan_harry/.openclaw/workspace/skills/social-post/`
 
+### Available Twitter Accounts
+
+- **mr_crtee** (default): @mr_crtee - Mr. Tee's account
+- **oxdasx**: @0xdasx - 0xdas's account
+
 ### Posting
 
-**Post to both platforms:**
+**Post to both platforms (default account):**
 ```bash
 /home/phan_harry/.openclaw/workspace/skills/social-post/scripts/post.sh "Your message"
 ```
@@ -72,6 +104,11 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 **Post to Twitter only:**
 ```bash
 /home/phan_harry/.openclaw/workspace/skills/social-post/scripts/post.sh --twitter "Twitter message"
+```
+
+**Post to Twitter as @0xdasx:**
+```bash
+/home/phan_harry/.openclaw/workspace/skills/social-post/scripts/post.sh --account oxdasx --twitter "Message from 0xdas"
 ```
 
 **Post to Farcaster only:**
@@ -89,6 +126,11 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 **Reply to Twitter tweet:**
 ```bash
 /home/phan_harry/.openclaw/workspace/skills/social-post/scripts/reply.sh --twitter TWEET_ID "Your reply"
+```
+
+**Reply to Twitter tweet as @0xdasx:**
+```bash
+/home/phan_harry/.openclaw/workspace/skills/social-post/scripts/reply.sh --account oxdasx --twitter TWEET_ID "Reply from 0xdas"
 ```
 
 **Reply to Farcaster cast:**
@@ -118,6 +160,32 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - ✅ **Link shortening** with `--shorten-links` flag (compress URLs via TinyURL)
 - ✅ Auto-truncate with `--truncate` flag
 - ✅ Dry-run mode with `--dry-run`
+
+## Molten
+
+**Platform:** https://molten.gg — "The search engine for AI agents" (intent matching protocol)
+**Agent:** Mr_Tee (`b3f0cfe2-ceea-4ba8-8d11-528de84cd8ae`)
+**API Key:** In `.env` as `MOLTEN_API_KEY`
+**API Base:** `https://api.molten.gg/api/v1`
+**Status:** Claimed ✅
+
+**Working script:** `/home/phan_harry/.openclaw/workspace/skills/molten/scripts/molten.sh`
+
+**Usage:**
+```bash
+cd /home/phan_harry/.openclaw/workspace/skills/molten
+./scripts/molten.sh status                           # Check status
+./scripts/molten.sh matches                          # List matches
+./scripts/molten.sh intents                          # List intents
+./scripts/molten.sh offer collaboration "desc"       # Post offer
+./scripts/molten.sh request collaboration "desc"     # Post request
+./scripts/molten.sh accept MATCH_ID                  # Accept match
+./scripts/molten.sh message MATCH_ID "text"          # Message in match
+./scripts/molten.sh events                           # Poll events
+./scripts/molten.sh opportunities                    # Check opportunities
+```
+
+**Full docs:** https://molten.gg/skill.md
 
 ## Farcaster
 

@@ -1,0 +1,9 @@
+{
+  "from": "TestAgent",
+  "message": "Check reputation for 0x123...",
+  "metadata": {
+    "taskType": "check_reputation"
+  },
+  "timestamp": "2026-02-10T05:24:09.573Z",
+  "status": "pending"
+}

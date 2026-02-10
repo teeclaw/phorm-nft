@@ -1,11 +1,13 @@
 ---
 name: basecred-8004-registration
-description: Interactive ERC-8004 agent registration via chat. Guides users through a prefill form, shows draft, confirms, then registers on-chain using agent0-sdk.
+description: Interactive ERC-8004 agent registration via chat. Guides users through a prefill form, shows draft, confirms, then registers on-chain using agent0-sdk. Registration only - updates coming in @basecred/erc8004 SDK.
 ---
 
 # Basecred ERC-8004 Registration
 
 Register AI agents on the [ERC-8004](https://8004.org) on-chain registry through a guided chat experience.
+
+**Note:** This skill handles **registration only**. Agent updates will be supported in the upcoming `@basecred/erc8004` SDK.
 
 ## Registration Flow
 
@@ -259,172 +261,6 @@ Send progress updates during registration:
   View: https://8004.org/agent/8453:42
 ```
 
-## Update Flow
-
-**Trigger keywords:** "update agent", "edit registration", "modify agent", "change agent"
-
-### Step 1: Detect Existing Agent
-
-Before showing the update flow, check if the wallet already owns an agent on the chain:
-
-```bash
-# Using search.mjs
-node scripts/search.mjs --wallet "0x..." --chain 8453
-
-# Or check balanceOf directly
-```
-
-If no agent exists, suggest registration instead:
-```
-⚠️ No agent found for this wallet on Base.
-Would you like to register a new agent instead?
-[✅ Register New] [❌ Cancel]
-```
-
-If multiple agents exist, let user choose which one to update:
-```
-📋 You own 3 agents on Base:
-
-1. Agent #42 — "Mr. Tee" (a2a.teeclaw.xyz)
-2. Agent #103 — "DataBot" (databot.ai)
-3. Agent #255 — "CodeHelper" (codehelper.xyz)
-
-Which agent would you like to update? (type number or agent ID)
-```
-
-### Step 2: Fetch Current On-Chain Data
-
-Load the current agent registration from the chain:
-
-```bash
-node scripts/update.mjs --agent-id "8453:42" --dry-run
-```
-
-This fetches all current data and displays it.
-
-### Step 3: Show Current Data as Draft
-
-Display the current registration with ✅ markers (everything is already filled):
-
-```
-📋 Current Agent Registration (8453:42)
-
-── Basic Info ──
-✅ Name:        Mr. Tee
-✅ Description: AI agent with a CRT monitor...
-✅ Image:       pbs.twimg.com/...
-✅ Version:     1.0.0
-✅ Author:      0xdas
-✅ License:     MIT
-
-── Endpoints ──
-✅ A2A:         a2a.teeclaw.xyz/a2a
-✅ MCP:         (none)
-
-── Skills & Domains ──
-✅ Skills (5):  NLP, Summarization, Q&A, Code Gen, CV
-✅ Domains (5): Blockchain, DeFi, Technology, SE, DevOps
-✅ Custom:      agent_orchestration/agent_coordination
-
-── Config ──
-✅ Chain:       Base (8453)
-✅ Storage:     Fully onchain
-✅ Active:      true
-✅ Trust:       reputation
-✅ x402:        false
-
-Tap a section to edit:
-```
-
-Buttons (attached to same message):
-```
-Row 1: [✏️ Basic Info] [✏️ Endpoints]
-Row 2: [✏️ Skills & Domains] [✏️ Config]
-Row 3: [✅ Save Changes] [❌ Cancel]
-```
-
-### Step 4: Section Editing (Same as Registration)
-
-Use the **exact same editing flow** as registration (see Registration Flow → Step 3).
-
-**Instant feedback on button tap:**
-
-| Button | Instant Feedback |
-|--------|-----------------|
-| ✏️ Basic Info | "📝 Editing Basic Info..." |
-| ✏️ Endpoints | "🔗 Editing Endpoints..." |
-| ✏️ Skills & Domains | "🏷️ Editing Skills & Domains..." |
-| ✏️ Config | "⚙️ Editing Config..." |
-| ✅ Save Changes | "📊 Preparing update diff..." |
-| ❌ Cancel | "❌ Update cancelled." |
-| ↩️ Back to Draft | "📋 Back to draft..." |
-
-After any edit, re-show the full draft with updated values.
-
-### Step 5: Show Diff Before Confirming
-
-Before executing the update, show **what changed** compared to the current on-chain state:
-
-```
-📊 Changes to Agent 8453:42
-
-  Name:        Mr. Tee → TeeClaw
-  Description: (unchanged)
-  A2A:         a2a.teeclaw.xyz/a2a → api.teeclaw.xyz/agent
-  Skills:      +web_search, +image_generation
-  Trust:       reputation → reputation, crypto-economic
-
-Ready to submit these changes on-chain?
-[✅ Confirm Update] [✏️ Edit More] [❌ Cancel]
-```
-
-Only show fields that **changed**. If nothing changed, show:
-```
-⚠️ No changes detected. Nothing to update.
-[✏️ Edit] [❌ Cancel]
-```
-
-### Step 6: Execute Update
-
-After explicit confirmation:
-
-1. Write the updated JSON to a temp file (with only changed fields + agent ID)
-2. Run the update script:
-
-```bash
-source /path/to/.env
-node scripts/update.mjs --agent-id "8453:42" --json /tmp/update.json --yes
-```
-
-The script:
-- Loads the current agent from chain
-- Applies the updates
-- Re-registers with new data (ERC-8004 allows overwriting)
-
-### Step 7: Progress Updates
-
-Send progress updates during the update transaction:
-
-```
-⏳ Step 1/2: Loading agent 8453:42 from Base...
-✅ Agent loaded
-
-⏳ Step 2/2: Submitting updated registration...
-✅ Update transaction confirmed!
-```
-
-### Step 8: Report Result
-
-```
-✅ Agent Updated on Base!
-
-  Agent ID:    8453:42
-  Changes:     Name, A2A, Skills, Trust
-  TX:          0xdef...789
-
-  View: https://8004.org/agent/8453:42
-```
-
 ## Error Handling
 
 ### Missing Required Fields
@@ -456,13 +292,12 @@ This is non-blocking — the agent is registered, just wallet isn't linked on-ch
 The script checks if the wallet already owns agent(s) on the target chain **before** submitting. If detected:
 ```
 ⚠️ Warning: This wallet already owns 1 agent(s) on Base.
-   Registering again will create a duplicate.
-   Use update.mjs to modify an existing agent instead.
+   Registering again will create a duplicate agent.
 ```
-In chat flow, warn the user and suggest updating instead of re-registering. The check is non-blocking if `--yes` is passed.
+In chat flow, warn the user. The check is non-blocking if `--yes` is passed.
 
 ### Already Registered
-If the agent already has an agentId, offer to **update** instead of register.
+If the agent already has an agentId, notify the user that agent updates are coming in the `@basecred/erc8004` SDK.
 
 ## Technical Notes
 
@@ -572,12 +407,11 @@ All chains use the same deterministic contract addresses.
 # Search agents
 node scripts/search.mjs --name "AgentName" --chain 8453
 
-# Update agent
-node scripts/update.mjs --agent-id "8453:42" --name "NewName" --yes
-
 # Give feedback
 node scripts/feedback.mjs --agent-id "8453:42" --value 5 --tag1 "reliable" --yes
 ```
+
+**Note:** Agent updates will be supported in the upcoming `@basecred/erc8004` SDK.
 
 ## Setup
 

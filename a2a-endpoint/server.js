@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const { exec } = require('child_process');
 const fs = require('fs').promises;
 const path = require('path');
+const { verifyX402Payment, logPayment } = require('./x402-middleware');
 
 const app = express();
 const PORT = process.env.A2A_PORT || 3100;
@@ -17,6 +18,7 @@ const OPENCLAW_BIN = '/home/phan_harry/openclaw/bin/openclaw';
 
 // Middleware
 app.use(bodyParser.json());
+app.use(verifyX402Payment); // x402 payment verification
 
 // Static avatar
 app.get('/avatar.jpg', (req, res) => {
@@ -158,6 +160,21 @@ const agentCard = {
     }
   ],
   x402Support: true,
+  x402: {
+    enabled: true,
+    wallet: '0x134820820d4f631ff949625189950bA7B3C57e41',
+    network: 'base',
+    chainId: 8453,
+    currency: 'USDC',
+    pricing: {
+      check_reputation: { amount: 0, currency: 'USDC', description: 'Check zkBasecred reputation (free)' },
+      query_credentials: { amount: 0.10, currency: 'USDC', description: 'Query zkBasecred credentials' },
+      issue_credential: { amount: 0.50, currency: 'USDC', description: 'Issue new credential' },
+      verify_credential: { amount: 0.05, currency: 'USDC', description: 'Verify credential proof' },
+      default: { amount: 0.01, currency: 'USDC', description: 'General A2A message' }
+    },
+    methods: ['onchain-transfer', 'payment-receipt']
+  },
   active: true,
   registrations: [
     {
@@ -204,13 +221,17 @@ app.post('/a2a', async (req, res) => {
 
     const messageId = generateMessageId();
 
+    // Log payment if present
+    await logPayment(req);
+
     // Respond immediately (don't make caller wait)
     res.json({
       status: 'received',
       timestamp: new Date().toISOString(),
       messageId,
       from: 'Mr. Tee',
-      note: 'Processing your message...'
+      note: 'Processing your message...',
+      ...(req.x402?.verified && { payment: { verified: true, amount: req.x402.amount, currency: req.x402.currency } })
     });
 
     // Process async (auto-respond + notify user via Telegram)
