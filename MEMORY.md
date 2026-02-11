@@ -22,3 +22,4 @@
 
 ## Skills
 - **openclaw-basecred-sdk:** Locked (read-only until further notice)
+- **social-post:** Locked (read-only, do not modify - v1.5.1 stable)
