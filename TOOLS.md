@@ -152,7 +152,28 @@ cd /home/phan_harry/.openclaw/workspace/skills/moltbook-ay
 - Twitter: Tweet ID from URL `twitter.com/user/status/[TWEET_ID]`
 - Farcaster: Cast hash from URL `farcaster.xyz/~/conversations/[HASH]`
 
+### 🔒 Safety Feature (Autonomous Posting Protection)
+
+**Non-interactive mode requires `--yes` flag:**
+```bash
+# ❌ Blocked (no --yes flag in non-interactive mode)
+echo "" | ./scripts/post.sh --twitter "text"
+# Error: Non-interactive mode requires explicit --yes flag for safety
+
+# ✅ Allowed (explicit confirmation)
+./scripts/post.sh --yes --twitter "text"
+```
+
+**Interactive mode (TTY):** Always prompts for confirmation unless `--yes` is used.
+
+**Why this matters:** Prevents autonomous posting by the AI agent. All posts/replies require either:
+- User pressing 'y' at the interactive prompt, OR
+- Explicit `--yes` flag in the command
+
+This blocks accidental or unauthorized posts while maintaining full functionality for intentional use.
+
 **Features:**
+- ✅ **Safety:** Requires `--yes` flag for non-interactive posting (blocks autonomous AI posting)
 - ✅ Character/byte limit validation (Twitter: 252 chars, Farcaster: 288 bytes - 10% buffer)
 - ✅ Image upload (Twitter: direct API, Farcaster: catbox.moe)
 - ✅ **Reply support** for both platforms
