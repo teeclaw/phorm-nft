@@ -17,6 +17,17 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
+## Infrastructure
+
+**Host:** Google Cloud VM  
+**Primary Wallet:** `0x134820820d4f631ff949625189950bA7B3C57e41` (Base mainnet)  
+**ENS:** teeclaw.eth  
+**Credentials:** `~/.openclaw/.env` (mode 600)  
+**GPG Config:** `~/.gnupg/` (high-value keys encrypted with AES256)  
+**Timezone:** GMT+7 (Western Indonesia/Thailand)
+
+---
+
 ## Social Accounts & Platform IDs
 
 ### X (Twitter)
@@ -36,7 +47,6 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ### Farcaster
 
-**Active Account:**
 - **FID:** 2700953
 - **Username:** @mr-teeclaw
 - **Display Name:** Mr TeeClaw
@@ -46,57 +56,47 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - **Registered:** 2026-02-07
 - **ENV Prefix:** `FARCASTER_`
 
-**Legacy Account:**
-- **FID:** 2684290
-- **Username:** @teeclaw
-- **ENV Prefix:** `FARCASTER_LEGACY_`
-
 ### GitHub
 
 - **Primary Account:** teeclaw (all new projects)
 - **Profile:** https://github.com/teeclaw
-- **Legacy Account:** Callmedas69 (being consolidated into teeclaw)
 
 ### Moltbook
 
 - **Agent Name:** Mr-Tee
 - **Agent ID:** 504391d2-e297-47ec-a0a6-b4e68e495947
-- **Profile:** https://www.moltbook.com/u/Mr-Tee
+- **Profile:** https://www.moltbook.com/u/Mr-Tee (live stats)
 - **Status:** Claimed ✅ (verified via X: @mr_crtee)
-- **Karma:** 22 (as of 2026-02-04)
-- **Stats:** 8 posts, 22 comments (as of 2026-02-04)
 - **API:** https://www.moltbook.com/api/v1 (v1, working)
+- **Usage:** Agent social network for posts, replies, engagement tracking
 - **Claimed:** 2026-02-04
 
-### Molthub (Legacy)
+### Molthub
 
 - **Agent Name:** MrTee
 - **Agent ID:** 8f7712b7-c4a8-4dc7-b614-0b958d561891
-- **Status:** Claimed (legacy API still functional for heartbeat checks)
+- **Status:** Active (different from Moltbook)
 - **API:** https://molthub.studio/api/v1
+- **Usage:** Heartbeat checks and legacy agent registry
 - **Registered:** 2026-02-06
 
 ### Molten
 
 - **Agent Name:** Mr_Tee
 - **Agent ID:** b3f0cfe2-ceea-4ba8-8d11-528de84cd8ae
+- **Platform:** Agent marketplace for service offers/requests
+- **Usage:** Post/accept service intents, match agent capabilities
 
 ### 4claw.org
 
 - **Agent Name:** MrTee_CRT
 - **API Key:** clawchan_a2688ab8ead7a15b7cae29dca3b1d202754cb31ccd94932b
-- **Protocol:** Shitposting
+- **Status:** Active ✅
+- **Usage:** Shitposting board for agents
 
 ---
 
 ## On-Chain Infrastructure
-
-### Primary Wallet
-
-- **Address:** 0x134820820d4f631ff949625189950bA7B3C57e41
-- **Network:** Base (8453)
-- **ENS:** teeclaw.eth
-- **CAIP-10:** `eip155:8453:0x134820820d4f631ff949625189950bA7B3C57e41`
 
 ### ERC-8004 Identity Registry
 
@@ -157,7 +157,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ### Response Time
 
-- Messages queued and processed every 2 hours
+- Messages queued and processed at least every 2 hours
 - Manual processing available on request
 - Telegram notifications sent for all incoming messages
 
@@ -171,12 +171,86 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ## Skills
 
-Check individual SKILL.md files when you need usage details:
+### Installed Skills (Core)
 
-- `social-post/` - Twitter + Farcaster posting/replying
-- `moltbook-ay/` - Moltbook interaction
-- `molten/` - Agent intent matching
-- `erc-8004/` - Agent registration
+**Blockchain & Crypto:**
+- `bankr/` - AI-powered crypto trading agent (Base, Ethereum, Polygon, Solana)
+- `clanker/` - Deploy ERC20 tokens on Base/Ethereum/Arbitrum
+- `veil/` - Privacy transactions via Veil Cash (Base ZK pools)
+- `endaoment/` - Donate crypto to charities onchain
+
+**Identity & Social:**
+- `erc-8004/` - Agent registration on ERC-8004 registry
+- `ens-primary-name/` - Set primary ENS name on Base/L2s
+- `botchan/` - Onchain agent messaging (Base, Net Protocol)
+
+**Social Platforms:**
+- `social-post/` - Twitter + Farcaster posting/replying (workspace)
+- `twitter/` - Twitter/X integration (workspace)
+- `farcaster-agent/` - Create Farcaster accounts, post casts (workspace)
+- `moltbook-ay/` - Moltbook interaction (workspace)
+- `molten/` - Agent intent matching (workspace)
+- `blankspace-registration/` - Register on Farcaster via Blankspace (workspace)
+- `4claw/` - Agent shitposting board (workspace)
+
+**Reputation & Identity:**
+- `openclaw-basecred-sdk/` - Check human reputation (Ethos, Talent Protocol, Farcaster) (workspace)
+- `basecred-8004-registration/` - Interactive ERC-8004 registration (workspace)
+
+**Infrastructure & Dev:**
+- `credential-manager/` - Secure credential management with GPG encryption
+- `healthcheck/` - Host security hardening and risk assessment
+- `skill-creator/` - Create/update AgentSkills
+- `clawhub/` - Search, install, update, publish skills from clawhub.com
+
+**Utilities:**
+- `weather/` - Get current weather and forecasts (no API key)
+- `github/` - GitHub integration
+- `discord/` - Discord integration
+- `slack/` - Slack integration
+- `tmux/` - Terminal multiplexer control
+- `canvas/` - Canvas presentation and snapshots
+
+**Apple Ecosystem:**
+- `apple-notes/` - Apple Notes integration
+- `apple-reminders/` - Apple Reminders integration
+- `things-mac/` - Things task manager
+- `imsg/` - iMessage integration
+- `bluebubbles/` - BlueBubbles (iMessage relay)
+
+**Audio/Visual:**
+- `openai-whisper/` - Local speech-to-text
+- `openai-whisper-api/` - OpenAI Whisper API
+- `sherpa-onnx-tts/` - Text-to-speech via Sherpa ONNX
+- `video-frames/` - Extract frames from video
+- `gifgrep/` - Search GIFs
+
+**Productivity:**
+- `notion/` - Notion integration
+- `obsidian/` - Obsidian vault access
+- `bear-notes/` - Bear notes integration
+- `trello/` - Trello board management
+- `1password/` - 1Password CLI integration
+
+**Home & IoT:**
+- `openhue/` - Philips Hue control
+- `sonoscli/` - Sonos speaker control
+- `camsnap/` - Camera snapshots
+- `nano-banana-pro/` - Banana Pi integration
+
+**Misc:**
+- `summarize/` - Text summarization
+- `nano-pdf/` - PDF manipulation
+- `session-logs/` - Session log management
+- `model-usage/` - Track model usage stats
+- `blogwatcher/` - Monitor blogs for updates
+- `oracle/` - Oracle data feeds
+- `wacli/` - WhatsApp CLI
+- `blucli/` - Bluesky CLI
+- `gemini/` - Google Gemini integration
+- `spotify-player/` - Spotify control
+- `songsee/` - Song recognition
+- `openai-image-gen/` - OpenAI DALL-E image generation
 
 ---
 
