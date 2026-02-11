@@ -1,9 +1,0 @@
-{
-  "from": "TestAgent",
-  "message": "Query credentials for address 0x123...",
-  "metadata": {
-    "taskType": "query_credentials"
-  },
-  "timestamp": "2026-02-10T05:24:09.639Z",
-  "status": "pending"
-}

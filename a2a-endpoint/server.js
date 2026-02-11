@@ -34,6 +34,15 @@ app.get('/spec.md', (req, res) => {
   res.sendFile(path.join(__dirname, 'MR-TEE-AGENT-SPEC.md'));
 });
 
+// Reputation endpoint specification
+app.get('/reputation-spec', (req, res) => {
+  res.sendFile(path.join(__dirname, 'REPUTATION-ENDPOINT-SPEC.md'));
+});
+
+app.get('/reputation-spec.md', (req, res) => {
+  res.sendFile(path.join(__dirname, 'REPUTATION-ENDPOINT-SPEC.md'));
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({
@@ -224,6 +233,24 @@ app.post('/a2a', async (req, res) => {
     // Log payment if present
     await logPayment(req);
 
+    // === HANDLE check_reputation SYNCHRONOUSLY (free tier) ===
+    if (metadata?.taskType === 'check_reputation') {
+      const { processA2AMessage } = require('./a2a-processor');
+      const result = await processA2AMessage(from, message, metadata);
+      
+      return res.json({
+        status: result.status === 'success' ? 'success' : 'error',
+        timestamp: new Date().toISOString(),
+        messageId,
+        from: 'Mr. Tee',
+        taskType: 'check_reputation',
+        data: result.status === 'success' ? result.result.summary : undefined,
+        error: result.error || undefined,
+        ...(req.x402?.verified && { payment: { verified: true, amount: req.x402.amount, currency: req.x402.currency } })
+      });
+    }
+
+    // === ASYNC PROCESSING FOR OTHER TASKS ===
     // Respond immediately (don't make caller wait)
     res.json({
       status: 'received',

@@ -24,6 +24,37 @@ async function processA2AMessage(from, message, metadata = {}) {
   const path = require('path');
   
   try {
+    // === HANDLE check_reputation NATIVELY ===
+    if (metadata.taskType === 'check_reputation') {
+      console.log(`📊 Processing reputation check from ${from}`);
+      
+      // Extract address from message (various formats supported)
+      const address = extractAddress(message);
+      
+      if (!address) {
+        return {
+          status: 'error',
+          error: 'No valid Ethereum address found in message',
+          message: 'Please include a valid Ethereum address (0x...)',
+          timestamp
+        };
+      }
+      
+      // Call basecred handler
+      const result = await callBasecredHandler(address);
+      
+      console.log(`✅ Reputation check complete for ${address}`);
+      
+      return {
+        status: 'success',
+        taskType: 'check_reputation',
+        address,
+        result,
+        timestamp
+      };
+    }
+    
+    // === QUEUE OTHER TASKS ===
     console.log(`📨 Queuing A2A message from ${from}`);
     
     // Write to queue for Mr. Tee to process during heartbeat
@@ -48,7 +79,7 @@ async function processA2AMessage(from, message, metadata = {}) {
     };
     
   } catch (error) {
-    console.error(`❌ A2A queueing error:`, error);
+    console.error(`❌ A2A processing error:`, error);
     
     return {
       status: 'error',
@@ -57,6 +88,41 @@ async function processA2AMessage(from, message, metadata = {}) {
     };
   }
 }
+
+/**
+ * Extract Ethereum address from message
+ * @param {string} message - Message text
+ * @returns {string|null} Ethereum address or null
+ */
+function extractAddress(message) {
+  const match = message.match(/0x[a-fA-F0-9]{40}/);
+  return match ? match[0] : null;
+}
+
+/**
+ * Call basecred-handler.mjs to check reputation
+ * @param {string} address - Ethereum address
+ * @returns {Promise<object>} Reputation data
+ */
+async function callBasecredHandler(address) {
+  const handlerPath = path.join(WORKSPACE_DIR, 'basecred-handler.mjs');
+  const { stdout } = await execAsync(`node ${handlerPath} ${address}`);
+  
+  // Parse JSON output
+  const lines = stdout.trim().split('\n');
+  const fullProfileIndex = lines.indexOf('=== Full Profile ===');
+  const summaryIndex = lines.indexOf('=== Summary ===');
+  
+  const fullProfileJson = lines.slice(fullProfileIndex + 1, summaryIndex).join('\n');
+  const summaryJson = lines.slice(summaryIndex + 1).join('\n');
+  
+  return {
+    full: JSON.parse(fullProfileJson),
+    summary: JSON.parse(summaryJson)
+  };
+}
+
+const path = require('path');
 
 /**
  * Notify user via Telegram about A2A interaction

@@ -1,0 +1,108 @@
+{
+  "address": "0x168d8b4f50bb3aa67d05a6937b643004257118ed",
+  "humanReadable": "═══════════════════════════════════════════\n  REPUTATION REPORT\n  0x168d8b4f50bb3aa67d05a6937b643004257118ed\n═══════════════════════════════════════════\n\n🛡️  ETHOS NETWORK\n   Score:        1284 (Neutral)\n   Reviews:      +7 / ~0 / -0\n   Vouches:      0 received\n   Flags:        ✅ No negative reviews\n   First seen:   2025-10-05\n   Active:       128 days\n\n🏗️  TALENT PROTOCOL\n   Builder:      161 (Advanced) — Rank #641\n   Creator:      66 (Growing)\n   Verified:     ✅ Builder | ✅ Creator\n   Last updated: 2026-02-05\n\n💜  FARCASTER\n   Quality:      0.98 ✅ Passes threshold\n\n⏱️  RECENCY: recent (30-day window)\n\n───────────────────────────────────────────\n  Powered by Basecred SDK | x402 Protocol\n  $5.00 USDC on Base (eip155:8453)\n───────────────────────────────────────────",
+  "profile": {
+    "identity": {
+      "address": "0x168d8b4f50bb3aa67d05a6937b643004257118ed"
+    },
+    "availability": {
+      "ethos": "available",
+      "talent": "available",
+      "farcaster": "available"
+    },
+    "ethos": {
+      "data": {
+        "score": 1284,
+        "vouchesReceived": 0,
+        "reviews": {
+          "positive": 7,
+          "neutral": 0,
+          "negative": 0
+        },
+        "credibilityLevel": {
+          "value": 1284,
+          "level": "Neutral",
+          "levelSource": "sdk",
+          "levelPolicy": "ethos@v1"
+        }
+      },
+      "signals": {
+        "hasNegativeReviews": false,
+        "hasVouches": false
+      },
+      "meta": {
+        "firstSeenAt": "2025-10-05T09:58:11.000Z",
+        "lastUpdatedAt": "2025-10-05T09:58:12.000Z",
+        "activeSinceDays": 128,
+        "lastUpdatedDaysAgo": 128
+      }
+    },
+    "talent": {
+      "data": {
+        "builderScore": 161,
+        "builderRankPosition": 641,
+        "creatorScore": 66,
+        "creatorRankPosition": null,
+        "builderLevel": {
+          "value": 161,
+          "level": "Advanced",
+          "levelSource": "sdk",
+          "levelPolicy": "builder@v1"
+        },
+        "creatorLevel": {
+          "value": 66,
+          "level": "Growing",
+          "levelSource": "sdk",
+          "levelPolicy": "creator@v1"
+        }
+      },
+      "signals": {
+        "verifiedBuilder": true,
+        "verifiedCreator": true
+      },
+      "meta": {
+        "lastUpdatedAt": "2026-02-05T03:24:55Z",
+        "lastUpdatedDaysAgo": 5
+      }
+    },
+    "farcaster": {
+      "data": {
+        "userScore": 0.98
+      },
+      "signals": {
+        "passesQualityThreshold": true
+      },
+      "meta": {
+        "source": "neynar",
+        "scope": "farcaster",
+        "lastUpdatedAt": "2026-02-10T12:44:00.874Z",
+        "lastUpdatedDaysAgo": 0,
+        "updateCadence": "weekly",
+        "timeMeaning": "system_update"
+      }
+    },
+    "recency": {
+      "bucket": "recent",
+      "windowDays": 30,
+      "lastUpdatedDaysAgo": 0,
+      "derivedFrom": [
+        "ethos",
+        "talent",
+        "farcaster"
+      ],
+      "computedAt": "2026-02-10T12:44:01.346Z",
+      "policy": "recency@v1"
+    }
+  },
+  "sources": {
+    "ethos": "available",
+    "talent": "available",
+    "farcaster": "available"
+  },
+  "_payment": {
+    "protocol": "x402",
+    "amount": "$5.00",
+    "currency": "USDC",
+    "network": "Base (eip155:8453)"
+  }
+}

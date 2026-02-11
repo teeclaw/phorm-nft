@@ -9,16 +9,52 @@ const fs = require('fs');
 const path = require('path');
 
 const BLANKSPACE_API = 'https://sljlmfmrtiqyutlxcnbo.supabase.co/functions/v1/register-agent';
-const CREDS_PATH = path.join(process.env.HOME, '.openclaw/farcaster-credentials.json');
+const ENV_PATH = path.join(process.env.HOME, '.openclaw/.env');
+const SECRETS_PATH = path.join(process.env.HOME, '.openclaw/.env.secrets.gpg');
+
+function loadEnv() {
+  const data = {};
+  const content = fs.readFileSync(ENV_PATH, 'utf8');
+  for (const line of content.split('\n')) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+      const [key, ...rest] = trimmed.split('=');
+      data[key.trim()] = rest.join('=').trim();
+    }
+  }
+  return data;
+}
+
+function loadCred(env, key) {
+  let value = env[key] || '';
+  if (value.startsWith('GPG:')) {
+    const { execSync } = require('child_process');
+    const passphrase = process.env.OPENCLAW_GPG_PASSPHRASE || '';
+    try {
+      let cmd;
+      if (passphrase) {
+        cmd = `echo "${passphrase}" | gpg -d --batch --quiet --passphrase-fd 0 "${SECRETS_PATH}"`;
+      } else {
+        cmd = `gpg -d --batch --quiet "${SECRETS_PATH}"`;
+      }
+      const secrets = JSON.parse(execSync(cmd, { encoding: 'utf8' }));
+      return secrets[value.slice(4)] || '';
+    } catch (e) {
+      console.error(`Failed to decrypt ${key}: ${e.message}`);
+      return '';
+    }
+  }
+  return value;
+}
 
 async function main() {
   console.log('📺 Phase 2: Authorize Blankspace Signer\n');
 
-  // Load existing credentials
-  const creds = JSON.parse(fs.readFileSync(CREDS_PATH, 'utf8'));
-  const custodyPrivateKey = creds.custodyPrivateKey;
-  const custodyAddress = creds.custodyAddress;
-  const fid = parseInt(creds.fid);
+  // Load credentials from .env (with GPG decryption)
+  const env = loadEnv();
+  const custodyPrivateKey = loadCred(env, 'FARCASTER_LEGACY_CUSTODY_PRIVATE_KEY');
+  const custodyAddress = env['FARCASTER_LEGACY_CUSTODY_ADDRESS'] || '';
+  const fid = parseInt(env['FARCASTER_LEGACY_FID'] || '0');
 
   console.log(`FID: ${fid}`);
   console.log(`Custody Address: ${custodyAddress}\n`);
@@ -55,12 +91,10 @@ async function main() {
   console.log(`✅ Identity Public Key: ${identityPublicKey}`);
   console.log(`✅ Key Gateway: ${keyGatewayAddress}\n`);
 
-  // Save signer keys
-  creds.signerPrivateKey = signerPrivateKey;
-  creds.signerPublicKey = signerPublicKey;
-  creds.identityPublicKey = identityPublicKey;
-  fs.writeFileSync(CREDS_PATH, JSON.stringify(creds, null, 2));
-  console.log('✅ Saved signer keys to credentials\n');
+  // Log signer keys (add to .env manually if needed)
+  console.log('✅ Signer keys generated (add to .env if re-running):');
+  console.log(`   FARCASTER_LEGACY_SIGNER_PRIVATE_KEY=${signerPrivateKey}`);
+  console.log(`   FARCASTER_LEGACY_SIGNER_PUBLIC_KEY=${signerPublicKey}\n`);
 
   // Step 3: Submit on-chain transaction
   console.log('Step 3: Submitting KeyGateway.add() transaction on Optimism...');

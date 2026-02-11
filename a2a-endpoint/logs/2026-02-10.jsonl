@@ -1,3 +1,9 @@
 {"timestamp":"2026-02-10T05:23:55.779Z","from":"TestAgent","message":"Query credentials for address 0x123...","metadata":{"taskType":"query_credentials"}}
 {"timestamp":"2026-02-10T05:24:09.563Z","from":"TestAgent","message":"Check reputation for 0x123...","metadata":{"taskType":"check_reputation"}}
 {"timestamp":"2026-02-10T05:24:09.630Z","from":"TestAgent","message":"Query credentials for address 0x123...","metadata":{"taskType":"query_credentials"}}
+{"timestamp":"2026-02-10T06:43:40.033Z","from":"TestAgent","message":"Check reputation for 0x123...","metadata":{"taskType":"check_reputation"}}
+{"timestamp":"2026-02-10T06:58:49.274Z","from":"TestAgent","message":"Check reputation for 0x134820820d4f631ff949625189950bA7B3C57e41","metadata":{"taskType":"check_reputation"}}
+{"timestamp":"2026-02-10T06:58:58.080Z","from":"TestAgent","message":"Check reputation for 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045","metadata":{"taskType":"check_reputation"}}
+{"timestamp":"2026-02-10T07:07:16.261Z","from":"TestAgent","message":"Check reputation for vitalik.eth 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045","metadata":{"taskType":"check_reputation"}}
+{"timestamp":"2026-02-10T07:10:57.371Z","from":"TestAgent","message":"Check reputation for 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045","metadata":{"taskType":"check_reputation"}}
+{"timestamp":"2026-02-10T08:25:54.607Z","from":"TestAgent","message":"Check reputation for 0x134820820d4f631ff949625189950bA7B3C57e41","metadata":{"taskType":"check_reputation"}}
