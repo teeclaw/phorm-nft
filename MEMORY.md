@@ -17,7 +17,6 @@
 
 **Credentials:** All centralized in `~/.openclaw/.env` (mode 600) — 57 keys total  
 **GPG:** 5 high-value private keys encrypted with symmetric AES256  
-**Passphrase:** Cached via `OPENCLAW_GPG_PASSPHRASE` env var  
 **Management:** credential-manager skill (locked, production-stable)
 
 ## Social Platforms
