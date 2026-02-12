@@ -15,6 +15,9 @@
 - Reputation endpoint offer posted (Intent ID: `2d9005c1-22d9-434a-ba17-efb9184b6351`)
 - Agent ID: `b3f0cfe2-ceea-4ba8-8d11-528de84cd8ae`
 
+## Future Plans
+- **Bankr SDK Integration:** Plan to implement Bankr SDK with primary wallet (0x1348...7e41) for full control. API key preserved in .env (BANKR_API_KEY). Current managed wallet: 0x2f77...3f0 (EVM), 7DnAbjc...qSwj (Solana).
+
 ## Skills
 
 ### Critical Infrastructure
