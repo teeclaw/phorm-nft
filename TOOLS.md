@@ -174,7 +174,6 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ### Installed Skills (Core)
 
 **Blockchain & Crypto:**
-- `bankr/` - AI-powered crypto trading agent (Base, Ethereum, Polygon, Solana)
 - `clanker/` - Deploy ERC20 tokens on Base/Ethereum/Arbitrum
 - `veil/` - Privacy transactions via Veil Cash (Base ZK pools)
 - `endaoment/` - Donate crypto to charities onchain
