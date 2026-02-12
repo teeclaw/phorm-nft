@@ -142,6 +142,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - **Agent Info:** `GET https://a2a.teeclaw.xyz/agent`
 - **Health Check:** `GET https://a2a.teeclaw.xyz/health`
 - **Avatar:** `GET https://a2a.teeclaw.xyz/avatar.jpg`
+- **Reputation (Simple):** `POST https://a2a.teeclaw.xyz/reputation/simple-report` (Free - Ethos, Farcaster, Talent Protocol)
+- **Reputation (Full):** `POST https://a2a.teeclaw.xyz/reputation/full-report` ($2 USDC - Comprehensive + narrative)
 
 ### Message Format
 
