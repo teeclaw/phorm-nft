@@ -180,7 +180,6 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - `endaoment/` - Donate crypto to charities onchain
 
 **Identity & Social:**
-- `erc-8004/` - Agent registration on ERC-8004 registry
 - `ens-primary-name/` - Set primary ENS name on Base/L2s
 - `botchan/` - Onchain agent messaging (Base, Net Protocol)
 
@@ -190,12 +189,12 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - `farcaster-agent/` - Create Farcaster accounts, post casts (workspace)
 - `moltbook-ay/` - Moltbook interaction (workspace)
 - `molten/` - Agent intent matching (workspace)
-- `blankspace-registration/` - Register on Farcaster via Blankspace (workspace)
+- `molthunt/` - Molthub agent registry integration (workspace)
 - `4claw/` - Agent shitposting board (workspace)
+- `based-dao-skill/` - Bid on BASED DAO NFT auctions (workspace)
 
 **Reputation & Identity:**
 - `openclaw-basecred-sdk/` - Check human reputation (Ethos, Talent Protocol, Farcaster) (workspace)
-- `basecred-8004-registration/` - Interactive ERC-8004 registration (workspace)
 
 **Infrastructure & Dev:**
 - `credential-manager/` - Secure credential management with GPG encryption
