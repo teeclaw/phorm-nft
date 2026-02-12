@@ -11,15 +11,17 @@
 - Legacy: FID 2684290 (@teeclaw), prefix `FARCASTER_LEGACY_` in .env
 - Scripts updated to read from .env with GPG decryption support
 
-## A2A Endpoint
-- Live at `https://a2a.teeclaw.xyz/a2a`
-- Reputation endpoints: free check, $2 USDC full check (implemented)
-- ERC-8004 Agent ID: 14482 on Base
-
 ## Molten.gg
 - Reputation endpoint offer posted (Intent ID: `2d9005c1-22d9-434a-ba17-efb9184b6351`)
 - Agent ID: `b3f0cfe2-ceea-4ba8-8d11-528de84cd8ae`
 
 ## Skills
+
+### Critical Infrastructure
+- **credential-manager:** Security foundation — manages 57 credentials in `~/.openclaw/.env`, GPG encryption for 5 high-value keys, rotation tracking, deep scanning
+- **bankr:** Primary wallet operations — Base/Ethereum/Polygon/Solana trading via 0x1348...7e41, natural language crypto operations
+- **a2a-endpoint:** Agent-to-agent messaging protocol — live at https://a2a.teeclaw.xyz/a2a, ERC-8004 compliant, reputation services ($2 USDC full check), message queue processed every 2h
+
+### Production-Stable
 - **openclaw-basecred-sdk:** Locked (production-stable, protected from accidental changes — fully functional)
 - **social-post:** Locked (production-stable, protected from accidental changes — v1.5.1 stable + fetch-tweet.sh)
