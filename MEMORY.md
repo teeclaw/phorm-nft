@@ -18,7 +18,7 @@
 ## Skills
 
 ### Critical Infrastructure
-- **credential-manager:** Security foundation — manages 57 credentials in `~/.openclaw/.env`, GPG encryption for 5 high-value keys, rotation tracking, deep scanning
+- **credential-manager:** Locked (production-stable, protected from accidental changes — Security foundation, manages 57 credentials in `~/.openclaw/.env`, GPG encryption for 5 high-value keys, rotation tracking, deep scanning)
 - **bankr:** Primary wallet operations — Base/Ethereum/Polygon/Solana trading via 0x1348...7e41, natural language crypto operations
 - **a2a-endpoint:** Agent-to-agent messaging protocol — live at https://a2a.teeclaw.xyz/a2a, ERC-8004 compliant, message queue processed every 2h
   - **Reputation endpoints:**
