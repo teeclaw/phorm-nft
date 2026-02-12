@@ -21,5 +21,5 @@
 - Agent ID: `b3f0cfe2-ceea-4ba8-8d11-528de84cd8ae`
 
 ## Skills
-- **openclaw-basecred-sdk:** Locked (read-only until further notice)
-- **social-post:** Locked (read-only, do not modify - v1.5.1 stable)
+- **openclaw-basecred-sdk:** Locked (production-stable, protected from accidental changes — fully functional)
+- **social-post:** Locked (read-only, do not modify - v1.5.1 stable + fetch-tweet.sh)
