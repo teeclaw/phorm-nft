@@ -22,4 +22,4 @@
 
 ## Skills
 - **openclaw-basecred-sdk:** Locked (production-stable, protected from accidental changes — fully functional)
-- **social-post:** Locked (read-only, do not modify - v1.5.1 stable + fetch-tweet.sh)
+- **social-post:** Locked (production-stable, protected from accidental changes — v1.5.1 stable + fetch-tweet.sh)
