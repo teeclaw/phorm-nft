@@ -62,16 +62,18 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
   - Design philosophy: Reports data without judgment — no rankings, no trust verdicts
   - Integrated into A2A endpoint as reputation service (free simple / $2 USDC full report)
 - **social-post:** Twitter + Farcaster posting — v1.5.1 + fetch-tweet.sh
-- **openclaw-8004:** Full ERC-8004 agent management with 3-layer Telegram menu — viem + GPG encryption
-  - **v2.0.0 (2026-02-13):** Multi-layer menu system + write operations
-  - **Menu structure:** Main (4 options) → Submenu (View/Manage/Reputation) → Action (max 3 layers)
+- **openclaw-8004:** Full ERC-8004 agent management with improved UX — viem + GPG encryption
+  - **v2.2.0 (2026-02-13):** Major UX overhaul with breadcrumbs + quick actions
+  - **Menu structure:** Dynamic main menu → Manage/Reputation → Guides (2-3 clicks max)
+  - **Main menu features:** Live agent info (ID, owner, status), quick action buttons (1-click view)
+  - **Breadcrumbs:** Every screen shows path (📺 Main > Manage > Update)
+  - **Guides:** Step-by-step instructions instead of CLI commands
   - **View:** Agent info, profile, wallet, status (read-only via ERC-721)
-  - **Manage:** Register agent, update metadata, transfer ownership (write via GPG-encrypted key)
-  - **Reputation:** Give feedback (1-5 rating + comment), search feedback, view history
+  - **Manage:** Register, update (HTTP/Data URI with pros/cons), transfer (danger warnings)
+  - **Reputation:** Give feedback (rating scale + permanence warning), search, history
   - **Security:** GPG-encrypted private key from `~/.openclaw/.env.secrets.gpg`, in-memory decryption only
   - **Contracts:** Identity Registry (0x8004A169...), Reputation Registry (0x8004BAa1...)
-  - **Scripts:** 11 total (4 view, 3 manage, 3 reputation, 1 menu config)
-  - **Trigger:** Say "8004" or "erc-8004" → interactive 3-layer menu
+  - **Trigger:** Say "8004" or "erc-8004" → interactive menu with live data
   - **Repository:** Local workspace skill (production-stable, locked)
 - **bankr:** Agent API integration — auto-executes trades, queries, token launches. Tested 2026-02-13. Multi-chain (Base/ETH/Polygon/Unichain/Solana)
 - **based-dao-skill:** BASED DAO NFT auction bidding — check auctions, place bids, vote on proposals. Production-tested 2026-02-13 (auction #916, 0.00132 ETH bid)
