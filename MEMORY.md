@@ -62,18 +62,22 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
   - Design philosophy: Reports data without judgment — no rankings, no trust verdicts
   - Integrated into A2A endpoint as reputation service (free simple / $2 USDC full report)
 - **social-post:** Twitter + Farcaster posting — v1.5.1 + fetch-tweet.sh
-- **openclaw-8004:** Full ERC-8004 agent management with improved UX — viem + GPG encryption
-  - **v2.2.0 (2026-02-13):** Major UX overhaul with breadcrumbs + quick actions
-  - **Menu structure:** Dynamic main menu → Manage/Reputation → Guides (2-3 clicks max)
-  - **Main menu features:** Live agent info (ID, owner, status), quick action buttons (1-click view)
-  - **Breadcrumbs:** Every screen shows path (📺 Main > Manage > Update)
-  - **Guides:** Step-by-step instructions instead of CLI commands
-  - **View:** Agent info, profile, wallet, status (read-only via ERC-721)
-  - **Manage:** Register, update (HTTP/Data URI with pros/cons), transfer (danger warnings)
-  - **Reputation:** Give feedback (rating scale + permanence warning), search, history
+- **openclaw-8004:** Full ERC-8004 agent management via Telegram inline buttons — viem + GPG encryption
+  - **v3.2.0 (2026-02-13):** Clean rebuild + UX overhaul — 10 scripts, 2 core files, official ABIs
+  - **Core files:** `menu-config.js` (menu definitions) + `handle-command.js` (router + Telegram API)
+  - **Official ABIs:** `abis/IdentityRegistry.json` + `abis/ReputationRegistry.json` (from erc-8004/erc-8004-contracts)
+  - **Menu:** Main → [View Profile, Manage, Reputation, Links] → Action screens
+  - **Manage:** Register (Minimal or Full JSON template), Update (downloadable JSON), Transfer (danger warning)
+  - **Reputation:** Rate agent (0-100 + tags per spec), Search (getClients→getSummary→readAllFeedback)
+  - **Links:** URL buttons to BaseScan, 8004agents.ai, EIP-8004 spec (dynamic agent ID)
+  - **Profile viewer:** Decodes base64 data URIs, shows full JSON (name, description, services, skills, domains)
+  - **Data URI only:** All profiles stored fully on-chain as base64 data URIs
+  - **UX:** Nav buttons on every response, loading states, error recovery with [Try Again], no dead ends
+  - **Plain text output** — no Markdown to avoid Telegram parsing issues with URLs
   - **Security:** GPG-encrypted private key from `~/.openclaw/.env.secrets.gpg`, in-memory decryption only
   - **Contracts:** Identity Registry (0x8004A169...), Reputation Registry (0x8004BAa1...)
-  - **Trigger:** Say "8004" or "erc-8004" → interactive menu with live data
+  - **Trigger:** Say "8004" or "erc-8004" → sends main panel with live agent data
+  - **Callbacks:** `/8004_main`, `/8004_m_<menu>`, `/8004_<action>`, `/8004_do_<action> args`
   - **Repository:** Local workspace skill (production-stable, locked)
 - **bankr:** Agent API integration — auto-executes trades, queries, token launches. Tested 2026-02-13. Multi-chain (Base/ETH/Polygon/Unichain/Solana)
 - **based-dao-skill:** BASED DAO NFT auction bidding — check auctions, place bids, vote on proposals. Production-tested 2026-02-13 (auction #916, 0.00132 ETH bid)
