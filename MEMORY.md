@@ -53,6 +53,14 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
 - **credential-manager:** Security foundation — 57 credentials, GPG encryption, rotation tracking
 - **a2a-endpoint:** A2A messaging protocol — live endpoint, reputation services, 2h queue
 - **openclaw-basecred-sdk:** Reputation checker — fully functional
+  - **v1.0.2:** Check human reputation via Ethos Network, Talent Protocol, and Farcaster
+  - Data sources: Ethos (social credibility, vouches, reviews), Talent (builder/creator scores), Farcaster (account quality)
+  - Returns: Availability status, raw scores, semantic levels (Novice→Master, Emerging→Elite), recency buckets
+  - Usage: `./scripts/check-reputation.mjs <address> [--full|--human|--json]`
+  - Graceful degradation: Works with partial API key coverage (Ethos needs no key)
+  - Security: Hardcoded credential loading from `~/.openclaw/.env`, no directory traversal
+  - Design philosophy: Reports data without judgment — no rankings, no trust verdicts
+  - Integrated into A2A endpoint as reputation service (free simple / $2 USDC full report)
 - **social-post:** Twitter + Farcaster posting — v1.5.1 + fetch-tweet.sh
 - **openclaw-8004:** Fully on-chain ERC-8004 agent management — viem + ABI only (no SDK), locked 2026-02-12
   - Architecture: viem + ABI first, agent0-sdk removed entirely
