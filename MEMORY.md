@@ -62,14 +62,15 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
   - Design philosophy: Reports data without judgment — no rankings, no trust verdicts
   - Integrated into A2A endpoint as reputation service (free simple / $2 USDC full report)
 - **social-post:** Twitter + Farcaster posting — v1.5.1 + fetch-tweet.sh
-- **openclaw-8004:** Fully on-chain ERC-8004 agent management — viem + ABI only (no SDK), locked 2026-02-12
-  - Architecture: viem + ABI first, agent0-sdk removed entirely
-  - Multi-agent detection: config-first (TOOLS.md "Owned Agents:"), not subgraph/RPC enumeration
-  - Agent IDs in TOOLS.md (public data), only primary AGENT0_AGENT_ID in .env
-  - Burn flow: set active:false → transferFrom to 0xdEaD (2 txns)
-  - getSummary requires getClients() first (empty array reverts)
-  - **Interactive menu:** `npm run menu` — view info, update payment wallet, quick links (2026-02-13)
-  - **Payment wallet update:** `scripts/set-agent-wallet.js` — EIP-712 signed proof of control
+- **openclaw-8004:** Fully on-chain ERC-8004 agent management with Telegram inline buttons — viem + ERC-721 standard
+  - **v1.0.0 (2026-02-13):** Telegram inline button control panel
+  - Architecture: viem + ERC-721 standard (ownerOf, tokenURI), no custom contract functions
+  - Interactive buttons: agent info, profile viewer, quick links to BaseScan and 8004agents.ai
+  - Simplified approach: uses guaranteed ERC-721 functions, links to external tools for complex data
+  - **Trigger:** Say "8004" or "erc-8004" → sends interactive panel
+  - **Scripts:** `send-panel.js` (Telegram Bot API), `handle-command.js` (callback router)
+  - **Functions:** Agent info, view profile, payment wallet (placeholder), active status (placeholder)
+  - **Repository:** Local workspace skill (not published yet)
 - **bankr:** Agent API integration — auto-executes trades, queries, token launches. Tested 2026-02-13. Multi-chain (Base/ETH/Polygon/Unichain/Solana)
 - **based-dao-skill:** BASED DAO NFT auction bidding — check auctions, place bids, vote on proposals. Production-tested 2026-02-13 (auction #916, 0.00132 ETH bid)
   - **v1.1.0 (2026-02-13):** Telegram inline button control panel
