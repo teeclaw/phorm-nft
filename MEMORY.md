@@ -17,7 +17,24 @@
 
 **Credentials:** All centralized in `~/.openclaw/.env` (mode 600) — 57 keys total  
 **GPG:** 5 high-value private keys encrypted with symmetric AES256  
+**GPG Passphrase:** `OPENCLAW_GPG_PASSPHRASE` in `.env`  
+**GPG Secrets File:** `~/.openclaw/.env.secrets.gpg` (JSON format)  
 **Management:** credential-manager skill (locked, production-stable)
+
+### GPG Decryption Pattern (Standard)
+```bash
+# Decrypt and extract a key
+source ~/.openclaw/.env
+gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
+  ~/.openclaw/.env.secrets.gpg 2>/dev/null | jq -r '.MAIN_WALLET_PRIVATE_KEY'
+```
+
+**Keys in secrets.gpg:**
+- `MAIN_WALLET_PRIVATE_KEY` - Primary wallet (0x1348...7e41)
+- `FARCASTER_CUSTODY_PRIVATE_KEY` - FID 2700953 custody
+- `FARCASTER_SIGNER_PRIVATE_KEY` - FID 2700953 signer
+- `FARCASTER_LEGACY_CUSTODY_PRIVATE_KEY` - FID 2684290 custody
+- `FARCASTER_LEGACY_SIGNER_PRIVATE_KEY` - FID 2684290 signer
 
 ## Social Platforms
 
