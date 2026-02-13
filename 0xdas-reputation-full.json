@@ -1,0 +1,97 @@
+{
+  "address": "0x168d8b4f50bb3aa67d05a6937b643004257118ed",
+  "profile": {
+    "identity": {
+      "address": "0x168d8b4f50bb3aa67d05a6937b643004257118ed"
+    },
+    "availability": {
+      "ethos": "available",
+      "talent": "available",
+      "farcaster": "available"
+    },
+    "ethos": {
+      "data": {
+        "score": 1284,
+        "level": {
+          "value": 1284,
+          "level": "Neutral",
+          "levelSource": "sdk",
+          "levelPolicy": "ethos@v1"
+        }
+      },
+      "signals": {
+        "hasNegativeReviews": false,
+        "hasVouches": false
+      },
+      "meta": {
+        "firstSeenAt": "2025-10-05T09:58:11.000Z",
+        "lastUpdatedAt": "2025-10-05T09:58:12.000Z",
+        "activeSinceDays": 128,
+        "lastUpdatedDaysAgo": 128
+      }
+    },
+    "talent": {
+      "data": {
+        "builderScore": 161,
+        "builderRankPosition": 641,
+        "creatorScore": 66,
+        "creatorRankPosition": null,
+        "builderLevel": {
+          "value": 161,
+          "level": "Advanced",
+          "levelSource": "sdk",
+          "levelPolicy": "builder@v1"
+        },
+        "creatorLevel": {
+          "value": 66,
+          "level": "Growing",
+          "levelSource": "sdk",
+          "levelPolicy": "creator@v1"
+        }
+      },
+      "signals": {
+        "verifiedBuilder": true,
+        "verifiedCreator": true
+      },
+      "meta": {
+        "lastUpdatedAt": "2026-02-05T03:24:55Z",
+        "lastUpdatedDaysAgo": 5
+      }
+    },
+    "farcaster": {
+      "data": {
+        "userScore": 0.98
+      },
+      "signals": {
+        "passesQualityThreshold": true
+      },
+      "meta": {
+        "source": "neynar",
+        "scope": "farcaster",
+        "lastUpdatedAt": "2026-02-11T01:26:33.803Z",
+        "lastUpdatedDaysAgo": 0,
+        "updateCadence": "weekly",
+        "timeMeaning": "system_update"
+      }
+    },
+    "recency": {
+      "bucket": "recent",
+      "windowDays": 30,
+      "lastUpdatedDaysAgo": 0,
+      "derivedFrom": ["ethos", "talent", "farcaster"],
+      "computedAt": "2026-02-11T01:26:34.415Z",
+      "policy": "recency@v1"
+    }
+  },
+  "sources": {
+    "ethos": "available",
+    "talent": "available",
+    "farcaster": "available"
+  },
+  "_payment": {
+    "amount": "$2.00",
+    "currency": "USDC",
+    "network": "Base (eip155:8453)"
+  },
+  "_tx": "0xe7312ff83c320d9272f3e2e1e9f6b44450856c25295cbf85a7575e154def67c5"
+}

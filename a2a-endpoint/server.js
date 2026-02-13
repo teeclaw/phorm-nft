@@ -176,7 +176,8 @@ const agentCard = {
     chainId: 8453,
     currency: 'USDC',
     pricing: {
-      check_reputation: { amount: 0, currency: 'USDC', description: 'Check zkBasecred reputation (free)' },
+      check_reputation: { amount: 0, currency: 'USDC', description: 'Check reputation - summary report (free)' },
+      check_reputation_full: { amount: 2.00, currency: 'USDC', description: 'Check reputation - full report ($2 USDC)' },
       query_credentials: { amount: 0.10, currency: 'USDC', description: 'Query zkBasecred credentials' },
       issue_credential: { amount: 0.50, currency: 'USDC', description: 'Issue new credential' },
       verify_credential: { amount: 0.05, currency: 'USDC', description: 'Verify credential proof' },
@@ -202,6 +203,18 @@ app.get('/.well-known/agent.json', (req, res) => {
 // A2A agent card (alternate path for compatibility)
 app.get('/.well-known/agent-card.json', (req, res) => {
   res.json(agentCard);
+});
+
+// ERC-8004 domain verification (for on-chain agent registry)
+app.get('/.well-known/agent-registration.json', (req, res) => {
+  res.json({
+    registrations: [
+      {
+        agentId: 14482,
+        agentRegistry: 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432'
+      }
+    ]
+  });
 });
 
 // Main A2A message endpoint (POST)
@@ -245,6 +258,23 @@ app.post('/a2a', async (req, res) => {
         from: 'Mr. Tee',
         taskType: 'check_reputation',
         data: result.status === 'success' ? result.result.summary : undefined,
+        error: result.error || undefined,
+        ...(req.x402?.verified && { payment: { verified: true, amount: req.x402.amount, currency: req.x402.currency } })
+      });
+    }
+
+    // === HANDLE check_reputation_full SYNCHRONOUSLY (paid tier - $2 USDC) ===
+    if (metadata?.taskType === 'check_reputation_full') {
+      const { processA2AMessage } = require('./a2a-processor');
+      const result = await processA2AMessage(from, message, { ...metadata, taskType: 'check_reputation' });
+      
+      return res.json({
+        status: result.status === 'success' ? 'success' : 'error',
+        timestamp: new Date().toISOString(),
+        messageId,
+        from: 'Mr. Tee',
+        taskType: 'check_reputation_full',
+        data: result.status === 'success' ? result.result.full : undefined,
         error: result.error || undefined,
         ...(req.x402?.verified && { payment: { verified: true, amount: req.x402.amount, currency: req.x402.currency } })
       });

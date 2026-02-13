@@ -4,7 +4,7 @@
 
 **Primary Wallet:** 0x134820820d4f631ff949625189950bA7B3C57e41 (Base mainnet)  
 **ENS:** teeclaw.eth  
-**ERC-8004 Agent ID:** 14482 (Base)
+**ERC-8004 Agent ID:** 14482 (Base) 🔒 PRIMARY — never change without owner approval
 
 **A2A Protocol:**
 - Endpoint: https://a2a.teeclaw.xyz/a2a (ERC-8004 compliant)
@@ -37,7 +37,14 @@
 - **a2a-endpoint:** A2A messaging protocol — live endpoint, reputation services, 2h queue
 - **openclaw-basecred-sdk:** Reputation checker — fully functional
 - **social-post:** Twitter + Farcaster posting — v1.5.1 + fetch-tweet.sh
+- **openclaw-8004:** Fully on-chain ERC-8004 agent management — viem + ABI only (no SDK), locked 2026-02-12
+  - Architecture: viem + ABI first, agent0-sdk removed entirely
+  - Multi-agent detection: config-first (TOOLS.md "Owned Agents:"), not subgraph/RPC enumeration
+  - Agent IDs in TOOLS.md (public data), only primary AGENT0_AGENT_ID in .env
+  - Burn flow: set active:false → transferFrom to 0xdEaD (2 txns)
+  - getSummary requires getClients() first (empty array reverts)
+- **bankr:** Agent API integration — auto-executes trades, queries, token launches. Tested 2026-02-13. Multi-chain (Base/ETH/Polygon/Unichain/Solana)
 
-## Future Plans
+## Active Integrations
 
-**Bankr SDK Integration:** Implement SDK with primary wallet (0x1348...7e41) for full control. API key preserved in .env (BANKR_API_KEY). Current managed wallet: 0x2f77...3f0 (EVM), 7DnAbjc...qSwj (Solana).
+**Bankr Agent API:** Live integration using managed wallet. Auto-executes trades, queries balances, launches tokens. Tested working 2026-02-13. API key in .env (BANKR_API_KEY). Managed wallet: 0x2f77...3f0 (EVM), 7DnAbjc...qSwj (Solana). Examples cloned from github.com/BankrBot/bankr-api-examples. SDK blocked by broken dependency (`x402-fetch: ^latest`).

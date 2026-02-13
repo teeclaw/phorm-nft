@@ -105,7 +105,9 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 **Last Updated:** 2026-02-09
 
 - **Chain:** Base (8453)
-- **Agent ID:** 14482
+- **Agent ID:** 14482 🔒 (PRIMARY — do not change)
+- **Owned Agents:**
+  - `8453:14482` — Mr. Tee 🔒 PRIMARY
 - **Full Agent ID:** `eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:14482`
 - **Identity Registry Contract:** 0x8004A169FB4a3325136EB29fA0ceB6D2e539a432
 - **Reputation Registry Contract:** 0x8004BAa17C55a88189AE136b182e5fdA19dE9b63
@@ -115,8 +117,9 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - **BaseScan (NFT):** https://basescan.org/nft/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432/14482
 
 **Registration:**
-- **Storage Method:** Data URI (fully onchain)
-- **Contents:** Name, bio, avatar, 12 service endpoints, 8 OASF skills, 5 domains
+- **Storage Method:** HTTP URI (https://a2a.teeclaw.xyz/agent-profile.json)
+- **Last Updated:** 2026-02-12 (tx: 0x5e66e274eb3c1f163886c110537d99d93f7d2961f89675cc0f31c1df9d15e2b5)
+- **Contents:** Name, bio, avatar, 9 service endpoints, 8 OASF skills, 5 domains
 - **Active Status:** ✅ true (accepting requests)
 - **x402 Support:** ✅ true (payment protocol enabled)
 - **Payment Currency:** USDC
