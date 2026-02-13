@@ -64,6 +64,13 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
   - **Payment wallet update:** `scripts/set-agent-wallet.js` — EIP-712 signed proof of control
 - **bankr:** Agent API integration — auto-executes trades, queries, token launches. Tested 2026-02-13. Multi-chain (Base/ETH/Polygon/Unichain/Solana)
 - **based-dao-skill:** BASED DAO NFT auction bidding — check auctions, place bids, vote on proposals. Production-tested 2026-02-13 (auction #916, 0.00132 ETH bid)
+  - **v1.1.0 (2026-02-13):** Telegram inline button control panel
+  - Trigger: say "based dao" → sends interactive panel with persistent buttons
+  - Scripts: `send-panel.js` (Telegram Bot API + InlineKeyboardMarkup), `handle-command.js` (callback router), `show-buttons.js` (button config)
+  - Buttons: Check Auction, Quick Bid 0.001Ξ, Active Proposals, All Proposals, Refresh Panel
+  - Callbacks route to `/based_check`, `/based_bid`, `/based_proposals`, etc.
+  - Repository: https://github.com/teeclaw/based-dao-skill
+  - Config requirement: `channels.telegram.capabilities.inlineButtons: "all"` (enabled 2026-02-13)
 
 ## Active Integrations
 
