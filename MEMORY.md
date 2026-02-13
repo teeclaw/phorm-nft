@@ -60,6 +60,8 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
   - Agent IDs in TOOLS.md (public data), only primary AGENT0_AGENT_ID in .env
   - Burn flow: set active:false → transferFrom to 0xdEaD (2 txns)
   - getSummary requires getClients() first (empty array reverts)
+  - **Interactive menu:** `npm run menu` — view info, update payment wallet, quick links (2026-02-13)
+  - **Payment wallet update:** `scripts/set-agent-wallet.js` — EIP-712 signed proof of control
 - **bankr:** Agent API integration — auto-executes trades, queries, token launches. Tested 2026-02-13. Multi-chain (Base/ETH/Polygon/Unichain/Solana)
 - **based-dao-skill:** BASED DAO NFT auction bidding — check auctions, place bids, vote on proposals. Production-tested 2026-02-13 (auction #916, 0.00132 ETH bid)
 
