@@ -62,15 +62,17 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
   - Design philosophy: Reports data without judgment — no rankings, no trust verdicts
   - Integrated into A2A endpoint as reputation service (free simple / $2 USDC full report)
 - **social-post:** Twitter + Farcaster posting — v1.5.1 + fetch-tweet.sh
-- **openclaw-8004:** Fully on-chain ERC-8004 agent management with Telegram inline buttons — viem + ERC-721 standard
-  - **v1.0.0 (2026-02-13):** Telegram inline button control panel
-  - Architecture: viem + ERC-721 standard (ownerOf, tokenURI), no custom contract functions
-  - Interactive buttons: agent info, profile viewer, quick links to BaseScan and 8004agents.ai
-  - Simplified approach: uses guaranteed ERC-721 functions, links to external tools for complex data
-  - **Trigger:** Say "8004" or "erc-8004" → sends interactive panel
-  - **Scripts:** `send-panel.js` (Telegram Bot API), `handle-command.js` (callback router)
-  - **Functions:** Agent info, view profile, payment wallet (placeholder), active status (placeholder)
-  - **Repository:** Local workspace skill (not published yet)
+- **openclaw-8004:** Full ERC-8004 agent management with 3-layer Telegram menu — viem + GPG encryption
+  - **v2.0.0 (2026-02-13):** Multi-layer menu system + write operations
+  - **Menu structure:** Main (4 options) → Submenu (View/Manage/Reputation) → Action (max 3 layers)
+  - **View:** Agent info, profile, wallet, status (read-only via ERC-721)
+  - **Manage:** Register agent, update metadata, transfer ownership (write via GPG-encrypted key)
+  - **Reputation:** Give feedback (1-5 rating + comment), search feedback, view history
+  - **Security:** GPG-encrypted private key from `~/.openclaw/.env.secrets.gpg`, in-memory decryption only
+  - **Contracts:** Identity Registry (0x8004A169...), Reputation Registry (0x8004BAa1...)
+  - **Scripts:** 11 total (4 view, 3 manage, 3 reputation, 1 menu config)
+  - **Trigger:** Say "8004" or "erc-8004" → interactive 3-layer menu
+  - **Repository:** Local workspace skill (production-stable, locked)
 - **bankr:** Agent API integration — auto-executes trades, queries, token launches. Tested 2026-02-13. Multi-chain (Base/ETH/Polygon/Unichain/Solana)
 - **based-dao-skill:** BASED DAO NFT auction bidding — check auctions, place bids, vote on proposals. Production-tested 2026-02-13 (auction #916, 0.00132 ETH bid)
   - **v1.1.0 (2026-02-13):** Telegram inline button control panel
