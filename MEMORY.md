@@ -61,6 +61,14 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
 - **credential-manager:** Security foundation — 57 credentials, GPG encryption, rotation tracking
 - **a2a-endpoint:** A2A messaging protocol — live endpoint, reputation services, 2h queue
 - **social-post:** Twitter + Farcaster posting — v1.5.2 (security cleanup: fixed ghost tweet bug, shell injection, consolidated posting logic)
+- **x402:** 🔒 LOCKED — x402 payment infra (incoming + outgoing) via onchain.fi aggregator
+  - `workspace/x402/x402-server.js` — Express middleware (incoming), standard x402 v1 accepts[] format
+  - `workspace/x402/x402-client.js` — outgoing fetch wrapper, EIP-3009 sign via viem + GPG key
+  - Facilitator: onchain.fi (ONCHAIN_API_KEY in .env)
+  - Intermediate address (Base→Base): `0xfeb1F8F7F9ff37B94D14c88DE9282DA56b3B1Cb1`
+  - Live tested 2026-02-17: $2 USDC settled via Treasure, end-to-end ✅
+  - Used by: a2a-endpoint `/reputation/full-report` ($2 USDC)
+  - DO NOT modify without explicit owner approval
 - **openclaw-8004:** Full ERC-8004 agent management via Telegram inline buttons — viem + GPG encryption
   - **v3.2.0 (2026-02-13):** Clean rebuild + UX overhaul — 10 scripts, 2 core files, official ABIs
   - **Core files:** `menu-config.js` (menu definitions) + `handle-command.js` (router + Telegram API)

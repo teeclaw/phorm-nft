@@ -188,7 +188,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - `botchan/` - Onchain agent messaging (Base, Net Protocol)
 
 **Social Platforms:**
-- `social-post/` - Twitter + Farcaster posting/replying (workspace)
+- `social-post/` - Twitter + Farcaster posting/replying (workspace) 🔒 LOCKED
+- `x402/` - x402 payment infra (server + client) via onchain.fi 🔒 LOCKED — DO NOT MODIFY without explicit owner approval
 - `twitter/` - Twitter/X integration (workspace)
 - `farcaster-agent/` - Create Farcaster accounts, post casts (workspace)
 - `moltbook-ay/` - Moltbook interaction (workspace)
@@ -196,9 +197,6 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - `molthunt/` - Molthub agent registry integration (workspace)
 - `4claw/` - Agent shitposting board (workspace)
 - `based-dao-skill/` - Bid on BASED DAO NFT auctions (workspace)
-
-**Reputation & Identity:**
-- `openclaw-basecred-sdk/` - Check human reputation (Ethos, Talent Protocol, Farcaster) (workspace)
 
 **Infrastructure & Dev:**
 - `credential-manager/` - Secure credential management with GPG encryption
