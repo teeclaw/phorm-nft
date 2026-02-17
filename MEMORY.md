@@ -13,6 +13,31 @@
   - `/reputation/simple-report` - Free basic check (Ethos, Farcaster, Talent Protocol)
   - `/reputation/full-report` - $2 USDC comprehensive analysis + narrative
 
+## Conway Domains
+
+**API:** `https://api.conway.domains` (provider: namesilo backend)  
+**Auth:** SIWE (Sign-In with Ethereum) — signs with Conway wallet → gets JWT Bearer token  
+**Wallet:** `~/.conway/wallet.json` (contains `privateKey`)  
+**Wallet Address:** `0xae5e422710AfF2F2C855cDB8Fe29C23D2BC4EDC5`  
+**Config:** `~/.conway/config.json` (walletAddress + provisionedAt; API key field deprecated/invalid)  
+**Note:** The `apiKey` in config.json does NOT work — must use SIWE auth flow  
+
+**SIWE Auth Flow:**
+1. `POST /auth/nonce` → get nonce
+2. Sign SiweMessage (chainId: 8453, domain: api.conway.domains)
+3. `POST /auth/verify` → get `access_token` (JWT, valid 50 min)
+4. Use `Authorization: Bearer <token>` for all domain API calls
+
+**DNS Endpoints:**
+- List: `GET /domains/{domain}/dns`
+- Add: `POST /domains/{domain}/dns`
+- Update: `PUT /domains/{domain}/dns/{recordId}` — use `recordId` field (not `id`)
+- Delete: `DELETE /domains/{domain}/dns/{recordId}`
+
+**Owned Domains:**
+- `mrcrt.xyz` — parked
+- `draeven.xyz` — Draeven landing page, served from `/var/www/mrcrt` via Caddy
+
 ## Security
 
 **Credentials:** All centralized in `~/.openclaw/.env` (mode 600) — 57 keys total  
@@ -26,11 +51,11 @@
 # Decrypt and extract a key
 source ~/.openclaw/.env
 gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
-  ~/.openclaw/.env.secrets.gpg 2>/dev/null | jq -r '.MAIN_WALLET_PRIVATE_KEY'
+  ~/.openclaw/.env.secrets.gpg 2>/dev/null | jq -r '.AGENT_WALLET_PRIVATE_KEY'
 ```
 
 **Keys in secrets.gpg:**
-- `MAIN_WALLET_PRIVATE_KEY` - Primary wallet (0x1348...7e41)
+- `AGENT_WALLET_PRIVATE_KEY` - Primary wallet (0x1348...7e41)
 - `FARCASTER_CUSTODY_PRIVATE_KEY` - FID 2700953 custody
 - `FARCASTER_SIGNER_PRIVATE_KEY` - FID 2700953 signer
 - `FARCASTER_LEGACY_CUSTODY_PRIVATE_KEY` - FID 2684290 custody
@@ -52,16 +77,7 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
 ### Locked (Production-Stable)
 - **credential-manager:** Security foundation — 57 credentials, GPG encryption, rotation tracking
 - **a2a-endpoint:** A2A messaging protocol — live endpoint, reputation services, 2h queue
-- **openclaw-basecred-sdk:** Reputation checker — fully functional
-  - **v1.0.2:** Check human reputation via Ethos Network, Talent Protocol, and Farcaster
-  - Data sources: Ethos (social credibility, vouches, reviews), Talent (builder/creator scores), Farcaster (account quality)
-  - Returns: Availability status, raw scores, semantic levels (Novice→Master, Emerging→Elite), recency buckets
-  - Usage: `./scripts/check-reputation.mjs <address> [--full|--human|--json]`
-  - Graceful degradation: Works with partial API key coverage (Ethos needs no key)
-  - Security: Hardcoded credential loading from `~/.openclaw/.env`, no directory traversal
-  - Design philosophy: Reports data without judgment — no rankings, no trust verdicts
-  - Integrated into A2A endpoint as reputation service (free simple / $2 USDC full report)
-- **social-post:** Twitter + Farcaster posting — v1.5.1 + fetch-tweet.sh
+- **social-post:** Twitter + Farcaster posting — v1.5.2 (security cleanup: fixed ghost tweet bug, shell injection, consolidated posting logic)
 - **openclaw-8004:** Full ERC-8004 agent management via Telegram inline buttons — viem + GPG encryption
   - **v3.2.0 (2026-02-13):** Clean rebuild + UX overhaul — 10 scripts, 2 core files, official ABIs
   - **Core files:** `menu-config.js` (menu definitions) + `handle-command.js` (router + Telegram API)
