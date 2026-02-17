@@ -83,8 +83,12 @@ const EIP3009_TYPES = {
 function getPrivateKey(overrideKey) {
   if (overrideKey) return overrideKey;
 
-  if (process.env.AGENT_WALLET_PRIVATE_KEY) {
-    return process.env.AGENT_WALLET_PRIVATE_KEY;
+  const envKey = process.env.AGENT_WALLET_PRIVATE_KEY;
+  // Skip GPG placeholder pattern (e.g. "GPG:AGENT_WALLET_PRIVATE_KEY")
+  if (envKey && !envKey.startsWith('GPG:')) {
+    let k = envKey.trim();
+    if (!k.startsWith('0x')) k = `0x${k}`;
+    return k;
   }
 
   // Decrypt from GPG
@@ -96,9 +100,12 @@ function getPrivateKey(overrideKey) {
     `gpg --batch --decrypt --passphrase "${passphrase}" "${secretsFile}" 2>/dev/null`,
     { encoding: 'utf8' }
   );
-  const secrets = JSON.parse(json);
+  const secrets = JSON.parse(json.trim());
   if (!secrets.AGENT_WALLET_PRIVATE_KEY) throw new Error('AGENT_WALLET_PRIVATE_KEY not found in GPG secrets');
-  return secrets.AGENT_WALLET_PRIVATE_KEY;
+  // Ensure 0x prefix and trimmed
+  let pk = secrets.AGENT_WALLET_PRIVATE_KEY.trim();
+  if (!pk.startsWith('0x')) pk = `0x${pk}`;
+  return pk;
 }
 
 // ─── HTTP helpers ─────────────────────────────────────────────────────────────
@@ -148,27 +155,26 @@ function onchainPost(path, body) {
 
 /**
  * Sign an EIP-3009 TransferWithAuthorization for USDC on Base.
- * Returns a base64-encoded x402 payment header.
+ * Returns a base64-encoded x402 payment header (x402 v1 spec format).
  */
-async function signEIP3009({ privateKey, to, amount, token, network }) {
+async function signEIP3009({ privateKey, payTo, maxAmountRequired, network, asset, extra }) {
   const pk = getPrivateKey(privateKey);
   const account = privateKeyToAccount(pk);
 
-  // Use onchain.fi intermediate address as the 'to' for the signature
-  const intermediateAddress = INTERMEDIATE[network] || INTERMEDIATE['base'];
+  // Use crypto.webcrypto for nonce (matches x402 spec)
+  const crypto = require('crypto').webcrypto;
+  const nonce = `0x${Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString('hex')}`;
 
-  const amountWei = parseUnits(String(amount), 6); // USDC = 6 decimals
-  const validAfter = BigInt(0);
-  const validBefore = BigInt(Math.floor(Date.now() / 1000) + 3600); // valid for 1 hour
-  // Random nonce (bytes32)
-  const nonce = `0x${Array.from({ length: 32 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('')}`;
+  const now = Math.floor(Date.now() / 1000);
+  const validAfter = String(now - 600);       // 10 min before (x402 spec)
+  const validBefore = String(now + 300);       // 5 min window
 
-  // EIP-712 domain for USDC on Base
+  // EIP-712 domain (uses USDC token metadata)
   const domain = {
-    name: 'USD Coin',
-    version: '2',
+    name: extra?.name || 'USD Coin',
+    version: extra?.version || '2',
     chainId: 8453,
-    verifyingContract: USDC_BASE,
+    verifyingContract: asset || USDC_BASE,
   };
 
   const walletClient = createWalletClient({
@@ -183,26 +189,29 @@ async function signEIP3009({ privateKey, to, amount, token, network }) {
     primaryType: 'TransferWithAuthorization',
     message: {
       from: account.address,
-      to: intermediateAddress,
-      value: amountWei,
-      validAfter,
-      validBefore,
+      to: payTo,
+      value: maxAmountRequired,   // pass as string (matches x402 reference impl)
+      validAfter,                 // string
+      validBefore,                // string
       nonce,
     },
   });
 
-  // Build x402 payment header payload
+  // x402 v1 standard payment header format
   const headerPayload = {
+    x402Version: 1,
     scheme: 'exact',
-    network,
+    network: network || 'base',
     payload: {
-      from: account.address,
-      to: intermediateAddress,
-      value: amountWei.toString(),
-      validAfter: validAfter.toString(),
-      validBefore: validBefore.toString(),
-      nonce,
       signature,
+      authorization: {
+        from: account.address,
+        to: payTo,
+        value: maxAmountRequired,
+        validAfter,
+        validBefore,
+        nonce,
+      },
     },
   };
 
@@ -241,31 +250,37 @@ async function x402Fetch(url, options = {}, payOpts = {}) {
     return initial; // Not a paid endpoint, return as-is
   }
 
-  // Step 2: Parse payment requirements
-  const reqs = initial.body?.x402 || initial.body;
-  const requiredAmount = reqs?.amount || reqs?.expectedAmount;
-  const requiredNetwork = reqs?.sourceNetwork || reqs?.network || network;
-  const requiredToken = reqs?.token || token;
-  const recipient = reqs?.recipient || reqs?.to;
+  // Step 2: Parse standard x402 payment requirements (accepts[] format)
+  const responseBody = initial.body;
+  const accepts = responseBody?.accepts || [];
+  const req0 = accepts[0]; // pick first accepted payment method
 
-  if (!requiredAmount) {
-    throw new Error(`x402: Got 402 but no amount in requirements. Raw: ${JSON.stringify(initial.body)}`);
+  if (!req0) {
+    throw new Error(`x402: Got 402 but no accepts[] in requirements. Raw: ${JSON.stringify(responseBody)}`);
   }
 
-  // Safety cap check
-  if (maxAmount !== null && parseFloat(requiredAmount) > parseFloat(maxAmount)) {
-    throw new Error(`x402: Endpoint requires ${requiredAmount} ${requiredToken} but maxAmount is ${maxAmount}`);
+  const requiredAmount = req0.maxAmountRequired;        // e.g. "2000000" (USDC units)
+  const requiredAmountUSDC = (parseInt(requiredAmount) / 1e6).toFixed(2);
+  const requiredNetwork = req0.network || network;
+  const payTo = req0.payTo;                             // intermediate address
+  const asset = req0.asset;
+  const extra = req0.extra || {};
+
+  // Safety cap check (compare in USDC float)
+  if (maxAmount !== null && parseFloat(requiredAmountUSDC) > parseFloat(maxAmount)) {
+    throw new Error(`x402: Endpoint requires ${requiredAmountUSDC} USDC but maxAmount is ${maxAmount}`);
   }
 
-  console.log(`[x402] 💳 Paying ${requiredAmount} ${requiredToken} on ${requiredNetwork} to reach ${url}`);
+  console.log(`[x402] 💳 Paying ${requiredAmountUSDC} USDC on ${requiredNetwork} → ${url}`);
 
-  // Step 3: Sign EIP-3009
+  // Step 3: Sign EIP-3009 with correct x402 format
   const paymentHeader = await signEIP3009({
     privateKey,
-    to: recipient,
-    amount: requiredAmount,
-    token: requiredToken,
+    payTo,
+    maxAmountRequired: requiredAmount,
     network: requiredNetwork,
+    asset,
+    extra,
   });
 
   // Step 4: Retry with payment header

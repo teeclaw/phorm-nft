@@ -69,26 +69,38 @@ function onchainPost(path, body) {
   });
 }
 
+// USDC contract on Base
+const USDC_BASE = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913';
+
 /**
- * Build the 402 payment requirements response body.
- * Tells the caller exactly what to sign and where.
+ * Build standard x402 payment requirements response.
+ * Format follows the x402 v1 spec (used by x402-js, Coinbase CDP, onchain.fi, etc.)
  */
 function buildPaymentRequirements(opts) {
   const src = opts.sourceNetwork || 'base';
   const dst = opts.destinationNetwork || 'base';
   const key = `${src}-${dst}`;
+  const amountUnits = String(Math.round(parseFloat(opts.amount) * 1e6)); // USDC 6 decimals
+
   return {
+    x402Version: 1,
     error: 'Payment Required',
-    x402: {
-      amount: opts.amount,
-      token: opts.token || 'USDC',
-      sourceNetwork: src,
-      destinationNetwork: dst,
-      // Payer signs to the intermediate, NOT recipient wallet
-      signTo: INTERMEDIATE[key] || INTERMEDIATE['base-base'],
-      recipient: opts.recipient,
-      description: opts.description || 'x402 payment required',
-    },
+    accepts: [
+      {
+        scheme: 'exact',
+        network: src,
+        maxAmountRequired: amountUnits,
+        payTo: INTERMEDIATE[key] || INTERMEDIATE['base-base'], // intermediate address
+        asset: USDC_BASE,
+        maxTimeoutSeconds: 300,
+        extra: {
+          name: 'USD Coin',
+          version: '2',
+          description: opts.description || 'x402 payment required',
+          recipient: opts.recipient, // final destination (our wallet)
+        },
+      },
+    ],
   };
 }
 
@@ -104,7 +116,7 @@ async function verifyAndSettle(paymentHeader, opts) {
     to: opts.recipient,
     sourceNetwork: opts.sourceNetwork || 'base',
     destinationNetwork: opts.destinationNetwork || 'base',
-    expectedAmount: String(opts.amount),
+    expectedAmount: String(parseFloat(opts.amount).toFixed(2)), // human-readable e.g. "2.00"
     expectedToken: opts.token || 'USDC',
     priority: opts.priority || 'balanced',
   });
@@ -193,6 +205,11 @@ function x402(opts = {}) {
 
     if (!paymentHeader) {
       return res.status(402).json(buildPaymentRequirements(effectiveOpts));
+    }
+
+    // Validate it's base64
+    if (!paymentHeader.match(/^[A-Za-z0-9+/]*={0,2}$/)) {
+      return res.status(402).json({ error: 'Invalid payment header format' });
     }
 
     // ── Verify + settle via onchain.fi ───────────────────────────────────────
