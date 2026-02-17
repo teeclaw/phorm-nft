@@ -208,15 +208,19 @@ const agentCard = {
     network: 'base',
     chainId: 8453,
     currency: 'USDC',
-    pricing: {
-      check_reputation: { amount: 0, currency: 'USDC', description: 'Check reputation - summary report (free)' },
-      check_reputation_full: { amount: 2.00, currency: 'USDC', description: 'Check reputation - full report ($2 USDC - ONLY PAID ENDPOINT)' },
-      query_credentials: { amount: 0, currency: 'USDC', description: 'Query zkBasecred credentials (free)' },
-      issue_credential: { amount: 0, currency: 'USDC', description: 'Issue new credential (free)' },
-      verify_credential: { amount: 0, currency: 'USDC', description: 'Verify credential proof (free)' },
-      default: { amount: 0, currency: 'USDC', description: 'General A2A message (free)' }
-    },
-    methods: ['onchain-transfer', 'payment-receipt']
+    facilitator: 'onchain.fi',
+    paidEndpoints: [
+      {
+        endpoint: '/reputation/full-report',
+        method: 'POST',
+        amount: 2.00,
+        currency: 'USDC',
+        description: 'Full reputation report with narrative — all sources, scored analysis',
+        signTo: '0xfeb1F8F7F9ff37B94D14c88DE9282DA56b3B1Cb1'
+      }
+    ],
+    methods: ['eip3009'],
+    note: 'All other endpoints are free. Payment header: X-Payment (base64 EIP-3009 signed to intermediate address)'
   },
   active: true,
   registrations: [
