@@ -238,6 +238,7 @@ async function x402Fetch(url, options = {}, payOpts = {}) {
     maxAmount = null, // safety cap — refuse to pay more than this
     network = 'base',
     token = 'USDC',
+    idempotencyKey = null, // prevents double-payment on retries
   } = payOpts;
 
   const headers = { 'Content-Type': 'application/json', ...options.headers };
@@ -283,13 +284,13 @@ async function x402Fetch(url, options = {}, payOpts = {}) {
     extra,
   });
 
-  // Step 4: Retry with payment header
+  // Step 4: Retry with payment header (+ idempotency key if set)
+  const paidHeaders = { ...headers, 'X-Payment': paymentHeader };
+  if (idempotencyKey) paidHeaders['X-Idempotency-Key'] = idempotencyKey;
+
   const paid = await httpRequest(
     url,
-    {
-      method: options.method || 'GET',
-      headers: { ...headers, 'X-Payment': paymentHeader },
-    },
+    { method: options.method || 'GET', headers: paidHeaders },
     body ? JSON.parse(body) : null
   );
 

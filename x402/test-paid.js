@@ -24,7 +24,9 @@ async function main() {
   // Manual first hit to show the 402 response
   const http = require('http');
   const initial = await new Promise((resolve) => {
-    const body = JSON.stringify({ from: 'Mr. Tee (self-test)', address: '0x134820820d4f631ff949625189950bA7B3C57e41' });
+    // Use a stable idempotency key so re-runs don't double-pay
+  const testRunId = `test-${new Date().toISOString().slice(0,10)}`;
+  const body = JSON.stringify({ from: 'Mr. Tee (self-test)', address: '0x134820820d4f631ff949625189950bA7B3C57e41', idempotencyKey: testRunId });
     const req = http.request({
       hostname: 'localhost', port: 3100, path: '/reputation/full-report',
       method: 'POST',
