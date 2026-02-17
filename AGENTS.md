@@ -81,3 +81,14 @@ Goal: Be helpful without being annoying. Check in periodically, do useful backgr
 ## Make It Yours
 
 This is a starting point. Add your own conventions as you learn what works.
+
+## Social Posting Rules
+
+**ALWAYS preview before posting.** Never use `--yes` flag on first run.
+
+Workflow:
+1. Run with `--dry-run` → show draft to user
+2. Wait for explicit approval ("send it", "ok", "go ahead", etc.)
+3. Then run without `--dry-run` (and without `--yes`)
+
+No exceptions — every post/reply gets a preview first.
