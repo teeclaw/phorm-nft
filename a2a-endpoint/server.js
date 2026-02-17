@@ -254,6 +254,54 @@ app.get('/.well-known/agent-registration.json', (req, res) => {
   });
 });
 
+// ── Reputation Full Report (PAID — $2 USDC via x402) ─────────────────────────
+// x402 middleware already verified + settled payment before we get here
+app.post('/reputation/full-report', async (req, res) => {
+  try {
+    const { address, from } = req.body || {};
+
+    if (!address || !address.match(/^0x[a-fA-F0-9]{40}$/)) {
+      return res.status(400).json({
+        error: 'Invalid or missing address',
+        message: 'Provide a valid Ethereum address: { "address": "0x..." }',
+      });
+    }
+
+    console.log(`💰 Paid reputation request from ${from || 'unknown'} for ${address}`);
+    console.log(`   Payment: ${req.x402?.amount} ${req.x402?.token} via ${req.x402?.facilitator}`);
+
+    const { processA2AMessage } = require('./a2a-processor');
+    const result = await processA2AMessage(
+      from || 'external-agent',
+      `Check reputation for ${address}`,
+      { taskType: 'check_reputation' }
+    );
+
+    if (result.status === 'error') {
+      return res.status(500).json({ error: result.error });
+    }
+
+    return res.json({
+      status: 'success',
+      address,
+      payment: req.x402 ? {
+        verified: true,
+        txHash: req.x402.txHash,
+        facilitator: req.x402.facilitator,
+        amount: req.x402.amount,
+        token: req.x402.token,
+      } : undefined,
+      reputation: result.result?.full || result.result,
+      summary: result.result?.summary,
+      timestamp: new Date().toISOString(),
+    });
+
+  } catch (err) {
+    console.error('Reputation route error:', err.message);
+    res.status(500).json({ error: 'Internal server error', message: err.message });
+  }
+});
+
 // Main A2A message endpoint (POST)
 app.post('/a2a', async (req, res) => {
   try {
