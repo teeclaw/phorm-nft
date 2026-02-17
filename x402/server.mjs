@@ -7,7 +7,7 @@
  * Usage: node x402/server.mjs [--port 4021] [--mainnet]
  * 
  * Environment:
- *   MAIN_WALLET_ADDRESS - wallet to receive payments
+ *   AGENT_WALLET_ADDRESS - wallet to receive payments
  *   PORT - server port (default: 4021)
  */
 
@@ -36,9 +36,9 @@ const isMainnet = args.includes("--mainnet");
 const portIdx = args.indexOf("--port");
 const port = portIdx !== -1 ? parseInt(args[portIdx + 1]) : parseInt(process.env.PORT) || 4021;
 
-const payTo = process.env.MAIN_WALLET_ADDRESS;
+const payTo = process.env.AGENT_WALLET_ADDRESS;
 if (!payTo) {
-  console.error("❌ MAIN_WALLET_ADDRESS not set");
+  console.error("❌ AGENT_WALLET_ADDRESS not set");
   process.exit(1);
 }
 

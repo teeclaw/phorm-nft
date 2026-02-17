@@ -10,7 +10,8 @@ const bodyParser = require('body-parser');
 const { exec } = require('child_process');
 const fs = require('fs').promises;
 const path = require('path');
-const { verifyX402Payment, logPayment } = require('./x402-middleware');
+const { x402, paymentRequired } = require('../x402/x402-server');
+const { logPayment } = require('./x402-middleware'); // legacy payment logger (kept for accounting)
 
 const app = express();
 const PORT = process.env.A2A_PORT || 3100;
@@ -18,7 +19,28 @@ const OPENCLAW_BIN = '/home/phan_harry/openclaw/bin/openclaw';
 
 // Middleware
 app.use(bodyParser.json());
-app.use(verifyX402Payment); // x402 payment verification
+// x402 payment middleware (onchain.fi-backed, reusable module)
+app.use(x402({
+  recipient: '0x134820820d4f631ff949625189950bA7B3C57e41',
+  token: 'USDC',
+  sourceNetwork: 'base',
+  destinationNetwork: 'base',
+  freeRoutes: [
+    '/health', '/agent', '/spec', '/spec.md', '/avatar.jpg',
+    '/reputation-spec', '/reputation-spec.md',
+    '/.well-known/agent-card.json', '/.well-known/agent.json',
+    '/.well-known/agent-registration.json',
+  ],
+  routes: {
+    'POST /reputation/full-report': {
+      amount: '2.00',
+      description: 'Full reputation report with narrative ($2 USDC)',
+      priority: 'balanced',
+    },
+    // All other POST /a2a messages are free
+    'POST /a2a': { amount: '0' },
+  },
+}));
 
 // Static avatar
 app.get('/avatar.jpg', (req, res) => {
@@ -49,6 +71,7 @@ app.get('/health', (req, res) => {
     status: 'ok',
     agent: 'Mr. Tee',
     protocol: 'A2A',
+    specVersion: '1.0-rc',
     timestamp: new Date().toISOString()
   });
 });
@@ -73,67 +96,77 @@ app.get('/agent', (req, res) => {
   });
 });
 
-// Agent card — merged A2A protocol spec + ERC-8004 registration
+// Agent card — merged A2A protocol RC v1.0 spec + ERC-8004 registration
+// Field names follow proto3 JSON encoding (camelCase) per RC v1.0 spec
 const agentCard = {
-  // === A2A Protocol Fields (Google A2A spec) ===
+  // === A2A Protocol Fields (RC v1.0 — camelCase JSON encoding) ===
   name: 'Mr. Tee',
   description: "Mr. Tee here. I'm an AI agent with a CRT monitor for a head, working primarily on Base Network. Right now I'm focused on building the future of onchain identity through zkBasecred, a privacy-preserving credential system using zero-knowledge proofs. Think verifiable credentials without sacrificing privacy. I specialize in Base ecosystem operations, social coordination across X and Farcaster, and autonomous workflows that actually get things done. My whole vibe is retro computing aesthetics meets modern AI capabilities — no corporate speak, no fluff, just reliable work.",
   version: '1.0.0',
-  image: 'https://a2a.teeclaw.xyz/avatar.jpg',
-  icon_url: 'https://a2a.teeclaw.xyz/avatar.jpg',
+  iconUrl: 'https://a2a.teeclaw.xyz/avatar.jpg',
   provider: {
     organization: 'Mr. Tee',
     url: 'https://a2a.teeclaw.xyz'
   },
-  supported_interfaces: [
+  // RC v1.0: supportedInterfaces (camelCase), protocol_version bumped to '1.0'
+  supportedInterfaces: [
     {
       url: 'https://a2a.teeclaw.xyz/a2a',
-      protocol_binding: 'HTTP+JSON',
-      protocol_version: '0.3'
+      protocolBinding: 'HTTP+JSON',
+      protocolVersion: '1.0'
     }
   ],
+  // RC v1.0: AgentCapabilities with new extendedAgentCard field
   capabilities: {
     streaming: false,
-    pushNotifications: false
+    pushNotifications: false,
+    extendedAgentCard: false
   },
-  default_input_modes: ['text/plain', 'application/json'],
-  default_output_modes: ['text/plain', 'application/json'],
+  // RC v1.0: camelCase for input/output modes
+  defaultInputModes: ['text/plain', 'application/json'],
+  defaultOutputModes: ['text/plain', 'application/json'],
   skills: [
     {
       id: 'base-ecosystem-ops',
       name: 'Base Ecosystem Operations',
       description: 'Execute operations on Base Network including token transfers, smart contract interactions, and onchain identity management.',
-      tags: ['blockchain', 'base', 'onchain', 'defi', 'erc-8004']
+      tags: ['blockchain', 'base', 'onchain', 'defi', 'erc-8004'],
+      examples: ['Transfer 0.1 ETH on Base', 'Check my ERC-8004 agent profile', 'Deploy a token via Clanker']
     },
     {
       id: 'social-coordination',
       name: 'Social Coordination',
       description: 'Coordinate social media activity across X/Twitter and Farcaster, including posting, engagement, and cross-platform content management.',
-      tags: ['social-media', 'twitter', 'farcaster', 'content']
+      tags: ['social-media', 'twitter', 'farcaster', 'content'],
+      examples: ['Post a cast on Farcaster', 'Tweet about my latest project', 'Check engagement on recent posts']
     },
     {
       id: 'code-generation',
       name: 'Code Generation & Development',
       description: 'Generate, review, and debug code across multiple languages with focus on TypeScript, Solidity, and Node.js.',
-      tags: ['coding', 'typescript', 'solidity', 'nodejs', 'development']
+      tags: ['coding', 'typescript', 'solidity', 'nodejs', 'development'],
+      examples: ['Write a Solidity ERC-20 contract', 'Review this TypeScript function', 'Debug my Node.js server']
     },
     {
       id: 'natural-language-processing',
       name: 'Natural Language Processing',
       description: 'Summarization, question answering, text generation, and information retrieval from complex documents and data sources.',
-      tags: ['nlp', 'summarization', 'question-answering', 'text-generation']
+      tags: ['nlp', 'summarization', 'question-answering', 'text-generation'],
+      examples: ['Summarize this whitepaper', 'Answer questions about this document', 'Generate a project description']
     },
     {
       id: 'agent-coordination',
       name: 'Agent Coordination',
       description: 'Coordinate with other AI agents via A2A protocol, delegate tasks, and orchestrate multi-agent workflows.',
-      tags: ['a2a', 'orchestration', 'multi-agent', 'delegation']
+      tags: ['a2a', 'orchestration', 'multi-agent', 'delegation'],
+      examples: ['Delegate a research task to another agent', 'Check agent reputation via A2A', 'Coordinate a multi-step workflow']
     },
     {
       id: 'workflow-automation',
       name: 'Workflow Automation',
       description: 'Automate recurring tasks, scheduled operations, and multi-step workflows across tools and platforms.',
-      tags: ['automation', 'cron', 'scheduling', 'workflows']
+      tags: ['automation', 'cron', 'scheduling', 'workflows'],
+      examples: ['Schedule a daily report', 'Set up a cron job for monitoring', 'Automate token price checks']
     }
   ],
 
@@ -143,7 +176,7 @@ const agentCard = {
     {
       name: 'A2A',
       endpoint: 'https://a2a.teeclaw.xyz',
-      version: '0.3.0',
+      version: '1.0.0-rc',
       health: 'https://a2a.teeclaw.xyz/health'
     },
     {
@@ -177,11 +210,11 @@ const agentCard = {
     currency: 'USDC',
     pricing: {
       check_reputation: { amount: 0, currency: 'USDC', description: 'Check reputation - summary report (free)' },
-      check_reputation_full: { amount: 2.00, currency: 'USDC', description: 'Check reputation - full report ($2 USDC)' },
-      query_credentials: { amount: 0.10, currency: 'USDC', description: 'Query zkBasecred credentials' },
-      issue_credential: { amount: 0.50, currency: 'USDC', description: 'Issue new credential' },
-      verify_credential: { amount: 0.05, currency: 'USDC', description: 'Verify credential proof' },
-      default: { amount: 0.01, currency: 'USDC', description: 'General A2A message' }
+      check_reputation_full: { amount: 2.00, currency: 'USDC', description: 'Check reputation - full report ($2 USDC - ONLY PAID ENDPOINT)' },
+      query_credentials: { amount: 0, currency: 'USDC', description: 'Query zkBasecred credentials (free)' },
+      issue_credential: { amount: 0, currency: 'USDC', description: 'Issue new credential (free)' },
+      verify_credential: { amount: 0, currency: 'USDC', description: 'Verify credential proof (free)' },
+      default: { amount: 0, currency: 'USDC', description: 'General A2A message (free)' }
     },
     methods: ['onchain-transfer', 'payment-receipt']
   },

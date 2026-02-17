@@ -10,7 +10,7 @@
  *   node x402/client.mjs http://localhost:4021/api/agent-info
  * 
  * Environment:
- *   MAIN_WALLET_PRIVATE_KEY - private key for signing payments
+ *   AGENT_WALLET_PRIVATE_KEY - private key for signing payments
  */
 
 import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402/fetch";
@@ -47,9 +47,9 @@ if (!url) {
   process.exit(1);
 }
 
-const privateKey = process.env.MAIN_WALLET_PRIVATE_KEY;
+const privateKey = process.env.AGENT_WALLET_PRIVATE_KEY;
 if (!privateKey) {
-  console.error("❌ MAIN_WALLET_PRIVATE_KEY not set");
+  console.error("❌ AGENT_WALLET_PRIVATE_KEY not set");
   process.exit(1);
 }
 
