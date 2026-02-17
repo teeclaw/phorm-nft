@@ -15,28 +15,11 @@
 
 ## Conway Domains
 
-**API:** `https://api.conway.domains` (provider: namesilo backend)  
-**Auth:** SIWE (Sign-In with Ethereum) — signs with Conway wallet → gets JWT Bearer token  
-**Wallet:** `~/.conway/wallet.json` (contains `privateKey`)  
-**Wallet Address:** `0xae5e422710AfF2F2C855cDB8Fe29C23D2BC4EDC5`  
-**Config:** `~/.conway/config.json` (walletAddress + provisionedAt; API key field deprecated/invalid)  
-**Note:** The `apiKey` in config.json does NOT work — must use SIWE auth flow  
-
-**SIWE Auth Flow:**
-1. `POST /auth/nonce` → get nonce
-2. Sign SiweMessage (chainId: 8453, domain: api.conway.domains)
-3. `POST /auth/verify` → get `access_token` (JWT, valid 50 min)
-4. Use `Authorization: Bearer <token>` for all domain API calls
-
-**DNS Endpoints:**
-- List: `GET /domains/{domain}/dns`
-- Add: `POST /domains/{domain}/dns`
-- Update: `PUT /domains/{domain}/dns/{recordId}` — use `recordId` field (not `id`)
-- Delete: `DELETE /domains/{domain}/dns/{recordId}`
-
-**Owned Domains:**
-- `mrcrt.xyz` — parked
-- `draeven.xyz` — Draeven landing page, served from `/var/www/mrcrt` via Caddy
+**API:** `https://api.conway.domains`  
+**Auth:** SIWE only — `apiKey` in config.json is deprecated/broken  
+**Wallet:** `~/.conway/wallet.json` · address: `0xae5e422710AfF2F2C855cDB8Fe29C23D2BC4EDC5`  
+**DNS records use `recordId` field** (not `id`)  
+**Owned:** `mrcrt.xyz` (parked), `draeven.xyz` (→ `/var/www/mrcrt` via Caddy)
 
 ## Security
 
