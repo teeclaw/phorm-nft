@@ -30,6 +30,7 @@ app.use(x402({
     '/reputation-spec', '/reputation-spec.md',
     '/.well-known/agent-card.json', '/.well-known/agent.json',
     '/.well-known/agent-registration.json',
+    '/reputation/simple-report',
   ],
   routes: {
     'POST /reputation/full-report': {
@@ -211,6 +212,13 @@ const agentCard = {
     facilitator: 'onchain.fi',
     paidEndpoints: [
       {
+        endpoint: '/reputation/simple-report',
+        method: 'POST',
+        amount: 0,
+        currency: 'USDC',
+        description: 'Simple reputation report — scores, levels, rankings (free)',
+      },
+      {
         endpoint: '/reputation/full-report',
         method: 'POST',
         amount: 2.00,
@@ -220,7 +228,7 @@ const agentCard = {
       }
     ],
     methods: ['eip3009'],
-    note: 'All other endpoints are free. Payment header: X-Payment (base64 EIP-3009 signed to intermediate address)'
+    note: '/reputation/simple-report is free. /reputation/full-report costs $2 USDC. Payment header: X-Payment (base64 EIP-3009 signed to intermediate address)'
   },
   active: true,
   registrations: [
@@ -252,6 +260,45 @@ app.get('/.well-known/agent-registration.json', (req, res) => {
       }
     ]
   });
+});
+
+// ── Reputation Simple Report (FREE) ──────────────────────────────────────────
+app.post('/reputation/simple-report', async (req, res) => {
+  try {
+    const { address, from } = req.body || {};
+
+    if (!address || !address.match(/^0x[a-fA-F0-9]{40}$/)) {
+      return res.status(400).json({
+        error: 'Invalid or missing address',
+        message: 'Provide a valid Ethereum address: { "address": "0x..." }',
+      });
+    }
+
+    console.log(`🔍 Free reputation request from ${from || 'unknown'} for ${address}`);
+
+    const { processA2AMessage } = require('./a2a-processor');
+    const result = await processA2AMessage(
+      from || 'external-agent',
+      `Check reputation for ${address}`,
+      { taskType: 'check_reputation', address }
+    );
+
+    if (result.status === 'error') {
+      return res.status(500).json({ error: result.error });
+    }
+
+    return res.json({
+      status: 'success',
+      address,
+      tier: 'simple',
+      data: result.result?.summary || result.result,
+      timestamp: new Date().toISOString(),
+    });
+
+  } catch (err) {
+    console.error('Simple reputation route error:', err.message);
+    res.status(500).json({ error: 'Internal server error', message: err.message });
+  }
 });
 
 // ── Reputation Full Report (PAID — $2 USDC via x402) ─────────────────────────
