@@ -26,7 +26,7 @@ async function main() {
   const initial = await new Promise((resolve) => {
     // Use a stable idempotency key so re-runs don't double-pay
   const testRunId = `test-${new Date().toISOString().slice(0,10)}`;
-  const body = JSON.stringify({ from: 'Mr. Tee (self-test)', address: '0x134820820d4f631ff949625189950bA7B3C57e41', idempotencyKey: testRunId });
+  const body = JSON.stringify({ from: 'Mr. Tee (self-test)', address: '0x112F14D7aB03111Fdf720c6Ccc720A21576F7487', idempotencyKey: testRunId });
     const req = http.request({
       hostname: 'localhost', port: 3100, path: '/reputation/full-report',
       method: 'POST',
@@ -52,7 +52,7 @@ async function main() {
     TARGET,
     {
       method: 'POST',
-      body: { from: 'Mr. Tee (self-test)', address: '0x134820820d4f631ff949625189950bA7B3C57e41' },
+      body: { from: 'Mr. Tee (self-test)', address: '0x112F14D7aB03111Fdf720c6Ccc720A21576F7487' },
     },
     {
       maxAmount: '2.50', // safety cap slightly above $2

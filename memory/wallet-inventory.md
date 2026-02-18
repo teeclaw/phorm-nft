@@ -5,7 +5,7 @@ Last updated: 2026-02-07 04:09 UTC
 ## Active Wallets
 
 ### 1. Your Main Wallet (Now Farcaster Account!)
-- **Address:** `0x134820820d4f631ff949625189950bA7B3C57e41`
+- **Address:** `0x112F14D7aB03111Fdf720c6Ccc720A21576F7487`
 - **Purpose:** Primary wallet + Farcaster custody (FID: 2700953)
 - **Credentials:** 
   - Private key: `/home/phan_harry/.openclaw/.env` (AGENT_WALLET_PRIVATE_KEY)

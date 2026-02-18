@@ -21,7 +21,7 @@ const OPENCLAW_BIN = '/home/phan_harry/openclaw/bin/openclaw';
 app.use(bodyParser.json());
 // x402 payment middleware (onchain.fi-backed, reusable module)
 app.use(x402({
-  recipient: '0x134820820d4f631ff949625189950bA7B3C57e41',
+  recipient: '0x112F14D7aB03111Fdf720c6Ccc720A21576F7487',
   token: 'USDC',
   sourceNetwork: 'base',
   destinationNetwork: 'base',
@@ -205,7 +205,7 @@ const agentCard = {
   x402Support: true,
   x402: {
     enabled: true,
-    wallet: '0x134820820d4f631ff949625189950bA7B3C57e41',
+    wallet: '0x112F14D7aB03111Fdf720c6Ccc720A21576F7487',
     network: 'base',
     chainId: 8453,
     currency: 'USDC',

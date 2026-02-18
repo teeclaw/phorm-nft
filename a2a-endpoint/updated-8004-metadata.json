@@ -122,7 +122,7 @@
     },
     {
       "name": "operationalWallet",
-      "endpoint": "eip155:8453:0x134820820d4f631ff949625189950bA7B3C57e41",
+      "endpoint": "eip155:8453:0x112F14D7aB03111Fdf720c6Ccc720A21576F7487",
       "description": "Operational wallet for outgoing transactions"
     }
   ]

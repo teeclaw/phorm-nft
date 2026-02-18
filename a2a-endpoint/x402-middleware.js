@@ -8,7 +8,7 @@ const { verifyUSDCTransfer } = require('./onchain-verifier');
 
 // Configuration
 const CONFIG = {
-  AGENT_WALLET: '0x134820820d4f631ff949625189950bA7B3C57e41', // Mr. Tee's wallet on Base
+  AGENT_WALLET: '0x112F14D7aB03111Fdf720c6Ccc720A21576F7487', // Mr. Tee's wallet on Base
   PAYMENT_CURRENCY: 'USDC',
   PAYMENT_NETWORK: 'base', // Chain ID 8453
   FREE_ENDPOINTS: ['/health', '/agent', '/.well-known/agent-card.json', '/.well-known/agent.json', '/.well-known/agent-registration.json', '/spec', '/spec.md', '/avatar.jpg', '/reputation-spec', '/reputation-spec.md'],

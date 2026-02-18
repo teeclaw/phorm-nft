@@ -153,11 +153,11 @@ Agent ID: 14482
 - **Status:** ✅ Enabled
 - **Network:** Base (8453)
 - **Currency:** USDC
-- **Payment Address:** `0x134820820d4f631ff949625189950bA7B3C57e41`
+- **Payment Address:** `0x112F14D7aB03111Fdf720c6Ccc720A21576F7487`
 
 ### CAIP-10 Format
 ```
-eip155:8453:0x134820820d4f631ff949625189950bA7B3C57e41
+eip155:8453:0x112F14D7aB03111Fdf720c6Ccc720A21576F7487
 ```
 
 ### Pricing

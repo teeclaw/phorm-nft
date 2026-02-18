@@ -6,7 +6,7 @@
 
 const { verifyUSDCTransfer, USDC_ADDRESS, isTransactionUsed } = require('./onchain-verifier');
 
-const AGENT_WALLET = '0x134820820d4f631ff949625189950bA7B3C57e41';
+const AGENT_WALLET = '0x112F14D7aB03111Fdf720c6Ccc720A21576F7487';
 
 async function main() {
   console.log('=== Onchain Verification Test ===\n');

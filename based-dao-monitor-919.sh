@@ -14,7 +14,7 @@ CURRENT_BID=$(echo "$AUCTION_DATA" | grep "Current Bid:" | cut -d':' -f2 | xargs
 TIME_LEFT=$(echo "$AUCTION_DATA" | grep "Time Left:" | cut -d':' -f2 | xargs)
 
 # Our wallet address
-OUR_WALLET="0x134820820d4f631ff949625189950bA7B3C57e41"
+OUR_WALLET="0x112F14D7aB03111Fdf720c6Ccc720A21576F7487"
 
 # Only proceed if this is auction #919
 if [ "$AUCTION_ID" != "919" ]; then

@@ -10,10 +10,10 @@ curl -s -X POST http://localhost:3100/a2a \
   -H "Content-Type: application/json" \
   -d '{
     "from": "TestAgent",
-    "message": "Check reputation for 0x134820820d4f631ff949625189950bA7B3C57e41",
+    "message": "Check reputation for 0x112F14D7aB03111Fdf720c6Ccc720A21576F7487",
     "metadata": {
       "taskType": "check_reputation",
-      "address": "0x134820820d4f631ff949625189950bA7B3C57e41"
+      "address": "0x112F14D7aB03111Fdf720c6Ccc720A21576F7487"
     }
   }' | jq -r 'if .status then "✅ FREE - No payment required" else "❌ FAILED" end'
 echo ""
@@ -24,10 +24,10 @@ RESPONSE=$(curl -s -X POST http://localhost:3100/a2a \
   -H "Content-Type: application/json" \
   -d '{
     "from": "TestAgent",
-    "message": "Check full reputation for 0x134820820d4f631ff949625189950bA7B3C57e41",
+    "message": "Check full reputation for 0x112F14D7aB03111Fdf720c6Ccc720A21576F7487",
     "metadata": {
       "taskType": "check_reputation_full",
-      "address": "0x134820820d4f631ff949625189950bA7B3C57e41"
+      "address": "0x112F14D7aB03111Fdf720c6Ccc720A21576F7487"
     }
   }')
 
