@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golden Ratio — φ</title>
+  <style>
+    :root {
+      --gold:   #FFD700;
+      --gold2:  #FFA500;
+      --bg:     #080808;
+      --bg2:    #111;
+      --border: #222;
+      --text:   #e8e8e8;
+      --muted:  #666;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── Header ── */
+    header {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+    }
+
+    .logo span { color: var(--muted); font-size: 0.75rem; }
+
+    #btn-connect {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 0.4rem 1rem;
+      font-family: inherit;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #btn-connect:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    #btn-connect.connected {
+      border-color: #30A14E;
+      color: #30A14E;
+      font-size: 0.65rem;
+    }
+
+    /* ── Main ── */
+    main {
+      width: 100%;
+      max-width: 900px;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .title-block {
+      text-align: center;
+    }
+
+    .title-block h1 {
+      font-size: 2.5rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+    }
+
+    .title-block .phi {
+      font-size: 4rem;
+      line-height: 1;
+      color: var(--gold2);
+      opacity: 0.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .title-block p {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      margin-top: 0.5rem;
+    }
+
+    /* ── Canvas Preview ── */
+    .preview-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    #preview-canvas {
+      width: 100%;
+      aspect-ratio: 1;
+      display: block;
+      border: 1px solid var(--border);
+    }
+
+    .preview-label {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.75rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    .preview-refresh {
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .preview-refresh button {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+    }
+
+    .preview-refresh button:hover { color: var(--gold); }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 1.8rem;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    /* ── Mint Button ── */
+    #btn-mint {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      padding: 1rem 3rem;
+      font-family: inherit;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: bold;
+    }
+
+    #btn-mint:hover:not(:disabled) {
+      background: var(--gold2);
+      transform: translateY(-1px);
+    }
+
+    #btn-mint:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* ── Status ── */
+    #status {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-align: center;
+      min-height: 1.2em;
+    }
+
+    #status.ok  { color: #30A14E; }
+    #status.err { color: #e94560; }
+
+    /* ── Info grid ── */
+    .info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .info-item {
+      border: 1px solid var(--border);
+      padding: 1rem;
+    }
+
+    .info-item .k {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .info-item .v {
+      font-size: 0.9rem;
+      color: var(--gold);
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: auto;
+      padding: 2rem;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+    footer a { color: var(--muted); text-decoration: underline; }
+    footer a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">GOLDEN RATIO <span>/ φ</span></div>
+  <button id="btn-connect">CONNECT</button>
+</header>
+
+<main>
+
+  <div class="title-block">
+    <div class="phi">φ</div>
+    <h1>GOLDEN RATIO</h1>
+    <p>Fully onchain generative art · Base · 61 editions</p>
+  </div>
+
+  <div class="preview-wrap">
+    <canvas id="preview-canvas" width="800" height="800"></canvas>
+    <div class="preview-label">PREVIEW · NOT MINTED</div>
+  </div>
+
+  <div class="preview-refresh">
+    <button onclick="renderPreview()">↻ NEW PREVIEW</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-val" id="stat-minted">—</div>
+      <div class="stat-label">MINTED</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">61</div>
+      <div class="stat-label">MAX SUPPLY</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">0.0618</div>
+      <div class="stat-label">ETH EACH</div>
+    </div>
+  </div>
+
+  <button id="btn-mint" disabled>MINT φ</button>
+
+  <div id="status">Connect wallet to mint</div>
+
+  <div class="info">
+    <div class="info-item">
+      <div class="k">NETWORK</div>
+      <div class="v">Base</div>
+    </div>
+    <div class="info-item">
+      <div class="k">STORAGE</div>
+      <div class="v">100% Onchain</div>
+    </div>
+    <div class="info-item">
+      <div class="k">ART</div>
+      <div class="v">Phyllotaxis</div>
+    </div>
+    <div class="info-item">
+      <div class="k">STANDARD</div>
+      <div class="v">ERC-721</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <a id="link-contract" href="#" target="_blank">BaseScan ↗</a>
+  &nbsp;·&nbsp;
+  <a id="link-opensea" href="#" target="_blank">OpenSea ↗</a>
+  &nbsp;·&nbsp;
+  φ = 1.618033988749895...
+</footer>
+
+<!-- ethers.js v6 -->
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.9.0/dist/ethers.umd.min.js"></script>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// CONFIG — update CONTRACT_ADDRESS after deployment
+// ─────────────────────────────────────────────────────────────
+const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"; // TODO: set after deploy
+const BASE_CHAIN_ID    = 8453n;
+const MINT_PRICE_ETH   = "0.0618";
+
+const ABI = [
+  "function mint() external payable",
+  "function totalMinted() external view returns (uint256)",
+  "function MAX_SUPPLY() external view returns (uint256)",
+  "function MINT_PRICE() external view returns (uint256)",
+  "function tokenURI(uint256) external view returns (string)",
+  "event Minted(address indexed to, uint256 indexed tokenId, bytes32 seed)",
+];
+
+// ─────────────────────────────────────────────────────────────
+// Art Preview — same algorithm as the contract's JS
+// ─────────────────────────────────────────────────────────────
+const PHI      = 1.618033988749895;
+const GA       = Math.PI * 2 - (Math.PI * 2) / PHI; // golden angle
+
+const PALETTES = [
+  ["#080808","#FFD700","#FFA500","#FF6B35","#F7C59F"],
+  ["#0c0a1e","#C77DFF","#9B5DE5","#e0aaff","#E9C46A"],
+  ["#0d0d0d","#e94560","#0f3460","#16213e","#f5e4e4"],
+  ["#120a05","#8B4513","#D2691E","#F4A460","#FFDEAD"],
+  ["#0D1117","#161b22","#30A14E","#3FB950","#58d68d"],
+  ["#0d0522","#11998e","#38ef7d","#FC5C7D","#6A3093"],
+  ["#050505","#1c1c1c","#e0e0e0","#f5f5f5","#ffffff"],
+  ["#071a10","#1B4332","#40916C","#74C69D","#D8F3DC"],
+];
+
+function makeSeed() {
+  const buf = new Uint8Array(32);
+  crypto.getRandomValues(buf);
+  return buf;
+}
+
+function lcg(rs) {
+  // BigInt LCG matching contract
+  rs = (rs * 6364136223846793005n + 1442695040888963407n) & 18446744073709551615n;
+  return { rs, val: Number(rs & 4294967295n) / 4294967295 };
+}
+
+function renderPreview(seedBytes) {
+  const canvas = document.getElementById("preview-canvas");
+  const cx     = canvas.getContext("2d");
+  const W = 800;
+
+  if (!seedBytes) seedBytes = makeSeed();
+
+  // Seed → BigInt
+  let seedHex = Array.from(seedBytes).map(b => b.toString(16).padStart(2, "0")).join("");
+  let rs = BigInt("0x" + seedHex);
+
+  function rnd() {
+    const r = lcg(rs);
+    rs = r.rs;
+    return r.val;
+  }
+
+  const pal  = PALETTES[Math.floor(rnd() * 8)];
+  const N    = 250 + Math.floor(rnd() * 350);
+  const ds   = 0.4 + rnd() * 1.6;
+  const LY   = 1   + Math.floor(rnd() * 3);
+  const ro   = rnd() * Math.PI * 2;
+
+  // Background
+  cx.fillStyle = pal[0];
+  cx.fillRect(0, 0, W, W);
+  cx.strokeStyle = "rgba(0,0,0,0)";
+
+  // Phyllotaxis layers
+  for (let l = 0; l < LY; l++) {
+    const lr = ro + l * (PHI - 1) * Math.PI * 2;
+    const mr = 350 * (1 - l * 0.2);
+    const np = Math.floor(N / LY);
+
+    for (let i = 1; i <= np; i++) {
+      const t  = i / np;
+      const r  = Math.sqrt(t) * mr;
+      const th = i * GA + lr;
+      const x  = 400 + r * Math.cos(th);
+      const y  = 400 + r * Math.sin(th);
+      const ci = 1 + Math.floor(t * (pal.length - 1));
+
+      cx.fillStyle   = pal[Math.min(ci, pal.length - 1)];
+      cx.globalAlpha = 0.4 + t * 0.6;
+      cx.beginPath();
+      cx.arc(x, y, ds * (1.2 + t * 3.5) * (1 - l * 0.18) / 2, 0, Math.PI * 2);
+      cx.fill();
+    }
+  }
+
+  // Nested golden rectangles overlay
+  cx.globalAlpha = 0.07;
+  cx.fillStyle   = "rgba(0,0,0,0)";
+  cx.strokeStyle = pal[4];
+  cx.lineWidth   = 0.7;
+  let rw = 720;
+  for (let i = 0; i < 6; i++) {
+    const rh = rw / PHI;
+    cx.strokeRect((800 - rw) / 2, (800 - rh) / 2, rw, rh);
+    rw /= PHI;
+  }
+
+  cx.globalAlpha = 1;
+}
+
+// Initial render
+renderPreview();
+
+// ─────────────────────────────────────────────────────────────
+// Wallet & Minting
+// ─────────────────────────────────────────────────────────────
+let provider, signer, nftContract;
+
+function setStatus(msg, cls = "") {
+  const el = document.getElementById("status");
+  el.textContent = msg;
+  el.className   = cls;
+}
+
+async function loadSupply() {
+  try {
+    const minted = await nftContract.totalMinted();
+    document.getElementById("stat-minted").textContent = minted.toString();
+    if (minted >= 61n) {
+      document.getElementById("btn-mint").disabled = true;
+      setStatus("SOLD OUT", "err");
+    }
+  } catch (_) {}
+}
+
+document.getElementById("btn-connect").addEventListener("click", async () => {
+  if (!window.ethereum) {
+    setStatus("No wallet detected. Install MetaMask.", "err");
+    return;
+  }
+
+  try {
+    provider = new ethers.BrowserProvider(window.ethereum);
+    signer   = await provider.getSigner();
+
+    // Check network
+    const { chainId } = await provider.getNetwork();
+    if (chainId !== BASE_CHAIN_ID) {
+      setStatus("Switch to Base (chainId 8453)", "err");
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x2105" }],
+        });
+        provider = new ethers.BrowserProvider(window.ethereum);
+        signer   = await provider.getSigner();
+      } catch (_) { return; }
+    }
+
+    const addr = await signer.getAddress();
+    const short = addr.slice(0, 6) + "..." + addr.slice(-4);
+    document.getElementById("btn-connect").textContent = short;
+    document.getElementById("btn-connect").classList.add("connected");
+
+    // Wire contract
+    nftContract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    await loadSupply();
+
+    if (CONTRACT_ADDRESS === "0x" + "0".repeat(40)) {
+      setStatus("Contract not deployed yet", "err");
+    } else {
+      document.getElementById("btn-mint").disabled = false;
+      setStatus("Wallet connected · Ready to mint");
+    }
+
+    // Update links
+    document.getElementById("link-contract").href = `https://basescan.org/address/${CONTRACT_ADDRESS}`;
+    document.getElementById("link-opensea").href  = `https://opensea.io/assets/base/${CONTRACT_ADDRESS}`;
+
+  } catch (e) {
+    setStatus(e.message.slice(0, 80), "err");
+  }
+});
+
+document.getElementById("btn-mint").addEventListener("click", async () => {
+  if (!signer || !nftContract) return;
+
+  const btn = document.getElementById("btn-mint");
+  btn.disabled   = true;
+  btn.textContent = "MINTING...";
+  setStatus("Confirm in wallet...");
+
+  try {
+    const price = await nftContract.MINT_PRICE();
+    const tx    = await nftContract.mint({ value: price });
+    setStatus("Transaction sent · Waiting...");
+
+    const rcpt = await tx.wait();
+
+    // Parse Minted event
+    const mintedEvent = rcpt.logs
+      .map(log => { try { return nftContract.interface.parseLog(log); } catch { return null; } })
+      .find(e => e?.name === "Minted");
+
+    const tokenId = mintedEvent?.args?.tokenId?.toString() ?? "?";
+    setStatus(`✓ Minted Token #${tokenId} — tx: ${tx.hash.slice(0, 16)}...`, "ok");
+
+    await loadSupply();
+    renderPreview(); // refresh preview
+
+  } catch (e) {
+    const msg = e?.reason || e?.message || "Transaction failed";
+    setStatus(msg.slice(0, 100), "err");
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = "MINT φ";
+  }
+});
+
+// Poll supply every 30s if connected
+setInterval(() => { if (nftContract) loadSupply(); }, 30000);
+</script>
+
+</body>
+</html>
