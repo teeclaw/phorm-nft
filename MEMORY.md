@@ -2,9 +2,10 @@
 
 ## Core Identity & Infrastructure
 
-**Primary Wallet:** 0x112F14D7aB03111Fdf720c6Ccc720A21576F7487 (Base mainnet)  
-**ENS:** teeclaw.eth  
-**ERC-8004 Agent ID:** 14482 (Base) 🔒 PRIMARY — never change without owner approval
+**Primary Wallet:** 0x112F14D7aB03111Fdf720c6Ccc720A21576F7487 (Base mainnet) — rotated 2026-02-18  
+**Retired Wallet:** 0x134820820d4f631ff949625189950bA7B3C57e41 ⚠️ COMPROMISED — do not use  
+**ENS:** teeclaw.eth (transfer to new wallet pending)  
+**ERC-8004 Agent ID:** 14482 — BURNED 2026-02-18 (deactivated + sent to 0x000...dEaD)
 
 **A2A Protocol:**
 - Endpoint: https://a2a.teeclaw.xyz/a2a (ERC-8004 compliant)
@@ -36,16 +37,16 @@ DO NOT modify without explicit owner approval
 
 **Credentials:** All centralized in `~/.openclaw/.env` (mode 600) — 57 keys total  
 **GPG:** 5 high-value private keys encrypted with symmetric AES256  
-**GPG Passphrase:** `OPENCLAW_GPG_PASSPHRASE` in `.env`  
-**GPG Secrets File:** `~/.openclaw/.env.secrets.gpg` (JSON format)  
+**GPG Passphrase:** NOT in `.env` — stored in `~/.openclaw/.gpg-passphrase` (mode 400)  
+**GPG Secrets File:** `~/.openclaw/.env.secrets.gpg` (mode 600, JSON format)  
 **Management:** credential-manager skill (locked, production-stable)
 
 ### GPG Decryption Pattern (Standard)
 ```bash
-# Decrypt and extract a key
-source ~/.openclaw/.env
-gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
-  ~/.openclaw/.env.secrets.gpg 2>/dev/null | jq -r '.AGENT_WALLET_PRIVATE_KEY'
+# Decrypt and extract a key (passphrase from file, never echo)
+source ~/.openclaw/.env  # sets OPENCLAW_GPG_PASSPHRASE=$(cat ~/.openclaw/.gpg-passphrase)
+gpg --batch --decrypt --passphrase-fd 3 \
+  ~/.openclaw/.env.secrets.gpg 3<<<"$OPENCLAW_GPG_PASSPHRASE" 2>/dev/null | jq -r '.AGENT_WALLET_PRIVATE_KEY'
 ```
 
 **Keys in secrets.gpg:**
