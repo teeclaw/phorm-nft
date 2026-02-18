@@ -1,6 +1,6 @@
 #!/bin/bash
 # Helper to decrypt GPG-encrypted keys from .env.secrets.gpg
-# Usage: bash scripts/decrypt-key.sh MAIN_WALLET_PRIVATE_KEY
+# Usage: bash scripts/decrypt-key.sh AGENT_WALLET_PRIVATE_KEY
 
 set -euo pipefail
 
@@ -9,7 +9,7 @@ KEY_NAME="${1:-}"
 if [ -z "$KEY_NAME" ]; then
   echo "Usage: $0 <key_name>"
   echo "Available keys:"
-  echo "  MAIN_WALLET_PRIVATE_KEY"
+  echo "  AGENT_WALLET_PRIVATE_KEY"
   echo "  FARCASTER_CUSTODY_PRIVATE_KEY"
   echo "  FARCASTER_SIGNER_PRIVATE_KEY"
   echo "  FARCASTER_LEGACY_CUSTODY_PRIVATE_KEY"

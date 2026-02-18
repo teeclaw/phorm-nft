@@ -18,7 +18,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 const SERVER = process.env.X402_SERVER || 'http://localhost:4021';
 const TEST_ADDR = '0x168d8b4f50bb3aa67d05a6937b643004257118ed';
 const BAD_ADDR = '0xINVALID';
-const PRIVATE_KEY = process.env.MAIN_WALLET_PRIVATE_KEY || process.env.WALLET_PRIVATE_KEY;
+const PRIVATE_KEY = process.env.AGENT_WALLET_PRIVATE_KEY || process.env.WALLET_PRIVATE_KEY;
 const DRY_RUN = process.argv.includes('--dry-run');
 const SKIP_PAID = process.argv.includes('--skip-paid');
 

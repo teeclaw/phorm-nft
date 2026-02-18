@@ -1,0 +1,322 @@
+/* layout.css — Grid, containers, sections */
+
+/* Main container */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.container--narrow {
+  max-width: var(--container-narrow);
+}
+
+.container--wide {
+  max-width: var(--container-wide);
+}
+
+/* Section spacing */
+section {
+  padding-block: var(--section-padding);
+  position: relative;
+}
+
+section.section--compact {
+  padding-block: var(--section-padding-sm);
+}
+
+/* Hero Section */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, 
+    var(--color-bg-primary) 0%, 
+    #1a0a0f 50%, 
+    var(--color-bg-primary) 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: radial-gradient(ellipse at top, 
+    rgba(220, 20, 60, 0.15) 0%, 
+    transparent 70%);
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero__title {
+  margin-bottom: var(--space-3);
+  text-shadow: 0 4px 24px rgba(220, 20, 60, 0.4);
+}
+
+.hero__subtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 40ch;
+  margin-inline: auto;
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.hero__scroll:hover {
+  color: var(--color-accent-crimson);
+}
+
+.hero__scroll-arrow {
+  width: 24px;
+  height: 24px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: rotate(-45deg) translateY(0); }
+  50% { transform: rotate(-45deg) translateY(8px); }
+}
+
+/* Particles background */
+.hero__particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--color-accent-crimson);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh) translateX(0); }
+  100% { transform: translateY(-100px) translateX(100px); }
+}
+
+/* Grid layouts */
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.grid--characters {
+  gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .grid--characters {
+    gap: var(--space-12);
+  }
+}
+
+/* Intro section */
+.intro {
+  text-align: center;
+}
+
+.intro__text {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  margin-inline: auto;
+  max-width: 65ch;
+  line-height: 1.8;
+}
+
+.intro__text + .intro__text {
+  margin-top: var(--space-4);
+}
+
+/* Characters section */
+.characters {
+  background: var(--color-bg-secondary);
+}
+
+.characters__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.characters__subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  margin-top: var(--space-3);
+  font-style: italic;
+}
+
+/* What section */
+.what {
+  text-align: center;
+}
+
+.what__text {
+  font-size: var(--text-xl);
+  line-height: 1.6;
+  max-width: 50ch;
+  margin-inline: auto;
+  color: var(--color-text-secondary);
+}
+
+.what__text strong {
+  color: var(--color-text-primary);
+}
+
+/* Meme section */
+.meme {
+  background: var(--color-bg-secondary);
+}
+
+.meme__grid {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .meme__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .meme__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Hook section */
+.hook__comparison {
+  display: grid;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .hook__comparison {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-12);
+  }
+}
+
+.hook__list {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.hook__list-item {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  padding-left: var(--space-3);
+  position: relative;
+}
+
+.hook__list-item::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent-crimson);
+}
+
+/* CTA section */
+.cta {
+  text-align: center;
+  background: linear-gradient(180deg, var(--color-bg-primary), var(--color-bg-secondary));
+}
+
+.cta__message {
+  font-size: var(--text-2xl);
+  line-height: 1.4;
+  margin-bottom: var(--space-8);
+  max-width: 40ch;
+  margin-inline: auto;
+}
+
+.cta__contract {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  padding: var(--space-4);
+  border-radius: 8px;
+  margin-bottom: var(--space-6);
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.cta__contract-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-2);
+}
+
+.cta__contract-address {
+  font-family: 'Courier New', monospace;
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  word-break: break-all;
+}
+
+.cta__socials {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+/* Footer */
+.footer {
+  padding-block: var(--space-8);
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer__tagline {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-bottom: var(--space-3);
+}
+
+.footer__copyright {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+}

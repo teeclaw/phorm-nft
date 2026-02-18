@@ -8,7 +8,7 @@ Last updated: 2026-02-07 04:09 UTC
 - **Address:** `0x134820820d4f631ff949625189950bA7B3C57e41`
 - **Purpose:** Primary wallet + Farcaster custody (FID: 2700953)
 - **Credentials:** 
-  - Private key: `/home/phan_harry/.openclaw/.env` (MAIN_WALLET_PRIVATE_KEY)
+  - Private key: `/home/phan_harry/.openclaw/.env` (AGENT_WALLET_PRIVATE_KEY)
   - Farcaster: `/home/phan_harry/.openclaw/farcaster-credentials.json`
 - **Status:** ✅ Active, Farcaster-enabled
 - **Balances:**

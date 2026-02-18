@@ -68,7 +68,7 @@ Add optional deep scan mode:
 
 ### 3.1 Create `encrypt.py` Script
 ```bash
-./scripts/encrypt.py --keys MAIN_WALLET_PRIVATE_KEY,FARCASTER_CUSTODY_PRIVATE_KEY,FARCASTER_SIGNER_PRIVATE_KEY
+./scripts/encrypt.py --keys AGENT_WALLET_PRIVATE_KEY,FARCASTER_CUSTODY_PRIVATE_KEY,FARCASTER_SIGNER_PRIVATE_KEY
 ```
 **What it does:**
 1. Extract specified keys from `.env`
@@ -118,7 +118,7 @@ Replace naive checks with:
 New file: `~/.openclaw/.env.meta`
 ```json
 {
-  "MAIN_WALLET_PRIVATE_KEY": {
+  "AGENT_WALLET_PRIVATE_KEY": {
     "created": "2026-01-15",
     "lastRotated": null,
     "rotationDays": 90,

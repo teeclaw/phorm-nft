@@ -8,10 +8,10 @@ async function main() {
   console.log('Initializing SDK...');
   
   // OpenClaw's dotenv automatically decrypts GPG-prefixed values
-  const privateKey = process.env.MAIN_WALLET_PRIVATE_KEY!;
+  const privateKey = process.env.AGENT_WALLET_PRIVATE_KEY!;
   
   if (!privateKey || !privateKey.startsWith('0x')) {
-    throw new Error('MAIN_WALLET_PRIVATE_KEY not found or invalid');
+    throw new Error('AGENT_WALLET_PRIVATE_KEY not found or invalid');
   }
   
   const sdk = new SDK({
@@ -24,9 +24,9 @@ async function main() {
   console.log('\n=== Current Ownership ===');
   const currentOwner = await sdk.getAgentOwner(agentId);
   console.log(`Current owner: ${currentOwner}`);
-  console.log(`Main wallet: ${process.env.MAIN_WALLET_ADDRESS}`);
+  console.log(`Main wallet: ${process.env.AGENT_WALLET_ADDRESS}`);
   
-  if (currentOwner.toLowerCase() !== process.env.MAIN_WALLET_ADDRESS?.toLowerCase()) {
+  if (currentOwner.toLowerCase() !== process.env.AGENT_WALLET_ADDRESS?.toLowerCase()) {
     throw new Error('Wallet does not own this agent');
   }
   

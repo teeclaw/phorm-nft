@@ -14,11 +14,11 @@ const CONFIG = {
   FREE_ENDPOINTS: ['/health', '/agent', '/.well-known/agent-card.json', '/.well-known/agent.json', '/.well-known/agent-registration.json', '/spec', '/spec.md', '/avatar.jpg', '/reputation-spec', '/reputation-spec.md'],
   PRICING: {
     'check_reputation': 0, // Free - summary report
-    'check_reputation_full': 2.00, // $2.00 USDC - full report
-    'query_credentials': 0.10, // $0.10 USDC
-    'issue_credential': 0.50, // $0.50 USDC
-    'verify_credential': 0.05, // $0.05 USDC
-    'default': 0.01 // $0.01 USDC per message
+    'check_reputation_full': 2.00, // $2.00 USDC - full report (ONLY PAID ENDPOINT)
+    'query_credentials': 0, // Free
+    'issue_credential': 0, // Free
+    'verify_credential': 0, // Free
+    'default': 0 // Free
   }
 };
 

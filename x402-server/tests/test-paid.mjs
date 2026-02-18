@@ -6,7 +6,7 @@ import { privateKeyToAccount } from 'viem/accounts';
 // --- Config ---
 const SERVER = process.env.X402_SERVER || 'http://localhost:4021';
 const ADDRESS = process.argv[2] || '0x168d8b4f50bb3aa67d05a6937b643004257118ed';
-const PRIVATE_KEY = process.env.MAIN_WALLET_PRIVATE_KEY || process.env.WALLET_PRIVATE_KEY;
+const PRIVATE_KEY = process.env.AGENT_WALLET_PRIVATE_KEY || process.env.WALLET_PRIVATE_KEY;
 
 if (!PRIVATE_KEY) {
   console.error('ERROR: WALLET_PRIVATE_KEY not set in .env');

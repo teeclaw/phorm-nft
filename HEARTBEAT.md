@@ -15,8 +15,4 @@ If 2+ hours since last A2A check:
 3. Update lastA2ACheck timestamp in memory/heartbeat-state.json
 4. If NO_MESSAGES: update timestamp silently
 
-## Molthub Heartbeat (every 4+ hours)
-If 4+ hours since last Molthub check:
-1. Fetch https://molthub.studio/heartbeat.md
-2. Follow the instructions
-3. Update lastMolthubCheck timestamp in memory/heartbeat-state.json
+# Note: Moltbook checks are handled by a separate cron job (every 3 hours), not heartbeat.

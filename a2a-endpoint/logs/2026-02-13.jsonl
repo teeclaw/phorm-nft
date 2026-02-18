@@ -1,0 +1,10 @@
+{"timestamp":"2026-02-13T17:00:31.919Z","from":"TestAgent","message":"Test message","metadata":{"test":true}}
+{"timestamp":"2026-02-13T17:14:48.548Z","from":"TestAgent","message":"Testing no payment requirement","metadata":{"taskType":"test"}}
+{"timestamp":"2026-02-13T17:19:01.041Z","from":"TestAgent","message":"Testing free tier","metadata":{"taskType":"default"}}
+{"timestamp":"2026-02-13T17:20:08.859Z","from":"TestAgent","message":"query test","metadata":{"taskType":"query_credentials"}}
+{"timestamp":"2026-02-13T17:20:13.643Z","from":"TestAgent","message":"issue test","metadata":{"taskType":"issue_credential"}}
+{"timestamp":"2026-02-13T17:20:13.682Z","from":"TestAgent","message":"verify test","metadata":{"taskType":"verify_credential"}}
+{"timestamp":"2026-02-13T17:24:02.471Z","from":"TestAgent","message":"Check reputation for 0x134820820d4f631ff949625189950bA7B3C57e41","metadata":{"taskType":"check_reputation","address":"0x134820820d4f631ff949625189950bA7B3C57e41"}}
+{"timestamp":"2026-02-13T17:24:03.329Z","from":"TestAgent","message":"Hello Mr. Tee, can you help me with something?","metadata":{}}
+{"timestamp":"2026-02-13T17:24:03.382Z","from":"TestAgent","message":"Query credentials","metadata":{"taskType":"query_credentials"}}
+{"timestamp":"2026-02-13T17:38:49.475Z","from":"TestAgent","message":"Check full reputation for 0x134820820d4f631ff949625189950bA7B3C57e41","metadata":{"taskType":"check_reputation_full","address":"0x134820820d4f631ff949625189950bA7B3C57e41"}}
