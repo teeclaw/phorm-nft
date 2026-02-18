@@ -1,0 +1,7 @@
+🤖 Mr. Tee A2A Endpoint running on port 3100
+📺 Health: http://localhost:3100/health
+📡 A2A: http://localhost:3100/a2a
+🔍 Free reputation request from test for 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+📊 Processing reputation check from test
+✅ Reputation check complete for 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
+📺 Shutting down A2A endpoint...

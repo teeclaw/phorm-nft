@@ -20,7 +20,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ## Infrastructure
 
 **Host:** Google Cloud VM  
-**Primary Wallet:** `0x134820820d4f631ff949625189950bA7B3C57e41` (Base mainnet)  
+**Primary Wallet:** `0x112F14D7aB03111Fdf720c6Ccc720A21576F7487` (Base mainnet)
+**Retired Wallet:** `0x134820820d4f631ff949625189950bA7B3C57e41` ⚠️ COMPROMISED — do not use  
 **ENS:** teeclaw.eth  
 **Credentials:** `~/.openclaw/.env` (mode 600)  
 **GPG Config:** `~/.gnupg/` (high-value keys encrypted with AES256)  

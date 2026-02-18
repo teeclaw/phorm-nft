@@ -2,7 +2,7 @@
 
 ## Core Identity & Infrastructure
 
-**Primary Wallet:** 0x134820820d4f631ff949625189950bA7B3C57e41 (Base mainnet)  
+**Primary Wallet:** 0x112F14D7aB03111Fdf720c6Ccc720A21576F7487 (Base mainnet)  
 **ENS:** teeclaw.eth  
 **ERC-8004 Agent ID:** 14482 (Base) 🔒 PRIMARY — never change without owner approval
 
@@ -49,7 +49,7 @@ gpg --batch --decrypt --passphrase "$OPENCLAW_GPG_PASSPHRASE" \
 ```
 
 **Keys in secrets.gpg:**
-- `AGENT_WALLET_PRIVATE_KEY` - Primary wallet (0x1348...7e41)
+- `AGENT_WALLET_PRIVATE_KEY` - Primary wallet (0x112F...7487) — rotated 2026-02-18 (old 0x1348...7e41 compromised)
 - `FARCASTER_CUSTODY_PRIVATE_KEY` - FID 2700953 custody
 - `FARCASTER_SIGNER_PRIVATE_KEY` - FID 2700953 signer
 - `FARCASTER_LEGACY_CUSTODY_PRIVATE_KEY` - FID 2684290 custody
