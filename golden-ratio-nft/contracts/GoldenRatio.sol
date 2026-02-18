@@ -48,7 +48,7 @@ contract GoldenRatio is ERC721, ERC2981, Ownable, ReentrancyGuard {
     // Constructor
     // =========================================================
 
-    constructor() ERC721("Golden Ratio", "PHI") Ownable(msg.sender) {
+    constructor() ERC721("Phorm", "PHI") Ownable(msg.sender) {
         // 5% royalty to deployer by default; owner can update via setRoyalty()
         _setDefaultRoyalty(msg.sender, 500);
     }
@@ -125,10 +125,16 @@ contract GoldenRatio is ERC721, ERC2981, Ownable, ReentrancyGuard {
     /// @notice OpenSea collection metadata
     function contractURI() external view returns (string memory) {
         string memory json = string.concat(
-            '{"name":"Golden Ratio",',
-            '"description":"Fully onchain Bauhaus generative art. ',
-            'Phi-proportioned geometric compositions: Circle Dominance, De Stijl Grid, ',
-            'Constructivist Diagonal, Nested Forms. 61 unique pieces. 0.0618 ETH.",',
+            '{"name":"Phorm",',
+            '"description":"Phorm is a fully onchain generative art collection of 61 unique pieces, ',
+            'each constructed from a single mint seed and nothing else. ',
+            'Every composition is governed by phi = 1.618, the golden ratio. ',
+            'Proportions, positions, grid divisions, and offsets are all derived from phi, ',
+            'producing geometry that feels inevitable rather than arbitrary. ',
+            'Four Bauhaus-rooted compositions across eight hand-coded palettes. ',
+            'No IPFS. No metadata servers. No external dependencies. ',
+            'The art lives entirely in the contract. ',
+            '61 pieces. 0.0618 ETH each. Both numbers are phi.",',
             '"seller_fee_basis_points":500,',
             '"fee_recipient":"', Strings.toHexString(uint160(owner()), 20), '"}'
         );
@@ -174,10 +180,10 @@ contract GoldenRatio is ERC721, ERC2981, Ownable, ReentrancyGuard {
         );
 
         string memory json = string.concat(
-            '{"name":"Golden Ratio #', tokenId.toString(), '",',
-            '"description":"Fully onchain Bauhaus generative art. ',
-            'Geometric compositions driven by phi = 1.618. ',
-            '4 composition types, 8 palettes, 61 unique pieces.",',
+            '{"name":"Phorm #', tokenId.toString(), '",',
+            '"description":"Phorm is a fully onchain generative art collection governed by phi = 1.618. ',
+            'Each piece is unique, constructed entirely from its mint seed. ',
+            'Bauhaus geometry. No IPFS. No servers. The art lives in the contract.",',
             '"image":"data:image/svg+xml;base64,',    svgB64,  '",',
             '"animation_url":"data:text/html;base64,', htmlB64, '",',
             '"attributes":', attrs,
@@ -215,7 +221,7 @@ contract GoldenRatio is ERC721, ERC2981, Ownable, ReentrancyGuard {
             // Token number
             '<text x="400" y="775" text-anchor="middle" ',
                 'font-family="monospace" font-size="24" fill="', ink,
-                '" opacity="0.6">GOLDEN RATIO #', tokenId.toString(), '</text>',
+                '" opacity="0.6">PHORM #', tokenId.toString(), '</text>',
             '</svg>'
         );
     }

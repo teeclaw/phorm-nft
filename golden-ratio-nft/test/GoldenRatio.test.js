@@ -19,7 +19,7 @@ describe("GoldenRatio", function () {
 
   describe("Deployment", function () {
     it("sets correct name and symbol", async function () {
-      expect(await contract.name()).to.equal("Golden Ratio");
+      expect(await contract.name()).to.equal("Phorm");
       expect(await contract.symbol()).to.equal("PHI");
     });
 
@@ -124,7 +124,7 @@ describe("GoldenRatio", function () {
       const b64     = uri.replace("data:application/json;base64,", "");
       const json    = JSON.parse(Buffer.from(b64, "base64").toString("utf8"));
 
-      expect(json.name).to.equal("Golden Ratio #1");
+      expect(json.name).to.equal("Phorm #1");
       expect(json.description).to.be.a("string");
       // image = SVG thumbnail (static), animation_url = interactive HTML
       expect(json.image).to.match(/^data:image\/svg\+xml;base64,/);
@@ -150,7 +150,7 @@ describe("GoldenRatio", function () {
       const svgB64 = json.image.replace("data:image/svg+xml;base64,", "");
       const svg    = Buffer.from(svgB64, "base64").toString("utf8");
       expect(svg).to.include("<svg");
-      expect(svg).to.include("GOLDEN RATIO #1");
+      expect(svg).to.include("PHORM #1");
     });
 
     it("reverts for non-existent token", async function () {
@@ -231,7 +231,7 @@ describe("GoldenRatio", function () {
       const uri  = await contract.contractURI();
       expect(uri).to.match(/^data:application\/json;base64,/);
       const json = JSON.parse(Buffer.from(uri.replace("data:application/json;base64,",""), "base64").toString());
-      expect(json.name).to.equal("Golden Ratio");
+      expect(json.name).to.equal("Phorm");
       expect(json.seller_fee_basis_points).to.equal(500);
     });
   });
