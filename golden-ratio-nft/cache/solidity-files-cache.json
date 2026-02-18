@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/phan_harry/.openclaw/workspace/golden-ratio-nft/contracts/GoldenRatio.sol": {
-      "lastModificationDate": 1771374078624,
-      "contentHash": "02e41996a718c7f9a87588b41c838ca4",
+      "lastModificationDate": 1771375204406,
+      "contentHash": "f218e343f4adccf66d4229a78a3e30cd",
       "sourceName": "contracts/GoldenRatio.sol",
       "solcConfig": {
         "version": "0.8.24",

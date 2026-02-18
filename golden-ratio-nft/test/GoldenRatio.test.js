@@ -128,10 +128,10 @@ describe("GoldenRatio", function () {
       expect(json.description).to.be.a("string");
       expect(json.image).to.match(/^data:text\/html;base64,/);
       expect(json.animation_url).to.match(/^data:text\/html;base64,/);
-      expect(json.attributes).to.be.an("array").with.length(4);
+      expect(json.attributes).to.be.an("array").with.length(3); // Composition, Palette, Edition
     });
 
-    it("HTML contains the seed and token ID", async function () {
+    it("HTML contains the seed, token ID and PHI constant", async function () {
       const uri     = await contract.tokenURI(1);
       const b64     = uri.replace("data:application/json;base64,", "");
       const json    = JSON.parse(Buffer.from(b64, "base64").toString("utf8"));
@@ -141,7 +141,8 @@ describe("GoldenRatio", function () {
       expect(html).to.include("TOKEN=1");
       expect(html).to.include("SEED=");
       expect(html).to.include("PHI=1.618033988749895");
-      expect(html).to.include("GA=TWO_PI-TWO_PI/PHI");
+      expect(html).to.include("drawCircle");   // Bauhaus composition functions
+      expect(html).to.include("drawGrid");
     });
 
     it("reverts for non-existent token", async function () {
@@ -162,20 +163,23 @@ describe("GoldenRatio", function () {
   // =========================================================
 
   describe("Attributes", function () {
-    it("includes Palette, Points, Layers, Edition traits", async function () {
+    it("includes Composition, Palette, Edition traits", async function () {
       await contract.connect(user1).mint({ value: MINT_PRICE });
       const uri    = await contract.tokenURI(1);
       const b64    = uri.replace("data:application/json;base64,", "");
       const json   = JSON.parse(Buffer.from(b64, "base64").toString("utf8"));
       const traits = json.attributes.map((a) => a.trait_type);
 
+      expect(traits).to.include("Composition");
       expect(traits).to.include("Palette");
-      expect(traits).to.include("Points");
-      expect(traits).to.include("Layers");
       expect(traits).to.include("Edition");
 
       const edition = json.attributes.find((a) => a.trait_type === "Edition");
       expect(edition.value).to.equal("1/61");
+
+      const comp = json.attributes.find((a) => a.trait_type === "Composition");
+      const validComps = ["Circle Dominance", "De Stijl Grid", "Constructivist Diagonal", "Nested Forms"];
+      expect(validComps).to.include(comp.value);
     });
   });
 
