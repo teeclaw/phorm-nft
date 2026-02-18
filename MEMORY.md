@@ -13,6 +13,17 @@
   - `/reputation/simple-report` - Free basic check (Ethos, Farcaster, Talent Protocol)
   - `/reputation/full-report` - $2 USDC comprehensive analysis + narrative
 
+## News Feed 🔒 LOCKED
+
+**Source:** The Block RSS (`https://www.theblock.co/rss.xml`) — free, no API key  
+**Pipeline:** `workspace/news-feed/` — fetch.py (RSS + dedup + filter) + mark-posted.sh  
+**Filter:** Skip categories: Markets, Price, Trading. Skip keywords: price, rally, crash, dump, surges, etc. NFT allowed.  
+**Generation:** Isolated Claude session writes Mr. Tee take — strong opinion, no summary, no link, no em dashes  
+**Posting:** X only (`@mr_crtee`) via social-post skill  
+**Schedule:** Every 2h (cron ID: `274b79fd-8ecb-4a09-9c06-c9112faf69ae`)  
+**Dedup:** `news-feed/logs/posted.log` — GUIDs of posted stories  
+DO NOT modify without explicit owner approval
+
 ## Conway Domains
 
 **API:** `https://api.conway.domains`  
