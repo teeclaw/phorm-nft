@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/phan_harry/.openclaw/workspace/golden-ratio-nft/contracts/GoldenRatio.sol": {
-      "lastModificationDate": 1771375204406,
-      "contentHash": "f218e343f4adccf66d4229a78a3e30cd",
+      "lastModificationDate": 1771378710543,
+      "contentHash": "d67f7ea0a9e53b7e774683b5124db04c",
       "sourceName": "contracts/GoldenRatio.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -32,7 +32,9 @@
       },
       "imports": [
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+        "@openzeppelin/contracts/token/common/ERC2981.sol",
         "@openzeppelin/contracts/access/Ownable.sol",
+        "@openzeppelin/contracts/utils/ReentrancyGuard.sol",
         "@openzeppelin/contracts/utils/Base64.sol",
         "@openzeppelin/contracts/utils/Strings.sol"
       ],
@@ -663,6 +665,122 @@
       ],
       "artifacts": [
         "IERC721Receiver"
+      ]
+    },
+    "/home/phan_harry/.openclaw/workspace/golden-ratio-nft/node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol": {
+      "lastModificationDate": 1771374276109,
+      "contentHash": "190613e556d509d9e9a0ea43dc5d891d",
+      "sourceName": "@openzeppelin/contracts/utils/ReentrancyGuard.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": false,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ReentrancyGuard"
+      ]
+    },
+    "/home/phan_harry/.openclaw/workspace/golden-ratio-nft/node_modules/@openzeppelin/contracts/token/common/ERC2981.sol": {
+      "lastModificationDate": 1771374274973,
+      "contentHash": "754b35c95a7abb4fb6677869bfd7912f",
+      "sourceName": "@openzeppelin/contracts/token/common/ERC2981.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": false,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../interfaces/IERC2981.sol",
+        "../../utils/introspection/ERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ERC2981"
+      ]
+    },
+    "/home/phan_harry/.openclaw/workspace/golden-ratio-nft/node_modules/@openzeppelin/contracts/interfaces/IERC2981.sol": {
+      "lastModificationDate": 1771374275813,
+      "contentHash": "901590b5e5c1683756629ed6308451ea",
+      "sourceName": "@openzeppelin/contracts/interfaces/IERC2981.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": false,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        ">=0.6.2"
+      ],
+      "artifacts": [
+        "IERC2981"
       ]
     }
   }
