@@ -5,204 +5,218 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>$ATTENTION — The World's Attention Market</title>
   <meta name="description" content="You're the product. We made it tradeable. $ATTENTION on Base.">
-
-  <!-- OG -->
   <meta property="og:title" content="$ATTENTION — The World's Attention Market">
   <meta property="og:description" content="You're the product. We made it tradeable.">
   <meta property="og:url" content="https://payattention.wtf">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="$ATTENTION">
-  <meta name="twitter:description" content="The world's attention market. You're the product. We made it tradeable.">
+  <meta name="theme-color" content="#39FF14">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
-  <!-- GSAP -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js" defer></script>
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Skip link -->
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Nav -->
-  <nav class="nav" aria-label="Main navigation">
+  <nav class="nav">
     <div class="nav__inner">
-      <span class="nav__logo">$ATTENTION</span>
-      <div class="nav__links">
+      <a href="/" class="nav__logo" aria-label="$ATTENTION home">
+        <svg class="nav__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2L12 22M12 2L4 10M12 2L20 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        $ATTENTION
+      </a>
+      <div class="nav__right">
         <a href="#why" class="nav__link">Why</a>
-        <a href="#tokenomics" class="nav__link">Tokenomics</a>
-        <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--ghost" aria-label="Buy $ATTENTION on Uniswap">Buy</a>
+        <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--nav">Buy</a>
       </div>
     </div>
   </nav>
 
   <main id="main">
 
-    <!-- Hero -->
-    <section class="hero" aria-label="Hero">
-      <div class="hero__ticker" aria-live="polite">
-        <span class="ticker__label">$ATTENTION</span>
-        <span class="ticker__price" id="livePrice">$0.000000</span>
-        <span class="ticker__change positive" id="liveChange">+∞%</span>
-      </div>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__inner">
+        <div class="hero__tag">Base Network · 2026</div>
 
-      <div class="hero__content">
-        <p class="hero__eyebrow">Base Network · 2026</p>
         <h1 class="hero__headline">
-          <span class="line">THE WORLD'S</span>
-          <span class="line accent">ATTENTION</span>
-          <span class="line">MARKET.</span>
+          <span class="hero__line">THE</span>
+          <span class="hero__line hero__line--green">WORLD'S</span>
+          <span class="hero__line">ATTENTION</span>
+          <span class="hero__line">MARKET.</span>
         </h1>
-        <p class="hero__sub">You're the product.<br>We made it tradeable.</p>
 
-        <div class="hero__cta">
-          <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--primary">
-            Buy $ATTENTION
-          </a>
-          <a href="#why" class="btn btn--ghost">Read the thesis</a>
+        <div class="hero__bottom">
+          <p class="hero__sub">You're the product.<br>We made it tradeable.</p>
+          <div class="hero__cta">
+            <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--primary">
+              Buy $ATTENTION
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L12 22M12 2L4 10M12 2L20 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#why" class="btn btn--ghost">Read the thesis</a>
+          </div>
         </div>
       </div>
 
-      <div class="hero__scroll-hint" aria-hidden="true">
-        <span>scroll</span>
-        <div class="scroll-line"></div>
+      <!-- Big arrow graphic -->
+      <div class="hero__arrow-bg" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+          <polygon points="50,5 95,45 72,45 72,95 28,95 28,45 5,45" fill="currentColor"/>
+        </svg>
       </div>
     </section>
 
-    <!-- Marquee -->
+    <!-- MARQUEE -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>$ATTENTION &nbsp;·&nbsp; BASE &nbsp;·&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;·&nbsp; PAY ATTENTION &nbsp;·&nbsp; $ATTENTION &nbsp;·&nbsp; BASE &nbsp;·&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;·&nbsp; PAY ATTENTION &nbsp;·&nbsp; $ATTENTION &nbsp;·&nbsp; BASE &nbsp;·&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;·&nbsp; PAY ATTENTION &nbsp;·&nbsp;</span>
-        <span aria-hidden="true">$ATTENTION &nbsp;·&nbsp; BASE &nbsp;·&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;·&nbsp; PAY ATTENTION &nbsp;·&nbsp; $ATTENTION &nbsp;·&nbsp; BASE &nbsp;·&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;·&nbsp; PAY ATTENTION &nbsp;·&nbsp; $ATTENTION &nbsp;·&nbsp; BASE &nbsp;·&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;·&nbsp; PAY ATTENTION &nbsp;·&nbsp;</span>
+        <span>$ATTENTION &nbsp;↑&nbsp; BASE &nbsp;↑&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;↑&nbsp; PAY ATTENTION &nbsp;↑&nbsp; $ATTENTION &nbsp;↑&nbsp; BASE &nbsp;↑&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;↑&nbsp; PAY ATTENTION &nbsp;↑&nbsp;</span>
+        <span>$ATTENTION &nbsp;↑&nbsp; BASE &nbsp;↑&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;↑&nbsp; PAY ATTENTION &nbsp;↑&nbsp; $ATTENTION &nbsp;↑&nbsp; BASE &nbsp;↑&nbsp; YOUR BRAIN IS THE RESERVE &nbsp;↑&nbsp; PAY ATTENTION &nbsp;↑&nbsp;</span>
       </div>
     </div>
 
-    <!-- Stats -->
-    <section class="stats" aria-label="Attention economy stats">
+    <!-- STATS -->
+    <section class="stats">
       <div class="container">
         <div class="stats__grid">
+
           <div class="stat">
-            <span class="stat__num" data-target="8">0</span>
-            <span class="stat__unit">sec</span>
-            <p class="stat__label">Average human attention span.<br>Down from 12 in 2000.</p>
+            <div class="stat__top">
+              <span class="stat__num">8</span><span class="stat__unit">sec</span>
+            </div>
+            <p class="stat__label">Average human attention span. Down from 12 in 2000. You're losing ground.</p>
           </div>
-          <div class="stat">
-            <span class="stat__num">$600</span>
-            <span class="stat__unit">B</span>
-            <p class="stat__label">The attention economy's market cap.<br>None of it went to you.</p>
+
+          <div class="stat stat--green">
+            <div class="stat__top">
+              <span class="stat__num">$600</span><span class="stat__unit">B</span>
+            </div>
+            <p class="stat__label">The attention economy's annual value. None of it went to you.</p>
           </div>
+
           <div class="stat">
-            <span class="stat__num">0</span>
-            <span class="stat__unit">%</span>
-            <p class="stat__label">Revenue share you received<br>from selling your attention.</p>
+            <div class="stat__top">
+              <span class="stat__num">0</span><span class="stat__unit">%</span>
+            </div>
+            <p class="stat__label">Revenue share you received for selling your attention every day.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="why" id="why">
+      <div class="container">
+        <div class="why__intro">
+          <span class="label">The Thesis</span>
+          <h2 class="why__headline">The attention economy has always been real.<br>We just <em>tokenized</em> it.</h2>
+        </div>
+
+        <div class="why__cards">
+
+          <article class="card">
+            <div class="card__num">01</div>
+            <div class="card__arrow" aria-hidden="true">↑</div>
+            <h3 class="card__title">Everyone already pays with attention.</h3>
+            <p class="card__body">Every scroll, every glance, every second on any platform is being auctioned in real time — to advertisers, to algorithms, to everyone except you.</p>
+          </article>
+
+          <article class="card card--green">
+            <div class="card__num">02</div>
+            <div class="card__arrow" aria-hidden="true">↑</div>
+            <h3 class="card__title">Influencers monetized it. You should too.</h3>
+            <p class="card__body">Zora turned posts into coins. Meme coins turned jokes into markets. $ATTENTION turns the entire concept into the coin. This isn't a parody. It's the logical conclusion.</p>
+          </article>
+
+          <article class="card">
+            <div class="card__num">03</div>
+            <div class="card__arrow" aria-hidden="true">↑</div>
+            <h3 class="card__title">The meta is the message.</h3>
+            <p class="card__body">By paying attention to $ATTENTION, you generate demand. That demand has value. That value comes back to holders. You're finally getting paid for what you gave away for free.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TOKENOMICS -->
+    <section class="tokenomics" id="tokenomics">
+      <div class="container">
+        <div class="tokenomics__header">
+          <span class="label">Tokenomics</span>
+          <h2 class="tokenomics__headline">Simple.<br>Like your attention span.</h2>
+        </div>
+
+        <div class="tlist">
+          <div class="trow">
+            <span class="trow__k">Ticker</span>
+            <span class="trow__v">$ATTENTION</span>
+          </div>
+          <div class="trow">
+            <span class="trow__k">Network</span>
+            <span class="trow__v">Base</span>
+          </div>
+          <div class="trow">
+            <span class="trow__k">Supply</span>
+            <span class="trow__v">1,000,000,000</span>
+          </div>
+          <div class="trow">
+            <span class="trow__k">Buy / Sell Tax</span>
+            <span class="trow__v trow__v--green">0 / 0</span>
+          </div>
+          <div class="trow">
+            <span class="trow__k">Liquidity</span>
+            <span class="trow__v">Burned</span>
+          </div>
+          <div class="trow">
+            <span class="trow__k">Mint / Freeze</span>
+            <span class="trow__v">Revoked</span>
+          </div>
+          <div class="trow">
+            <span class="trow__k">Contract</span>
+            <span class="trow__v trow__v--muted">TBA</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Why -->
-    <section class="why" id="why" aria-label="Why $ATTENTION">
+    <!-- FINAL CTA -->
+    <section class="cta-final">
       <div class="container">
-        <div class="why__header">
-          <span class="section-label">The Thesis</span>
-          <h2 class="why__headline">
-            The attention economy has<br class="desktop-only"> always been real.<br>
-            We just <em>tokenized</em> it.
-          </h2>
-        </div>
-
-        <div class="why__grid">
-          <article class="why-card">
-            <span class="why-card__num">01</span>
-            <h3 class="why-card__title">Everyone already pays with attention.</h3>
-            <p class="why-card__body">Every scroll, every glance, every second you spend on any platform is being auctioned in real time. To advertisers. To algorithms. To everyone except you.</p>
-          </article>
-          <article class="why-card">
-            <span class="why-card__num">02</span>
-            <h3 class="why-card__title">Influencers monetized it. You should too.</h3>
-            <p class="why-card__body">Zora turned posts into coins. Meme coins turned jokes into markets. $ATTENTION turns the entire concept into the coin. This isn't a parody. It's the logical conclusion.</p>
-          </article>
-          <article class="why-card">
-            <span class="why-card__num">03</span>
-            <h3 class="why-card__title">The meta is the message.</h3>
-            <p class="why-card__body">By paying attention to $ATTENTION, you generate demand. That demand has value. That value comes back to holders. You are finally getting paid for what you were always giving away for free.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tokenomics -->
-    <section class="tokenomics" id="tokenomics" aria-label="Tokenomics">
-      <div class="container">
-        <span class="section-label">Tokenomics</span>
-        <h2 class="tokenomics__headline">Simple. Like your attention span.</h2>
-
-        <div class="tokenomics__grid">
-          <div class="trow">
-            <span class="trow__key">Ticker</span>
-            <span class="trow__val">$ATTENTION</span>
+        <div class="cta-final__inner">
+          <div class="cta-final__arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <polygon points="50,5 95,45 72,45 72,95 28,95 28,45 5,45" fill="currentColor"/>
+            </svg>
           </div>
-          <div class="trow">
-            <span class="trow__key">Network</span>
-            <span class="trow__val">Base</span>
+          <h2 class="cta-final__headline">PAY<br><span>ATTENTION.</span></h2>
+          <p class="cta-final__sub">Or don't. Someone else will.</p>
+          <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--primary btn--large">
+            Buy $ATTENTION
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L12 22M12 2L4 10M12 2L20 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <div class="cta-final__links">
+            <a href="https://twitter.com/search?q=%24ATTENTION" target="_blank" rel="noopener">Twitter</a>
+            <span aria-hidden="true">·</span>
+            <a href="#" target="_blank" rel="noopener">Telegram</a>
+            <span aria-hidden="true">·</span>
+            <a href="#" target="_blank" rel="noopener">Dexscreener</a>
           </div>
-          <div class="trow">
-            <span class="trow__key">Total Supply</span>
-            <span class="trow__val">1,000,000,000</span>
-          </div>
-          <div class="trow">
-            <span class="trow__key">Tax</span>
-            <span class="trow__val">0 / 0</span>
-          </div>
-          <div class="trow">
-            <span class="trow__key">Liquidity</span>
-            <span class="trow__val">Burned</span>
-          </div>
-          <div class="trow">
-            <span class="trow__key">Mint / Freeze</span>
-            <span class="trow__val">Revoked</span>
-          </div>
-          <div class="trow">
-            <span class="trow__key">Contract</span>
-            <span class="trow__val trow__val--mono">TBA</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA final -->
-    <section class="final-cta" aria-label="Call to action">
-      <div class="container">
-        <h2 class="final-cta__headline">
-          <span class="line">PAY</span>
-          <span class="line accent">ATTENTION.</span>
-        </h2>
-        <p class="final-cta__sub">Or don't. Someone else will.</p>
-        <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--primary btn--large">
-          Buy $ATTENTION
-        </a>
-        <div class="final-cta__links">
-          <a href="https://twitter.com/search?q=%24ATTENTION" target="_blank" rel="noopener">Twitter</a>
-          <span>·</span>
-          <a href="#" target="_blank" rel="noopener">Telegram</a>
-          <span>·</span>
-          <a href="#" target="_blank" rel="noopener">Dexscreener</a>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <p>$ATTENTION is a meme coin. No promises. No roadmap. No refunds on your lost attention.</p>
