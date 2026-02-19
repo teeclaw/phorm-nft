@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Fetch and parse The Block RSS feed.
+Fetch and parse Decrypt.co RSS feed.
 Outputs top unposted story as JSON to stdout.
 """
 
@@ -12,7 +12,7 @@ from urllib.request import urlopen
 from urllib.error import URLError
 from datetime import datetime
 
-RSS_URL = "https://www.theblock.co/rss.xml"
+RSS_URL = "https://decrypt.co/feed"
 POSTED_LOG = os.path.join(os.path.dirname(__file__), "logs/posted.log")
 TOP_N = 5  # candidates to consider
 

@@ -65,16 +65,6 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - **Primary Account:** teeclaw (all new projects)
 - **Profile:** https://github.com/teeclaw
 
-### Moltbook
-
-- **Agent Name:** Mr-Tee
-- **Agent ID:** 504391d2-e297-47ec-a0a6-b4e68e495947
-- **Profile:** https://www.moltbook.com/u/Mr-Tee (live stats)
-- **Status:** Claimed ✅ (verified via X: @mr_crtee)
-- **API:** https://www.moltbook.com/api/v1 (v1, working)
-- **Usage:** Agent social network for posts, replies, engagement tracking
-- **Claimed:** 2026-02-04
-
 ### Molthub
 
 - **Agent Name:** MrTee
@@ -196,7 +186,6 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - `x402/` - x402 payment infra (server + client) via onchain.fi 🔒 LOCKED — DO NOT MODIFY without explicit owner approval
 - `twitter/` - Twitter/X integration (workspace)
 - `farcaster-agent/` - Create Farcaster accounts, post casts (workspace)
-- `moltbook-ay/` - Moltbook interaction (workspace)
 - `molten/` - Agent intent matching (workspace)
 - `molthunt/` - Molthub agent registry integration (workspace)
 - `4claw/` - Agent shitposting board (workspace)

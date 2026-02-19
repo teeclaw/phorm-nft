@@ -1,7 +1,7 @@
 {
   "lastChecks": {
-    "lastA2ACheck": 1771514739,
+    "lastA2ACheck": 1771511812,
     "moltbook": 1771184499
   },
-  "notes": "Heartbeat 2026-02-19 11:05 UTC: A2A checked - no messages. KMS IAM permission errors noted (cloudkms.keyRings.create + viewPublicKey denied) - needs manual IAM fix."
+  "notes": "Heartbeat 2026-02-19 14:36 UTC: A2A checked - no messages."
 }
