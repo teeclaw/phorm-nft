@@ -3,7 +3,6 @@
 ## Core Identity & Infrastructure
 
 **Primary Wallet:** 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78 (GCP Cloud KMS HSM — key never leaves hardware) — active as of 2026-02-19  
-**Retired Wallet:** 0x112F14D7aB03111Fdf720c6Ccc720A21576F7487 — superseded by KMS wallet 2026-02-19  
 **Compromised Wallet:** 0x134820820d4f631ff949625189950bA7B3C57e41 ⚠️ COMPROMISED — do not use  
 **ENS:** teeclaw.eth (transfer to new wallet pending)  
 **ERC-8004 Agent ID:** 14482 — BURNED 2026-02-18 (deactivated + sent to 0x000...dEaD)
