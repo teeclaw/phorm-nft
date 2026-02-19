@@ -19,7 +19,11 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
 
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=6">
+  <style>
+    .hero__headline { font-size: clamp(24px, 9.5vw, 160px) !important; }
+    .hero__line { white-space: nowrap !important; overflow: hidden !important; display: block !important; }
+  </style>
 </head>
 <body>
 
@@ -29,14 +33,11 @@
   <nav class="nav">
     <div class="nav__inner">
       <a href="/" class="nav__logo" aria-label="$ATTENTION home">
-        <svg class="nav__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2L12 22M12 2L4 10M12 2L20 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
         $ATTENTION
       </a>
       <div class="nav__right">
         <a href="#why" class="nav__link">Why</a>
-        <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--nav">Buy</a>
+        <a href="https://matcha.xyz/tokens/base/0x92f5283b6cb17c1a075f38f6a111419f5a302ba3" target="_blank" rel="noopener" class="btn btn--nav">Buy</a>
       </div>
     </div>
   </nav>
@@ -46,19 +47,17 @@
     <!-- HERO -->
     <section class="hero">
       <div class="hero__inner">
-        <div class="hero__tag">Base Network · 2026</div>
-
         <h1 class="hero__headline">
           <span class="hero__line">THE</span>
-          <span class="hero__line hero__line--green">WORLD'S</span>
-          <span class="hero__line">ATTENTION</span>
+          <span class="hero__line">WORLD'S</span>
+          <span class="hero__line hero__line--green">ATTENTION</span>
           <span class="hero__line">MARKET.</span>
         </h1>
 
         <div class="hero__bottom">
           <p class="hero__sub">You're the product.<br>We made it tradeable.</p>
           <div class="hero__cta">
-            <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--primary">
+            <a href="https://matcha.xyz/tokens/base/0x92f5283b6cb17c1a075f38f6a111419f5a302ba3" target="_blank" rel="noopener" class="btn btn--primary">
               Buy $ATTENTION
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L12 22M12 2L4 10M12 2L20 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
@@ -167,23 +166,15 @@
           </div>
           <div class="trow">
             <span class="trow__k">Supply</span>
-            <span class="trow__v">1,000,000,000</span>
+            <span class="trow__v">100,000,000,000</span>
           </div>
           <div class="trow">
-            <span class="trow__k">Buy / Sell Tax</span>
-            <span class="trow__v trow__v--green">0 / 0</span>
-          </div>
-          <div class="trow">
-            <span class="trow__k">Liquidity</span>
-            <span class="trow__v">Burned</span>
-          </div>
-          <div class="trow">
-            <span class="trow__k">Mint / Freeze</span>
-            <span class="trow__v">Revoked</span>
+            <span class="trow__k">Platform</span>
+            <span class="trow__v">Bankr</span>
           </div>
           <div class="trow">
             <span class="trow__k">Contract</span>
-            <span class="trow__v trow__v--muted">TBA</span>
+            <a href="https://basescan.org/token/0x92f5283B6cB17C1A075F38F6a111419f5a302ba3" target="_blank" rel="noopener" class="trow__v trow__v--mono">0x92f5...2ba3</a>
           </div>
         </div>
       </div>
@@ -200,16 +191,16 @@
           </div>
           <h2 class="cta-final__headline">PAY<br><span>ATTENTION.</span></h2>
           <p class="cta-final__sub">Or don't. Someone else will.</p>
-          <a href="https://app.uniswap.org" target="_blank" rel="noopener" class="btn btn--primary btn--large">
+          <a href="https://matcha.xyz/tokens/base/0x92f5283b6cb17c1a075f38f6a111419f5a302ba3" target="_blank" rel="noopener" class="btn btn--primary btn--large">
             Buy $ATTENTION
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L12 22M12 2L4 10M12 2L20 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <div class="cta-final__links">
-            <a href="https://twitter.com/search?q=%24ATTENTION" target="_blank" rel="noopener">Twitter</a>
+            <a href="https://t.me/+paHn_h4OvW8zOWE1" target="_blank" rel="noopener">Telegram</a>
             <span aria-hidden="true">·</span>
-            <a href="#" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://app.doppler.lol/tokens/base/0x92f5283B6cB17C1A075F38F6a111419f5a302ba3" target="_blank" rel="noopener">Chart</a>
             <span aria-hidden="true">·</span>
-            <a href="#" target="_blank" rel="noopener">Dexscreener</a>
+            <a href="https://matcha.xyz/tokens/base/0x92f5283b6cb17c1a075f38f6a111419f5a302ba3" target="_blank" rel="noopener">Buy</a>
           </div>
         </div>
       </div>
