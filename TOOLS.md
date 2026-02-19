@@ -20,11 +20,15 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ## Infrastructure
 
 **Host:** Google Cloud VM  
-**Primary Wallet:** `0x112F14D7aB03111Fdf720c6Ccc720A21576F7487` (Base mainnet)
+**Primary Wallet:** `0x112F14D7aB03111Fdf720c6Ccc720A21576F7487` (Base mainnet)  
+**KMS Wallet:** `0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78` (GCP KMS HSM — key never leaves hardware)  
 **Retired Wallet:** `0x134820820d4f631ff949625189950bA7B3C57e41` ⚠️ COMPROMISED — do not use  
 **ENS:** teeclaw.eth  
-**Credentials:** `~/.openclaw/.env` (mode 600)  
-**GPG Config:** `~/.gnupg/` (high-value keys encrypted with AES256)  
+**Credentials:** 56 secrets in GCP Secret Manager + 5 GPG-encrypted private keys in `~/.openclaw/.env.secrets.gpg`  
+**Fetch Secrets:** `workspace/scripts/fetch-secrets.sh` (sources all 56 from Secret Manager)  
+**KMS Key:** `projects/gen-lang-client-0700091131/locations/global/keyRings/mr-tee-keyring/cryptoKeys/agent-wallet/cryptoKeyVersions/1`  
+**KMS Signer:** `workspace/scripts/kms-signer.mjs` (ethers.js v6 `KmsSigner` class)  
+**GPG Config:** `~/.gnupg/` (Farcaster private keys encrypted with AES256)  
 **Timezone:** GMT+7 (Western Indonesia/Thailand)
 
 ---

@@ -4,7 +4,7 @@ import { SDK } from 'agent0-sdk';
 const sdk = new SDK({
   chainId: 8453,
   rpcUrl: process.env.BASE_RPC_URL || 'https://mainnet.base.org',
-  privateKey: process.env.WALLET_PRIVATE_KEY!,
+  privateKey: process.env.AGENT_WALLET_PRIVATE_KEY!,
 });
 
 async function updateAgent() {

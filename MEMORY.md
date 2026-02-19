@@ -3,6 +3,7 @@
 ## Core Identity & Infrastructure
 
 **Primary Wallet:** 0x112F14D7aB03111Fdf720c6Ccc720A21576F7487 (Base mainnet) — rotated 2026-02-18  
+**KMS Wallet:** 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78 — GCP Cloud KMS HSM (key never leaves HSM), created 2026-02-19  
 **Retired Wallet:** 0x134820820d4f631ff949625189950bA7B3C57e41 ⚠️ COMPROMISED — do not use  
 **ENS:** teeclaw.eth (transfer to new wallet pending)  
 **ERC-8004 Agent ID:** 14482 — BURNED 2026-02-18 (deactivated + sent to 0x000...dEaD)
@@ -35,8 +36,11 @@ DO NOT modify without explicit owner approval
 
 ## Security
 
-**Credentials:** All centralized in `~/.openclaw/.env` (mode 600) — 57 keys total  
-**GPG:** 5 high-value private keys encrypted with symmetric AES256  
+**Credentials:** 56 non-private-key secrets in GCP Secret Manager (`gen-lang-client-0700091131`) — migrated 2026-02-19  
+**Fetch script:** `workspace/scripts/fetch-secrets.py` (parallel, 10 workers) + `fetch-secrets.sh` (wrapper)  
+**GPG:** 5 private keys still GPG-encrypted in `~/.openclaw/.env.secrets.gpg` (Farcaster keys only going forward)  
+**KMS:** `AGENT_WALLET_PRIVATE_KEY` migrated to GCP Cloud KMS — key: `mr-tee-keyring/agent-wallet/v1` (EC_SIGN_SECP256K1_SHA256)  
+**KMS Signer:** `workspace/scripts/kms-signer.mjs` — ethers.js v6 compatible `KmsSigner` class  
 **GPG Passphrase:** NOT in `.env` — stored in `~/.openclaw/.gpg-passphrase` (mode 400)  
 **GPG Secrets File:** `~/.openclaw/.env.secrets.gpg` (mode 600, JSON format)  
 **Management:** credential-manager skill (locked, production-stable)

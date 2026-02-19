@@ -204,7 +204,8 @@ em { color: var(--green); font-style: normal; }
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  gap: clamp(32px, 5vh, 56px);
   padding: clamp(40px, 6vh, 72px) var(--pad-x);
 }
 
@@ -219,21 +220,23 @@ em { color: var(--green); font-style: normal; }
 .hero__headline {
   font-family: var(--font-d);
   font-weight: 800;
-  font-size: clamp(36px, 10.5vw, 160px);
-  line-height: 0.9;
+  font-size: clamp(24px, 9.5vw, 160px);
+  line-height: 0.92;
   letter-spacing: -0.03em;
   text-transform: uppercase;
-  word-break: break-word;
 }
 
-.hero__line { display: block; overflow: hidden; }
+.hero__line {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .hero__line--green { color: var(--green); }
 
 .hero__bottom {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  margin-top: clamp(40px, 6vh, 64px);
 }
 
 @media (min-width: 640px) {
@@ -519,6 +522,7 @@ em { color: var(--green); font-style: normal; }
   color: var(--white-2);
   font-weight: 400;
 }
+a.trow__v--muted:hover { color: var(--green); }
 
 /* ============================================================
    FINAL CTA

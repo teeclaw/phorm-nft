@@ -4,7 +4,7 @@ import { SDK } from 'agent0-sdk';
 const sdk = new SDK({
   chainId: 8453,
   rpcUrl: process.env.BASE_RPC_URL || 'https://mainnet.base.org',
-  privateKey: process.env.WALLET_PRIVATE_KEY!,
+  privateKey: process.env.AGENT_WALLET_PRIVATE_KEY!,
 });
 
 async function updateAgent() {
@@ -30,7 +30,7 @@ async function updateAgent() {
   agent.addEndpoint('farcaster', 'https://farcaster.xyz/mr-teeclaw');
   agent.addEndpoint('moltbook', 'https://moltbook.com/u/Mr-Tee');
   agent.addEndpoint('github', 'https://github.com/teeclaw');
-  agent.addEndpoint('agentWallet', 'eip155:8453:0x134820820d4f631ff949625189950bA7B3C57e41');
+  agent.addEndpoint('agentWallet', 'eip155:8453:0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78');
   
   // Add OASF skills
   agent.addSkill('agent-coordination', true);

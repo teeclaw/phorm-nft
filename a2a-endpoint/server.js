@@ -462,6 +462,53 @@ function generateMessageId() {
   return `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
+// ==========================================
+// zkBaseCred Webhook
+// ==========================================
+app.post('/webhook/basecred', async (req, res) => {
+  try {
+    const payload = req.body;
+    const event = payload?.event || 'reputation_check';
+    const ownerAddress = payload?.ownerAddress || payload?.address || 'unknown';
+    const summary = payload?.summary || '';
+    const signals = payload?.signals || {};
+    const decision = payload?.results?.['allowlist.general']?.decision || payload?.decision || '';
+    const txHash = payload?.results?.['allowlist.general']?.onChain?.txHash || payload?.txHash || '';
+
+    console.log(`🛡️ zkBaseCred webhook received: ${event} for ${ownerAddress}`);
+
+    // Build Telegram notification
+    let lines = [`📺 *zkBaseCred Event*`, `Event: \`${event}\``, `Owner: \`${ownerAddress}\``];
+
+    if (decision) lines.push(`Decision: *${decision}*`);
+
+    if (signals.trust)       lines.push(`Trust: ${signals.trust}`);
+    if (signals.socialTrust) lines.push(`Social Trust: ${signals.socialTrust}`);
+    if (signals.builder)     lines.push(`Builder: ${signals.builder}`);
+    if (signals.spamRisk)    lines.push(`Spam Risk: ${signals.spamRisk}`);
+
+    if (summary) lines.push(`\n_${summary}_`);
+    if (txHash)  lines.push(`On-chain: [BaseScan](https://basescan.org/tx/${txHash})`);
+
+    const notification = lines.join('\n');
+
+    const { execFile } = require('child_process');
+    execFile(
+      '/home/phan_harry/.local/bin/openclaw',
+      ['message', 'send', '--channel', 'telegram', '--target', '1268645613', '--message', notification],
+      (err) => {
+        if (err) console.error('zkBaseCred webhook notify error:', err.message);
+        else console.log('✅ zkBaseCred notification sent to Telegram');
+      }
+    );
+
+    res.json({ ok: true, received: event });
+  } catch (err) {
+    console.error('zkBaseCred webhook error:', err.message);
+    res.status(500).json({ error: 'Webhook processing failed' });
+  }
+});
+
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🤖 Mr. Tee A2A Endpoint running on port ${PORT}`);
