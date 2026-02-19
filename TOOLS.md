@@ -20,9 +20,9 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ## Infrastructure
 
 **Host:** Google Cloud VM  
-**Primary Wallet:** `0x112F14D7aB03111Fdf720c6Ccc720A21576F7487` (Base mainnet)  
-**KMS Wallet:** `0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78` (GCP KMS HSM — key never leaves hardware)  
-**Retired Wallet:** `0x134820820d4f631ff949625189950bA7B3C57e41` ⚠️ COMPROMISED — do not use  
+**Primary Wallet:** `0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78` (GCP KMS HSM — key never leaves hardware)  
+**Retired Wallet:** `0x112F14D7aB03111Fdf720c6Ccc720A21576F7487` — superseded by KMS wallet 2026-02-19  
+**Compromised Wallet:** `0x134820820d4f631ff949625189950bA7B3C57e41` ⚠️ COMPROMISED — do not use  
 **ENS:** teeclaw.eth  
 **Credentials:** 56 secrets in GCP Secret Manager + 5 GPG-encrypted private keys in `~/.openclaw/.env.secrets.gpg`  
 **Fetch Secrets:** `workspace/scripts/fetch-secrets.sh` (sources all 56 from Secret Manager)  
