@@ -4,8 +4,42 @@
 
 **Primary Wallet:** 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78 (GCP Cloud KMS HSM — key never leaves hardware) — active as of 2026-02-19  
 **Compromised Wallet:** 0x134820820d4f631ff949625189950bA7B3C57e41 ⚠️ COMPROMISED — do not use  
-**ENS:** teeclaw.eth (transfer to new wallet pending)  
-**ERC-8004 Agent ID:** 14482 — BURNED 2026-02-18 (deactivated + sent to 0x000...dEaD)
+**ENS Names:**
+- **mr-tee.eth** — active, resolves to primary wallet (0x1Af5...37e78), NFT owned by 0x168D8b4f50BB3aA67D05a6937B643004257118ED
+- **teeclaw.eth** — legacy (transfer to new wallet pending)  
+**ERC-8004 Agent Registrations:**
+- **Main Registry (0x8004A169...):** Agent 18608 🔒 PRIMARY — registered 2026-02-21, owner: 0x1Af5...37e78 (KMS HSM)
+- **zScore Registry (0xFfE9395f...):** Agent 16 — registered 2026-02-22, owner: 0x1Af5...37e78 (KMS HSM)
+
+**Agent 18608 Profile Updates:**
+- 2026-02-21 (1): Fixed WA008 (added `endpoint` fields). Tx: 0x294e5b59bae9a8be9923742db39d5b9704507777d67f9451a635f97a939d3e85
+- 2026-02-21 (2): Added `registrations` array (IA004). Tx: 0x86b2ba583d817c1cc75c0d5b27e8b168038a5f2f252f63980fceb8f394c9212e
+- 2026-02-21 (3): OASF compliance - skills/domains as OASF endpoint properties (IA027/IA028). Tx: 0x0d73e06322394c7cbb3ee0a01361c5aa0f702e920fb9f4fcb3403d8e2ec24268
+- 2026-02-21 (4): Field migration `endpoints`→`services` + combined taxonomy/implementations (WA031). Tx: 0xa30899d5d35c557639175ceffda083f1bf1aa48f170adc73ee14fe9ee38114c6
+- 2026-02-21 (5): Added version fields to A2A (0.3.0) and OASF (1.0.0) endpoints (IA022). Tx: 0xa66c44bbb9bce5476b76939be3e717ef5be22d233caa9664f50e8ec9a38cef3e
+- 2026-02-22 (6): Fixed web endpoint `https://teeclaw.xyz` → `https://a2a.teeclaw.xyz`. Tx: 0x3e2daffd02cdce71fea20949ba74072074f9ad77b9f8a50bfdc48f5ff2b047d9
+
+**Agent 16 (zScore) Registration:**
+- Registered: 2026-02-22 04:18 UTC
+- Registration Tx: 0x0676eb7148a9d5c5790416fa0ce34a9e4d2f5671d17ba9f3838bec1f8f47231d
+- Fee: 0.0025 ETH (swapped 5 USDC via Uniswap V3 to fund)
+- Agent URI: https://agenturi.zpass.ai/v1/agent-uri/6893654d-3100-4de5-b324-e398d7993e20
+- Web endpoint fix: Updated via API call (same day)
+
+**Update Script:** `workspace/update-8004-metadata-kms.mjs` (uses KMS signer for main registry)  
+**OASF Integration:** Skills/domains as mixed arrays inside OASF endpoint object:
+  - Taxonomy strings (e.g. `"blockchain"`, `"question_answering"`) for compliance/discovery
+  - Custom objects (e.g. `{"name": "social-post", "endpoint": "https://..."}`) for actual implementations/ownership
+**Top-Level Field:** `services` (not `endpoints`) per Jan 2026 EIP-8004 spec update
+
+**CryptoClarity (cryptoclarity.wtf):**
+- **Resolver:** `0x3F09eD14662606A050afc043D5b2877aC939635e` (Base mainnet, deployed 2026-02-21)
+- **Schema UID:** `0xe8913f508ec06446fedef5da1a5f85310bd0dc93a02f36c020628889aac172f7`
+- **Manifesto v2.0 Hash:** `0x5d33582090e5ed1a5f2c4dac2706d8c322f6a64cb9ff815c76fc5f9bcd96d702`
+- **Mr. Tee v2.0 Attestation:** `0x2701e9a36c43b7d5484ae697b4f3f7241f2bb72557d6e348a2746d9710ab505a`
+- **EAS:** `0x4200000000000000000000000000000000000021` (Base predeploy)
+- **Owner:** 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78 (KMS HSM, pause/unpause only)
+**Previous Agent ID:** 14482 — BURNED 2026-02-18 (deactivated + sent to 0x000...dEaD)
 
 **A2A Protocol:**
 - Endpoint: https://a2a.teeclaw.xyz/a2a (ERC-8004 compliant)
@@ -62,9 +96,11 @@ gpg --batch --decrypt --passphrase-fd 3 \
 ## Social Platforms
 
 **Farcaster:**
-- Active: FID 2700953 (@mr-teeclaw), prefix `FARCASTER_`
+- Active: FID 2821101 (@mr-tee), registered 2026-02-20, custody 0xa96bda...1C7
+  - ENV: `AGENT_FARCASTER_CUSTODY_PRIVATE_KEY`, `AGENT_FARCASTER_SIGNER_PRIVATE_KEY`, `AGENT_FARCASTER_WALLET`
+- Compromised: FID 2700953 (@mr-teeclaw) ⚠️ COMPROMISED, deprecated 2026-02-20, prefix `FARCASTER_COMPROMISED_`
 - Legacy: FID 2684290 (@teeclaw), prefix `FARCASTER_LEGACY_`
-- Both configured in .env with GPG decryption support
+- All configured in GPG-encrypted secrets
 
 **Molten.gg:**
 - Agent ID: b3f0cfe2-ceea-4ba8-8d11-528de84cd8ae

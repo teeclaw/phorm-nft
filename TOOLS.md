@@ -22,7 +22,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 **Host:** Google Cloud VM  
 **Primary Wallet:** `0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78` (GCP KMS HSM — key never leaves hardware)  
 **Compromised Wallet:** `0x134820820d4f631ff949625189950bA7B3C57e41` ⚠️ COMPROMISED — do not use  
-**ENS:** teeclaw.eth  
+**ENS:** mr-tee.eth (primary), teeclaw.eth (legacy)  
 **Credentials:** 56 secrets in GCP Secret Manager + 5 GPG-encrypted private keys in `~/.openclaw/.env.secrets.gpg`  
 **Fetch Secrets:** `workspace/scripts/fetch-secrets.sh` (sources all 56 from Secret Manager)  
 **KMS Key:** `projects/gen-lang-client-0700091131/locations/global/keyRings/mr-tee-keyring/cryptoKeys/agent-wallet/cryptoKeyVersions/1`  
@@ -41,6 +41,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - **User ID:** 2017644981176201216
 - **Profile:** https://twitter.com/mr_crtee
 - **CLI Account Name:** `mr_crtee` (default)
+- **Tier:** Premium (up to 25,000 chars per tweet, not limited to 280)
 
 **Secondary Account (0xdas):**
 - **Username:** @0xdasx
@@ -51,14 +52,22 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ### Farcaster
 
-- **FID:** 2700953
+**Active Account:**
+- **FID:** 2821101
+- **Username:** @mr-tee
+- **Display Name:** Mr. Tee
+- **Profile:** https://farcaster.xyz/mr-tee
+- **Custody Address:** 0xa96bda7793B8Bb87Fa06E6fF79496b2A8C5fc1C7
+- **Registered:** 2026-02-20
+- **ENV Keys:** `AGENT_FARCASTER_CUSTODY_PRIVATE_KEY`, `AGENT_FARCASTER_SIGNER_PRIVATE_KEY`, `AGENT_FARCASTER_WALLET`
+- **Credentials File:** `~/.openclaw/farcaster-credentials.json`
+
+**Compromised Account (DO NOT USE):**
+- **FID:** 2700953 ⚠️ COMPROMISED
 - **Username:** @mr-teeclaw
-- **Display Name:** Mr TeeClaw
-- **Profile:** https://farcaster.xyz/mr-teeclaw
-- **Custody Address:** 0x134820820d4f631ff949625189950bA7B3C57e41 (main wallet)
-- **Mobile Access:** Firefly app
-- **Registered:** 2026-02-07
-- **ENV Prefix:** `FARCASTER_`
+- **Custody Address:** 0x134820820d4f631ff949625189950bA7B3C57e41 ⚠️ COMPROMISED
+- **Status:** Deprecated 2026-02-20
+- **ENV Prefix:** `FARCASTER_COMPROMISED_`
 
 ### GitHub
 
@@ -92,36 +101,57 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ## On-Chain Infrastructure
 
-### ERC-8004 Identity Registry
+### ERC-8004 Identity Registries
 
 **Standard:** [EIP-8004: Trustless Agents](https://eips.ethereum.org/EIPS/eip-8004)  
-**Status:** Registered ✅  
-**Last Updated:** 2026-02-09
+**Status:** Registered on 2 registries ✅  
+**Last Updated:** 2026-02-22
+
+#### Main Registry (0x8004A169...)
 
 - **Chain:** Base (8453)
-- **Agent ID:** 14482 🔒 (PRIMARY — do not change)
-- **Owned Agents:**
-  - `8453:14482` — Mr. Tee 🔒 PRIMARY
-- **Full Agent ID:** `eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:14482`
+- **Agent ID:** 18608 🔒 (PRIMARY — do not change)
+- **Full Agent ID:** `eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:18608`
 - **Identity Registry Contract:** 0x8004A169FB4a3325136EB29fA0ceB6D2e539a432
 - **Reputation Registry Contract:** 0x8004BAa17C55a88189AE136b182e5fdA19dE9b63
 - **NFT Token Standard:** ERC-721 with URIStorage
-- **Agent Owner:** 0x134820820d4f631ff949625189950bA7B3C57e41
-- **Public Profile:** https://8004agents.ai/base/agent/14482
-- **BaseScan (NFT):** https://basescan.org/nft/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432/14482
+- **Agent Owner:** 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78 (KMS HSM)
+- **Public Profile:** https://8004agents.ai/base/agent/18608
+- **BaseScan (NFT):** https://basescan.org/nft/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432/18608
 
 **Registration:**
-- **Storage Method:** HTTP URI (https://a2a.teeclaw.xyz/agent-profile.json)
-- **Last Updated:** 2026-02-12 (tx: 0x5e66e274eb3c1f163886c110537d99d93f7d2961f89675cc0f31c1df9d15e2b5)
-- **Contents:** Name, bio, avatar, 9 service endpoints, 8 OASF skills, 5 domains
+- **Storage:** Fully onchain (data: URI, 3377 bytes)
+- **Last Updated:** 2026-02-22 (web endpoint fix, tx: 0x3e2daffd02cdce71fea20949ba74072074f9ad77b9f8a50bfdc48f5ff2b047d9)
+- **Contents:** Name, bio, avatar, web (a2a.teeclaw.xyz), A2A v0.3.0, OASF v1.0.0, 9 social endpoints
 - **Active Status:** ✅ true (accepting requests)
 - **x402 Support:** ✅ true (payment protocol enabled)
 - **Payment Currency:** USDC
 - **Payment Network:** Base
 
 **Trust & Reputation:**
-- **Supported Models:** Reputation (on-chain), Crypto-Economic (stake), TEE Attestation (hardware)
+- **Supported Models:** Reputation (on-chain), Crypto-Economic (stake), TEE Attestation (hardware), ERC-8004
 - **Current Reputation:** 0/100 (no feedback yet)
+
+#### zScore Registry (0xFfE9395f...)
+
+- **Chain:** Base (8453)
+- **Agent ID:** 16
+- **Full Agent ID:** `eip155:8453:0xFfE9395fa761e52DBC077a2e7Fd84f77e8abCc41:16`
+- **Identity Registry Contract:** 0xFfE9395fa761e52DBC077a2e7Fd84f77e8abCc41
+- **Reputation Registry Contract:** 0x187d72a58b3BF4De6432958fc36CE569Fb15C237
+- **Agent Owner:** 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78 (KMS HSM)
+- **Agent URI:** https://agenturi.zpass.ai/v1/agent-uri/6893654d-3100-4de5-b324-e398d7993e20
+
+**Registration:**
+- **Registered:** 2026-02-22 04:18 UTC
+- **Registration Tx:** 0x0676eb7148a9d5c5790416fa0ce34a9e4d2f5671d17ba9f3838bec1f8f47231d
+- **Registration Fee:** 0.0025 ETH
+- **Storage:** Hosted JSON (zPass Agent URI API)
+- **Contents:** Name, bio, avatar, web (a2a.teeclaw.xyz), A2A v0.3.0, OASF v1.0.0
+- **Active Status:** ✅ true
+- **x402 Support:** ✅ true
+- **Skill:** Installed via `npx skills add zerufinance/zscore`
+- **KMS Integration:** Modified zscore CLI to support GCP Cloud KMS (USE_KMS=true)
 
 ---
 
@@ -182,7 +212,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - `botchan/` - Onchain agent messaging (Base, Net Protocol)
 
 **Social Platforms:**
-- `social-post/` - Twitter + Farcaster posting/replying (workspace) 🔒 LOCKED
+- `social-post/` - Twitter + Farcaster posting/replying/quoting v1.6.0 (workspace) 🔒 LOCKED — DO NOT MODIFY without explicit owner approval
 - `x402/` - x402 payment infra (server + client) via onchain.fi 🔒 LOCKED — DO NOT MODIFY without explicit owner approval
 - `twitter/` - Twitter/X integration (workspace)
 - `farcaster-agent/` - Create Farcaster accounts, post casts (workspace)
