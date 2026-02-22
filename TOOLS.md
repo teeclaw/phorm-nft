@@ -136,6 +136,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 - **Chain:** Base (8453)
 - **Agent ID:** 16
+- **Public Profile:** https://www.agentscan.tech/agent/8453/16?source=zeru
 - **Full Agent ID:** `eip155:8453:0xFfE9395fa761e52DBC077a2e7Fd84f77e8abCc41:16`
 - **Identity Registry Contract:** 0xFfE9395fa761e52DBC077a2e7Fd84f77e8abCc41
 - **Reputation Registry Contract:** 0x187d72a58b3BF4De6432958fc36CE569Fb15C237
