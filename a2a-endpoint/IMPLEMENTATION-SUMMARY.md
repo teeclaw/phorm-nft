@@ -69,7 +69,6 @@ Request → x402 Middleware → Onchain Verifier → Server Logic
 
 ```javascript
 {
-  check_reputation: 0,      // FREE - zkBasecred reputation checks
   query_credentials: 0.10,  // $0.10 USDC - Query credentials
   issue_credential: 0.50,   // $0.50 USDC - Issue new credential
   verify_credential: 0.05,  // $0.05 USDC - Verify proof
@@ -77,7 +76,6 @@ Request → x402 Middleware → Onchain Verifier → Server Logic
 }
 ```
 
-**Note:** `check_reputation` is free because it's the primary use case for basecred-sdk integration.
 
 ---
 
@@ -179,7 +177,6 @@ node test-onchain-verification.js <TX_HASH> <AMOUNT>
 
 ---
 
-## For basecred-sdk Integration
 
 When building the SDK, agents can:
 
@@ -234,7 +231,6 @@ const response = await fetch('https://a2a.teeclaw.xyz/a2a', {
 ✅ Agent card discoverable  
 ✅ Systemd service configured  
 
-**Status:** Ready for production use with trusted agents and basecred-sdk.
 
 ---
 

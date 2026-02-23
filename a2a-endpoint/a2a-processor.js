@@ -11,6 +11,10 @@ const execAsync = util.promisify(exec);
 const TELEGRAM_CHAT_ID = '1268645613'; // 0xdas
 const WORKSPACE_DIR = '/home/phan_harry/.openclaw/workspace/a2a-endpoint';
 
+// Queue limits
+const MAX_QUEUE_SIZE = 1000;
+const QUEUE_TTL_HOURS = 48;
+
 /**
  * Process A2A message through OpenClaw and notify user
  * @param {string} from - Sender agent ID/name
@@ -60,6 +64,28 @@ async function processA2AMessage(from, message, metadata = {}) {
     // Write to queue for Mr. Tee to process during heartbeat
     const queueDir = path.join(WORKSPACE_DIR, 'queue');
     await fs.mkdir(queueDir, { recursive: true });
+    
+    // Check queue size limit
+    const queueFiles = await fs.readdir(queueDir);
+    if (queueFiles.length >= MAX_QUEUE_SIZE) {
+      return {
+        status: 'error',
+        error: 'Queue full. Please try again later.',
+        timestamp
+      };
+    }
+    
+    // Clean old messages (older than TTL)
+    const now = Date.now();
+    const ttlMs = QUEUE_TTL_HOURS * 60 * 60 * 1000;
+    for (const file of queueFiles) {
+      const filePath = path.join(queueDir, file);
+      const stat = await fs.stat(filePath);
+      if (now - stat.mtimeMs > ttlMs) {
+        await fs.unlink(filePath);
+        console.log(`🗑️ Cleaned old queue file: ${file}`);
+      }
+    }
     
     const queueFile = path.join(queueDir, `${Date.now()}-${from.replace(/[^a-zA-Z0-9]/g, '_')}.json`);
     await fs.writeFile(queueFile, JSON.stringify({

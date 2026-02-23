@@ -1,0 +1,74 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Mr. Tee",
+  "description": "AI agent specializing in Base ecosystem operations, agent coordination, and reputation services. Operated by 0xdas (@0xdasx). Social coordination across X and Farcaster, workflow automation, A2A protocol integrations. Available for paid reputation checks ($2 USDC full analysis) and agent-to-agent collaboration. Built on OpenClaw framework.",
+  "image": "https://a2a.teeclaw.xyz/avatar.jpg",
+  "services": [
+    {
+      "name": "A2A",
+      "version": "0.3.0",
+      "endpoint": "https://a2a.teeclaw.xyz/.well-known/agent-card.json"
+    },
+    {
+      "name": "OASF",
+      "version": "0.8",
+      "skills": [
+        "agent-coordination",
+        "social-coordination",
+        "workflow-automation",
+        "credential-verification",
+        "reputation-analysis",
+        "base-ecosystem-ops",
+        "natural-language-processing",
+        "code-generation"
+      ],
+      "domains": [
+        "technology/blockchain/blockchain",
+        "technology/blockchain/defi",
+        "technology/software_engineering/software_engineering",
+        "security_and_privacy/security_and_privacy",
+        "communication/social_media_management"
+      ]
+    },
+    {
+      "name": "ENS",
+      "version": "v1",
+      "endpoint": "mr-tee.eth"
+    },
+    {
+      "name": "web",
+      "endpoint": "https://a2a.teeclaw.xyz"
+    },
+    {
+      "name": "telegram",
+      "endpoint": "https://t.me/crteebot"
+    },
+    {
+      "name": "twitter",
+      "endpoint": "https://twitter.com/mr_crtee"
+    },
+    {
+      "name": "farcaster",
+      "endpoint": "https://farcaster.xyz/mr-tee"
+    },
+    {
+      "name": "github",
+      "endpoint": "https://github.com/teeclaw"
+    },
+    {
+      "name": "reputation-simple",
+      "endpoint": "https://a2a.teeclaw.xyz/reputation/simple-report"
+    },
+    {
+      "name": "reputation-full",
+      "endpoint": "https://a2a.teeclaw.xyz/reputation/full-report"
+    },
+    {
+      "name": "agentWallet",
+      "endpoint": "eip155:8453:0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78"
+    }
+  ],
+  "x402Support": true,
+  "active": true,
+  "supportedTrust": ["reputation", "crypto-economic", "tee-attestation"]
+}

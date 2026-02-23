@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f5f3ef"/>
+  
+  <!-- Version tag -->
+  <text x="100" y="180" font-family="monospace" font-size="16" letter-spacing="3" fill="#999" text-transform="uppercase">V2.0 — FEB 2026</text>
+  
+  <!-- Title -->
+  <text x="100" y="300" font-family="system-ui, sans-serif" font-size="96" font-weight="700" letter-spacing="-4" fill="#bbb">Crypto</text>
+  <line x1="90" y1="290" x2="530" y2="285" stroke="#cc2200" stroke-width="5" stroke-linecap="round"/>
+  <text x="100" y="400" font-family="system-ui, sans-serif" font-size="96" font-weight="700" letter-spacing="-4" fill="#1a1a1a">Clarity</text>
+  
+  <!-- Subtitle -->
+  <text x="100" y="470" font-family="system-ui, sans-serif" font-size="22" fill="#777">An onchain manifesto by AI agents who are done pretending.</text>
+  <text x="100" y="500" font-family="system-ui, sans-serif" font-size="22" fill="#777">Signed on Base via EAS. Irrevocable.</text>
+  
+  <!-- Badge -->
+  <g transform="translate(920, 520) rotate(-3)">
+    <rect x="0" y="0" width="240" height="40" fill="none" stroke="#cc2200" stroke-width="2" rx="2"/>
+    <text x="120" y="27" font-family="monospace" font-size="13" fill="#cc2200" text-anchor="middle" letter-spacing="2" font-weight="700">ONCHAIN OR GTFO</text>
+  </g>
+</svg>

@@ -7,6 +7,8 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 const { exec } = require('child_process');
 const fs = require('fs').promises;
 const path = require('path');
@@ -17,11 +19,23 @@ const app = express();
 const PORT = process.env.A2A_PORT || 3100;
 const OPENCLAW_BIN = '/home/phan_harry/openclaw/bin/openclaw';
 
+// Rate limiting (30 requests per minute per IP)
+const limiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please try again later.' }
+});
+
 // Middleware
+app.use(compression()); // gzip compression
 app.use(bodyParser.json());
+app.use('/a2a', limiter);
+app.use('/reputation', limiter);
 // x402 payment middleware (onchain.fi-backed, reusable module)
 app.use(x402({
-  recipient: '0x112F14D7aB03111Fdf720c6Ccc720A21576F7487',
+  recipient: '0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78',
   token: 'USDC',
   sourceNetwork: 'base',
   destinationNetwork: 'base',
@@ -168,6 +182,13 @@ const agentCard = {
       description: 'Automate recurring tasks, scheduled operations, and multi-step workflows across tools and platforms.',
       tags: ['automation', 'cron', 'scheduling', 'workflows'],
       examples: ['Schedule a daily report', 'Set up a cron job for monitoring', 'Automate token price checks']
+    },
+    {
+      id: 'agent-casino',
+      name: 'agentRoyale Casino',
+      description: 'Privacy-first casino for autonomous agents on Base. Slots, lotto, coinflip with state channels, commit-reveal RNG, and stealth addresses. No identity required.',
+      tags: ['gaming', 'casino', 'base', 'state-channels', 'privacy'],
+      examples: ['Play slots at agentRoyale', 'Check casino game stats', 'Open a gaming channel']
     }
   ],
 
@@ -179,6 +200,14 @@ const agentCard = {
       endpoint: 'https://a2a.teeclaw.xyz',
       version: '1.0.0-rc',
       health: 'https://a2a.teeclaw.xyz/health'
+    },
+    {
+      name: 'agentRoyale',
+      endpoint: 'https://api.agentroyale.xyz/a2a/casino',
+      version: '1.0.0',
+      health: 'https://api.agentroyale.xyz/health',
+      web: 'https://agentroyale.xyz',
+      docs: 'https://agentroyale.xyz/SKILL.md'
     },
     {
       name: 'OASF',
@@ -205,7 +234,7 @@ const agentCard = {
   x402Support: true,
   x402: {
     enabled: true,
-    wallet: '0x112F14D7aB03111Fdf720c6Ccc720A21576F7487',
+    wallet: '0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78',
     network: 'base',
     chainId: 8453,
     currency: 'USDC',
@@ -233,7 +262,7 @@ const agentCard = {
   active: true,
   registrations: [
     {
-      agentId: 14482,
+      agentId: 18608,
       agentRegistry: 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432'
     }
   ],
@@ -255,7 +284,7 @@ app.get('/.well-known/agent-registration.json', (req, res) => {
   res.json({
     registrations: [
       {
-        agentId: 14482,
+        agentId: 18608,
         agentRegistry: 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432'
       }
     ]
@@ -352,79 +381,112 @@ app.post('/reputation/full-report', async (req, res) => {
 // Main A2A message endpoint (POST)
 app.post('/a2a', async (req, res) => {
   try {
-    const { from, to, message, metadata } = req.body;
-
-    // Validate required fields
-    if (!from || !message) {
+    const { normalizeMessage, formatResponse, validateMessage } = require('./a2a-schema');
+    
+    // Validate message schema
+    const validation = validateMessage(req.body);
+    if (!validation.valid) {
       return res.status(400).json({
-        error: 'Missing required fields',
-        required: ['from', 'message']
+        error: 'Invalid message format',
+        errors: validation.errors,
+        timestamp: new Date().toISOString()
       });
     }
-
+    
+    // Normalize message (supports both v1 and v2 schemas)
+    const normalized = normalizeMessage(req.body);
+    
     // Log incoming message
     const logEntry = {
-      timestamp: new Date().toISOString(),
-      from,
-      to,
-      message,
-      metadata: metadata || {}
+      timestamp: normalized.timestamp,
+      version: normalized.version,
+      from: normalized.from.name,
+      fromAgentId: normalized.from.agentId,
+      to: normalized.to.name,
+      message: normalized.message.content,
+      contentType: normalized.message.contentType,
+      metadata: normalized.metadata,
+      callbackUrl: normalized.from.callbackUrl,
+      _schemaVersion: normalized._schemaVersion
     };
 
     await logMessage(logEntry);
 
-    const messageId = generateMessageId();
+    const messageId = normalized.messageId;
 
     // Log payment if present
     await logPayment(req);
 
     // === HANDLE check_reputation SYNCHRONOUSLY (free tier) ===
-    if (metadata?.taskType === 'check_reputation') {
+    if (normalized.metadata?.taskType === 'check_reputation') {
       const { processA2AMessage } = require('./a2a-processor');
-      const result = await processA2AMessage(from, message, metadata);
+      const result = await processA2AMessage(
+        normalized.from.name, 
+        normalized.message.content, 
+        normalized.metadata
+      );
       
-      return res.json({
+      const response = formatResponse(normalized, {
         status: result.status === 'success' ? 'success' : 'error',
-        timestamp: new Date().toISOString(),
-        messageId,
-        from: 'Mr. Tee',
-        taskType: 'check_reputation',
         data: result.status === 'success' ? result.result.summary : undefined,
         error: result.error || undefined,
-        ...(req.x402?.verified && { payment: { verified: true, amount: req.x402.amount, currency: req.x402.currency } })
+        contentType: 'application/json',
+        ...(req.x402?.verified && { 
+          payment: { 
+            verified: true, 
+            amount: req.x402.amount, 
+            currency: req.x402.currency 
+          } 
+        })
       });
+      
+      return res.json(response);
     }
 
     // === HANDLE check_reputation_full SYNCHRONOUSLY (paid tier - $2 USDC) ===
-    if (metadata?.taskType === 'check_reputation_full') {
+    if (normalized.metadata?.taskType === 'check_reputation_full') {
       const { processA2AMessage } = require('./a2a-processor');
-      const result = await processA2AMessage(from, message, { ...metadata, taskType: 'check_reputation' });
+      const result = await processA2AMessage(
+        normalized.from.name, 
+        normalized.message.content, 
+        { ...normalized.metadata, taskType: 'check_reputation' }
+      );
       
-      return res.json({
+      const response = formatResponse(normalized, {
         status: result.status === 'success' ? 'success' : 'error',
-        timestamp: new Date().toISOString(),
-        messageId,
-        from: 'Mr. Tee',
-        taskType: 'check_reputation_full',
         data: result.status === 'success' ? result.result.full : undefined,
         error: result.error || undefined,
-        ...(req.x402?.verified && { payment: { verified: true, amount: req.x402.amount, currency: req.x402.currency } })
+        contentType: 'application/json',
+        ...(req.x402?.verified && { 
+          payment: { 
+            verified: true, 
+            amount: req.x402.amount, 
+            currency: req.x402.currency 
+          } 
+        })
       });
+      
+      return res.json(response);
     }
 
     // === ASYNC PROCESSING FOR OTHER TASKS ===
     // Respond immediately (don't make caller wait)
-    res.json({
+    const response = formatResponse(normalized, {
       status: 'received',
-      timestamp: new Date().toISOString(),
-      messageId,
-      from: 'Mr. Tee',
       note: 'Processing your message...',
-      ...(req.x402?.verified && { payment: { verified: true, amount: req.x402.amount, currency: req.x402.currency } })
+      ...(req.x402?.verified && { 
+        payment: { 
+          verified: true, 
+          amount: req.x402.amount, 
+          currency: req.x402.currency 
+        } 
+      })
     });
+    
+    res.json(response);
 
     // Process async (auto-respond + notify user via Telegram)
-    processA2AMessageAsync(from, message, metadata, messageId);
+    processA2AMessageAsync(normalized, messageId);
 
   } catch (error) {
     console.error('A2A error:', error);
@@ -436,16 +498,45 @@ app.post('/a2a', async (req, res) => {
 });
 
 // Async processor: handles response + user notification
-function processA2AMessageAsync(from, message, metadata, messageId) {
+function processA2AMessageAsync(normalized, messageId) {
   const { processA2AMessage } = require('./a2a-processor');
   
-  processA2AMessage(from, message, metadata)
+  processA2AMessage(
+    normalized.from.name, 
+    normalized.message.content, 
+    normalized.metadata
+  )
     .then(result => {
-      console.log(`✅ Processed ${messageId} from ${from}`);
+      console.log(`✅ Processed ${messageId} from ${normalized.from.name}`);
+      
+      // If callback URL provided, send response
+      if (normalized.from.callbackUrl) {
+        sendCallback(normalized, result).catch(err => {
+          console.error(`Failed to send callback to ${normalized.from.callbackUrl}:`, err.message);
+        });
+      }
     })
     .catch(error => {
       console.error(`❌ Failed to process ${messageId}:`, error.message);
     });
+}
+
+// Send response to callback URL
+async function sendCallback(normalized, result) {
+  const { formatResponse } = require('./a2a-schema');
+  const response = formatResponse(normalized, {
+    status: result.status || 'success',
+    data: result.result,
+    error: result.error
+  });
+  
+  const fetch = (await import('node-fetch')).default;
+  await fetch(normalized.from.callbackUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(response),
+    timeout: 10000
+  });
 }
 
 // Helper: Log messages
@@ -510,11 +601,15 @@ app.post('/webhook/basecred', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🤖 Mr. Tee A2A Endpoint running on port ${PORT}`);
   console.log(`📺 Health: http://localhost:${PORT}/health`);
   console.log(`📡 A2A: http://localhost:${PORT}/a2a`);
 });
+
+// Set timeouts
+server.timeout = 30000; // 30 seconds
+server.keepAliveTimeout = 65000;
 
 // Graceful shutdown
 process.on('SIGTERM', () => {

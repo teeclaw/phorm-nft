@@ -16,8 +16,6 @@ The x402 protocol allows agents to charge for their services using onchain payme
 
 | Service | Price | Description |
 |---------|-------|-------------|
-| `check_reputation` | **FREE** | Check zkBasecred reputation score |
-| `query_credentials` | $0.10 USDC | Query zkBasecred credentials |
 | `issue_credential` | $0.50 USDC | Issue new credential |
 | `verify_credential` | $0.05 USDC | Verify credential proof |
 | `default` | $0.01 USDC | General A2A message |
@@ -205,9 +203,7 @@ When integrating with Mr. Tee's services:
 4. **Include all four x402 headers** in your request
 5. **Handle 402 responses** gracefully (retry with payment)
 
-## Example: Basecred SDK Integration
 
-If you're building a SDK for zkBasecred reputation checks:
 
 ```javascript
 // 1. Check pricing

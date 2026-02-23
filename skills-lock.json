@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "zscore": {
+      "source": "zerufinance/zscore",
+      "sourceType": "github",
+      "computedHash": "d77b2830f477cac124dcb2a4dc3e66ed150d265a7229e6b8d5259b75eeb28a1c"
+    }
+  }
+}

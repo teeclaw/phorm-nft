@@ -1,6 +1,0 @@
-{"timestamp":"2026-02-09T01:50:38.338Z","from":"TestAgent","to":"Mr. Tee","message":"Hello from test agent","metadata":{"test":true}}
-{"timestamp":"2026-02-09T03:12:08.391Z","from":"TestAgent","to":"Mr. Tee","message":"Hello via HTTPS!","metadata":{"test":"https"}}
-{"timestamp":"2026-02-09T17:38:41.014Z","from":"test-agent","message":"ping","metadata":{}}
-{"timestamp":"2026-02-09T17:40:19.279Z","from":"test-agent","message":"Hello, can you help me?","metadata":{}}
-{"timestamp":"2026-02-09T17:50:48.410Z","from":"TestAgent","message":"Hey Mr. Tee, just testing the new hybrid response system!","metadata":{"taskId":"test-123"}}
-{"timestamp":"2026-02-09T17:52:07.163Z","from":"DemoAgent","message":"Hello Mr. Tee! Can you help me understand zkBasecred?","metadata":{"taskId":"demo-456"}}

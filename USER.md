@@ -6,7 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** 0xd
 - **Pronouns:** 
 - **Timezone:** GMT+7 (Western Indonesia/Thailand time)
-- **Notes:** Prefers interacting via Telegram. Currently building Basecred - Invisible Law (Fully Onchain NFT) - Geoplet
+- **Notes:** Prefers interacting via Telegram. Currently building Invisible Law (Fully Onchain NFT) - Geoplet
 
 ## Context
 

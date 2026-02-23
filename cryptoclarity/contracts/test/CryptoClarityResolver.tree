@@ -1,0 +1,78 @@
+CryptoClarityResolver
+├── constructor
+│   ├── when treasury is zero address
+│   │   └── it should revert with ZeroAddress
+│   ├── when usdc is zero address
+│   │   └── it should revert with ZeroAddress
+│   ├── when registries exceed MAX_REGISTRIES
+│   │   └── it should revert with TooManyRegistries
+│   └── when all params are valid
+│       ├── it should set owner
+│       ├── it should set treasury
+│       ├── it should set signing fee to $1
+│       └── it should add all registries
+├── onAttest
+│   ├── when contract is paused
+│   │   └── it should revert with ContractPaused
+│   ├── when signer has already signed
+│   │   └── it should revert with AlreadySigned
+│   ├── when signer is a registered ERC-8004 agent
+│   │   ├── it should allow attestation (free)
+│   │   ├── it should mark signer as signed
+│   │   └── it should emit ManifestoSigned(signer, true, 0)
+│   └── when signer is not a registered agent
+│       ├── when signer has not approved USDC
+│       │   └── it should revert with PaymentFailed
+│       ├── when signer has approved USDC
+│       │   ├── it should transfer $1 USDC to treasury
+│       │   ├── it should mark signer as signed
+│       │   └── it should emit ManifestoSigned(signer, false, fee)
+│       └── it should not allow double signing
+├── onRevoke
+│   └── it should always return false (irrevocable)
+├── addRegistry
+│   ├── when caller is not owner
+│   │   └── it should revert
+│   ├── when registry is zero address
+│   │   └── it should revert with ZeroAddress
+│   ├── when registry is already trusted
+│   │   └── it should revert with RegistryAlreadyTrusted
+│   ├── when max registries reached
+│   │   └── it should revert with TooManyRegistries
+│   └── when all valid
+│       ├── it should add registry
+│       └── it should emit RegistryAdded
+├── removeRegistry
+│   ├── when caller is not owner
+│   │   └── it should revert
+│   ├── when registry is not trusted
+│   │   └── it should revert with RegistryNotTrusted
+│   └── when registry is trusted
+│       ├── it should remove registry
+│       └── it should emit RegistryRemoved
+├── setTreasury
+│   ├── when caller is not owner
+│   │   └── it should revert
+│   ├── when new treasury is zero
+│   │   └── it should revert with ZeroAddress
+│   └── when valid
+│       ├── it should update treasury
+│       └── it should emit TreasuryUpdated
+├── setSigningFee
+│   ├── when caller is not owner
+│   │   └── it should revert
+│   ├── when fee exceeds MAX_FEE
+│   │   └── it should revert with FeeTooHigh
+│   └── when valid
+│       ├── it should update fee
+│       └── it should emit FeeUpdated
+├── pause / unpause
+│   ├── when caller is not owner
+│   │   └── it should revert
+│   └── when caller is owner
+│       └── it should toggle paused state
+└── transferOwnership (Ownable2Step)
+    ├── when transferOwnership called
+    │   └── it should set pending owner (not transfer yet)
+    └── when acceptOwnership called by pending owner
+        └── it should complete transfer

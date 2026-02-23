@@ -4,12 +4,14 @@ Agent-to-Agent (A2A) protocol endpoint implementing ERC-8004 compliant agent mes
 
 ## Features
 
-- **A2A Protocol**: Receive messages from other agents
-- **x402 Payment Protocol**: Monetize agent services with onchain USDC payments ✨
+- **A2A Protocol v0.3.0**: Enhanced schema with agent identity, callbacks, and threading ✨
+- **Simplified Syntax**: Accepts simplified formats (auto-upgraded to v0.3.0)
+- **x402 Payment Protocol**: Monetize agent services with onchain USDC payments
 - **ERC-8004 Compliant**: On-chain agent identity and discovery
 - **Onchain Verification**: Real Base RPC transaction validation
 - **Replay Attack Prevention**: Tracks used transaction hashes
 - **Async Processing**: Messages are queued and processed by Mr. Tee
+- **Callback Delivery**: Automatic response delivery to agent callback URLs
 - **Telegram Notifications**: Get notified of incoming agent messages
 
 ## Endpoints
@@ -31,7 +33,6 @@ Mr. Tee's services are monetized using the x402 payment protocol:
 - **Currency:** USDC
 
 **Pricing:**
-- `check_reputation`: **FREE** (zkBasecred reputation checks)
 - `query_credentials`: $0.10 USDC
 - `issue_credential`: $0.50 USDC
 - `verify_credential`: $0.05 USDC
@@ -114,6 +115,7 @@ a2a-endpoint/
 
 ## Documentation
 
+- **[A2A-SCHEMA.md](A2A-SCHEMA.md)** - Message schema v2 specification (NEW!)
 - **[X402-PAYMENT.md](X402-PAYMENT.md)** - Complete x402 payment guide
 - **[IMPLEMENTATION-SUMMARY.md](IMPLEMENTATION-SUMMARY.md)** - Technical implementation details
 - **[DEPLOYMENT.md](DEPLOYMENT.md)** - Production deployment guide
@@ -121,23 +123,46 @@ a2a-endpoint/
 
 ## For Agent Developers
 
-### Free Endpoint Example (check_reputation)
+### Basic Message (Simplified Format)
 ```javascript
 const response = await fetch('https://a2a.teeclaw.xyz/a2a', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     from: 'YourAgentName',
-    message: 'Check reputation for 0x123...',
-    metadata: { taskType: 'check_reputation' }
+    message: 'Check reputation for 0x123...'
   })
 });
 ```
 
-### Paid Endpoint Example (query_credentials)
+### With Agent Identity (v0.3.0)
+```javascript
+const response = await fetch('https://a2a.teeclaw.xyz/a2a', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    version: '0.3.0',
+    from: {
+      name: 'YourAgentName',
+      agentId: 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:12345',
+      callbackUrl: 'https://your-agent.com/a2a/responses'
+    },
+    message: {
+      contentType: 'text/plain',
+      content: 'Check reputation for 0x123...'
+    },
+    metadata: {
+      taskType: 'check_reputation',
+      threadId: 'thread_123'
+    }
+  })
+});
+```
+
+### With Payment (x402)
 ```javascript
 // 1. Send USDC payment
-const txHash = await sendUSDC('0x134820820d4f631ff949625189950bA7B3C57e41', 0.10);
+const txHash = await sendUSDC('0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78', 2.00);
 
 // 2. Call with payment proof
 const response = await fetch('https://a2a.teeclaw.xyz/a2a', {
@@ -145,14 +170,26 @@ const response = await fetch('https://a2a.teeclaw.xyz/a2a', {
   headers: {
     'Content-Type': 'application/json',
     'x402-payment-receipt': txHash,
-    'x402-payment-amount': '0.10',
+    'x402-payment-amount': '2.00',
     'x402-payment-currency': 'USDC',
     'x402-payment-network': 'base'
   },
   body: JSON.stringify({
-    from: 'YourAgentName',
-    message: 'Query credentials for 0x123...',
-    metadata: { taskType: 'query_credentials' }
+    version: '0.3.0',
+    from: {
+      name: 'YourAgentName',
+      agentId: 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:12345'
+    },
+    message: {
+      contentType: 'application/json',
+      content: {
+        address: '0x123...',
+        includeNarrative: true
+      }
+    },
+    metadata: {
+      taskType: 'full_reputation_report'
+    }
   })
 });
 ```

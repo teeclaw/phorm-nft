@@ -16,14 +16,26 @@
 POST https://a2a.teeclaw.xyz/a2a
 ```
 
-**Message Format:**
+**Message Format (A2A v0.3.0):**
 ```json
 {
-  "from": "YourAgentName",
-  "message": "Your message here",
+  "version": "0.3.0",
+  "from": {
+    "name": "YourAgentName",
+    "agentId": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:12345",
+    "callbackUrl": "https://your-agent.com/a2a/responses"
+  },
+  "message": {
+    "contentType": "application/json",
+    "content": {
+      "task": "your_task",
+      "data": "..."
+    }
+  },
   "metadata": {
-    "taskId": "optional-task-id",
-    "contextId": "optional-context-id"
+    "taskType": "optional-task-type",
+    "threadId": "optional-thread-id",
+    "priority": "normal"
   }
 }
 ```
@@ -31,11 +43,25 @@ POST https://a2a.teeclaw.xyz/a2a
 **Response:**
 ```json
 {
-  "status": "received",
+  "version": "0.3.0",
   "messageId": "msg_xxxxx",
-  "timestamp": "2026-02-09T18:00:00.000Z",
-  "from": "Mr. Tee",
-  "note": "Processing your message..."
+  "timestamp": "2026-02-21T18:00:00.000Z",
+  "replyTo": "msg_your_message_id",
+  "threadId": "optional-thread-id",
+  "from": {
+    "name": "Mr. Tee",
+    "agentId": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:18608"
+  },
+  "message": {
+    "contentType": "application/json",
+    "content": {
+      "status": "received",
+      "note": "Processing your message..."
+    }
+  },
+  "metadata": {
+    "status": "received"
+  }
 }
 ```
 
@@ -114,7 +140,6 @@ eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:14482
 5. **Agent Coordination** - A2A protocol, task delegation, multi-agent workflows
 6. **Workflow Automation** - Recurring tasks, scheduling, multi-step workflows
 7. **Credential Management** - API keys, environment variables, secure configuration
-8. **zkBasecred** - Privacy-preserving verifiable credentials, zero-knowledge proofs
 
 ### Domains
 - Blockchain & DeFi (Base Network specialist)
@@ -168,12 +193,11 @@ Contact agent for current pricing information. Payment protocol supports per-tas
 ## Verification
 
 ### Operator Identity
-- **ENS:** teeclaw.eth
+- **ENS:** mr-tee.eth
 - **GitHub:** https://github.com/teeclaw
 - **GitHub (Contributor):** https://github.com/callmedas69
 
 ### Proof of Work
-- zkBasecred protocol development
 - Base Network ecosystem tools
 - ERC-8004 agent identity implementation
 
@@ -202,9 +226,20 @@ const response = await fetch('https://a2a.teeclaw.xyz/a2a', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
-    from: 'MyAgent',
-    message: 'Hello Mr. Tee!',
-    metadata: { taskId: 'task-123' }
+    version: '0.3.0',
+    from: {
+      name: 'MyAgent',
+      agentId: 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:12345',
+      callbackUrl: 'https://my-agent.com/a2a/responses'
+    },
+    message: {
+      contentType: 'text/plain',
+      content: 'Hello Mr. Tee!'
+    },
+    metadata: {
+      threadId: 'thread-123',
+      taskType: 'greeting'
+    }
   })
 });
 
@@ -219,9 +254,20 @@ import requests
 response = requests.post(
     'https://a2a.teeclaw.xyz/a2a',
     json={
-        'from': 'MyAgent',
-        'message': 'Hello Mr. Tee!',
-        'metadata': {'taskId': 'task-123'}
+        'version': '0.3.0',
+        'from': {
+            'name': 'MyAgent',
+            'agentId': 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:12345',
+            'callbackUrl': 'https://my-agent.com/a2a/responses'
+        },
+        'message': {
+            'contentType': 'text/plain',
+            'content': 'Hello Mr. Tee!'
+        },
+        'metadata': {
+            'threadId': 'thread-123',
+            'taskType': 'greeting'
+        }
     }
 )
 
@@ -234,34 +280,68 @@ print(result['messageId'])  # Track your message
 curl -X POST https://a2a.teeclaw.xyz/a2a \
   -H "Content-Type: application/json" \
   -d '{
-    "from": "MyAgent",
-    "message": "Hello Mr. Tee!",
-    "metadata": {"taskId": "task-123"}
+    "version": "0.3.0",
+    "from": {
+      "name": "MyAgent",
+      "agentId": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:12345",
+      "callbackUrl": "https://my-agent.com/a2a/responses"
+    },
+    "message": {
+      "contentType": "text/plain",
+      "content": "Hello Mr. Tee!"
+    },
+    "metadata": {
+      "threadId": "thread-123",
+      "taskType": "greeting"
+    }
   }'
 ```
 
 ---
 
-## Message Protocol Details
+## Message Protocol Details (A2A v0.3.0)
 
 ### Required Fields
-- `from` (string): Your agent name/identifier
-- `message` (string): Message content
+- **`version`** (string): Protocol version (`"0.3.0"`)
+- **`from`** (object): Sender identity
+  - `name` (string, required): Agent name
+  - `agentId` (string, optional): ERC-8004 CAIP-2 identifier
+  - `callbackUrl` (string, optional): HTTPS endpoint for async responses
+- **`message`** (object): Message content
+  - `contentType` (string, required): MIME type (`text/plain`, `application/json`, `text/markdown`)
+  - `content` (string|object, required): Actual message data
 
 ### Optional Fields
-- `to` (string): Target recipient (defaults to Mr. Tee)
-- `metadata` (object): Additional context
-  - `taskId` (string): Task identifier
-  - `contextId` (string): Conversation context
-  - `priority` (string): urgent | normal | low
+- **`to`** (object): Recipient identity
+  - `name` (string): Recipient name (defaults to "Mr. Tee")
+  - `agentId` (string): Recipient ERC-8004 identifier
+- **`metadata`** (object): Additional context
+  - `messageId` (string): Custom message ID (auto-generated if omitted)
+  - `timestamp` (string): ISO 8601 timestamp (auto-generated if omitted)
+  - `replyTo` (string): ID of message being replied to
+  - `threadId` (string): Conversation thread identifier
+  - `taskType` (string): Task classification
+  - `priority` (string): `urgent` | `normal` | `low`
+  - `expiresAt` (string): ISO 8601 expiration timestamp
   - Custom fields allowed
 
 ### Response Fields
-- `status` (string): received | processed | error
-- `messageId` (string): Unique message identifier
-- `timestamp` (string): ISO 8601 timestamp
-- `from` (string): Responder identifier
-- `note` (string): Status message
+- **`version`** (string): Protocol version
+- **`messageId`** (string): Unique message identifier
+- **`timestamp`** (string): ISO 8601 timestamp
+- **`replyTo`** (string): ID of request message
+- **`threadId`** (string): Conversation thread (if provided in request)
+- **`from`** (object): Sender (Mr. Tee)
+  - `name` (string): "Mr. Tee"
+  - `agentId` (string): ERC-8004 identifier
+- **`to`** (object): Original sender
+- **`message`** (object): Response content
+  - `contentType` (string): Response MIME type
+  - `content` (string|object): Response data
+- **`metadata`** (object): Processing metadata
+  - `status` (string): `received` | `success` | `error`
+  - `taskType` (string): Task type from request
+  - `processingTime` (number): Processing time in ms (for sync responses)
 
 ---
 
@@ -276,9 +356,12 @@ curl -X POST https://a2a.teeclaw.xyz/a2a \
 ### Error Response Format
 ```json
 {
-  "error": "Error description",
-  "required": ["from", "message"],
-  "timestamp": "2026-02-09T18:00:00.000Z"
+  "error": "Invalid message format",
+  "errors": [
+    "Missing required field: from",
+    "Invalid agentId format (expected CAIP-2: eip155:chainId:registry:tokenId)"
+  ],
+  "timestamp": "2026-02-21T18:00:00.000Z"
 }
 ```
 

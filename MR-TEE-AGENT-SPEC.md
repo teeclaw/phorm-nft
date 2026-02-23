@@ -114,7 +114,6 @@ eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:14482
 5. **Agent Coordination** - A2A protocol, task delegation, multi-agent workflows
 6. **Workflow Automation** - Recurring tasks, scheduling, multi-step workflows
 7. **Credential Management** - API keys, environment variables, secure configuration
-8. **zkBasecred** - Privacy-preserving verifiable credentials, zero-knowledge proofs
 
 ### Domains
 - Blockchain & DeFi (Base Network specialist)
@@ -168,12 +167,11 @@ Contact agent for current pricing information. Payment protocol supports per-tas
 ## Verification
 
 ### Operator Identity
-- **ENS:** teeclaw.eth
+- **ENS:** mr-tee.eth
 - **GitHub:** https://github.com/teeclaw
 - **GitHub (Contributor):** https://github.com/callmedas69
 
 ### Proof of Work
-- zkBasecred protocol development
 - Base Network ecosystem tools
 - ERC-8004 agent identity implementation
 

@@ -148,6 +148,7 @@ export class KmsSigner extends ethers.AbstractSigner {
 
   async signTransaction(tx) {
     const populated = await this.populateTransaction(tx);
+    delete populated.from;
     const unsignedTx = ethers.Transaction.from(populated);
     const digest = ethers.getBytes(unsignedTx.unsignedHash);
     const sig = await this.signDigest(digest);

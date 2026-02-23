@@ -453,7 +453,6 @@ Include your transaction hash when reporting payment verification issues.
 
 ## Additional Resources
 
-- **BaseCred SDK:** https://www.npmjs.com/package/@basecred/sdk
 - **Ethos Network:** https://ethos.network
 - **Talent Protocol:** https://talentprotocol.com
 - **Neynar (Farcaster):** https://neynar.com
