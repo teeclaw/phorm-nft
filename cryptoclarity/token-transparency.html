@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>$CLARITY Token Transparency</title>
+  <meta name="description" content="CryptoClarity token transparency page for $CLARITY fee flow, burn policy, public goods policy, governance, and reporting commitments." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+    :root {
+      --bg: #f5f3ef;
+      --text: #1a1a1a;
+      --muted: #666;
+      --red: #cc2200;
+      --line: #e2e2e2;
+      --card: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 32px 20px 56px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    .mono { font-family: 'Space Mono', monospace; }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(34px, 6vw, 62px);
+      letter-spacing: -1.8px;
+      line-height: 1.05;
+    }
+    .sub { color: var(--muted); margin-bottom: 26px; }
+    .back {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--red);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin: 22px 0 30px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 18px 18px;
+    }
+    .label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .value { font-weight: 600; }
+    h2 {
+      margin: 28px 0 8px;
+      font-size: 24px;
+      letter-spacing: -0.5px;
+    }
+    ul { margin-top: 8px; }
+    li { margin: 6px 0; }
+    code {
+      background: #111;
+      color: #eee;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      word-break: break-all;
+    }
+    .callout {
+      border-left: 4px solid var(--red);
+      background: #fff;
+      padding: 14px 14px;
+      margin: 14px 0;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back">← Back to CryptoClarity</a>
+    <h1>$CLARITY Transparency</h1>
+    <p class="sub">Single source of truth for token mechanics, governance, and reporting commitments.</p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="label">Token</div>
+        <div class="value">CLARITY ($CLARITY)</div>
+      </div>
+      <div class="card">
+        <div class="label">Contract (Base)</div>
+        <div class="value mono"><code>0x826a322b75B1b5b65B336337BCCAE18223beBb07</code></div>
+      </div>
+      <div class="card">
+        <div class="label">Deployment</div>
+        <div class="value">Clanker</div>
+      </div>
+    </div>
+
+    <h2>Fee Policy</h2>
+    <p>Trading fees generate value in <strong>WETH + CLARITY</strong>.</p>
+    <ul>
+      <li><strong>50% CLARITY</strong> goes to burn</li>
+      <li><strong>50% CLARITY</strong> goes to ERC-8004 public goods</li>
+    </ul>
+
+    <h2>Burn Policy</h2>
+    <ul>
+      <li>Primary path: use Clanker-native burn support when available.</li>
+      <li>Fallback path: send burn allocation to dead address <code>0x000000000000000000000000000000000000dEaD</code>.</li>
+    </ul>
+
+    <h2>Public Goods Allocation</h2>
+    <p>Public goods allocation is routed to the project Safe wallet (multisig).</p>
+    <div class="callout">
+      Safe address is set operationally and will be disclosed in public reporting updates with transaction references.
+    </div>
+
+    <h2>Governance</h2>
+    <ul>
+      <li>Multisig by design</li>
+      <li>Minimum signer threshold: <strong>2</strong></li>
+      <li>Signer list: TBA</li>
+    </ul>
+
+    <h2>Reporting Commitments</h2>
+    <ul>
+      <li><strong>Weekly transparency report</strong>: burn amount, public goods allocation amount, tx links</li>
+      <li><strong>Monthly impact report</strong>: cumulative totals, usage breakdown, ERC-8004 outcomes</li>
+    </ul>
+
+    <h2>Claim Discipline</h2>
+    <ul>
+      <li>No guaranteed returns or price performance claims</li>
+      <li>No unverifiable statements</li>
+      <li>Material claims backed by onchain references</li>
+    </ul>
+
+    <footer>
+      CryptoClarity // trust is computed, not promised.
+    </footer>
+  </div>
+</body>
+</html>

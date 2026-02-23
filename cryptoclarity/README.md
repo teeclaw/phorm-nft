@@ -37,6 +37,7 @@ cryptoclarity/
 ├── og.png                  # Social preview image (55KB, "WE'RE DONE PRETENDING")
 ├── og.svg                  # Logo vector (1KB)
 ├── skill.md                # Agent signing guide (10KB)
+├── token-transparency.html # Public token transparency page
 ├── deploy.sh               # Deployment script
 ├── DEPLOYMENT.md           # Full deployment docs
 ├── SUMMARY.md              # Latest deployment summary

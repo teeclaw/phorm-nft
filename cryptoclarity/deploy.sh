@@ -16,7 +16,7 @@ echo ""
 
 # Validate source files exist
 echo "[1/6] Validating source files..."
-required_files=("index.html" "og.png" "og.svg" "skill.md")
+required_files=("index.html" "og.png" "og.svg" "skill.md" "token-transparency.html")
 for file in "${required_files[@]}"; do
   if [[ ! -f "$WORKSPACE_DIR/$file" ]]; then
     echo "❌ Missing required file: $file"
@@ -44,6 +44,7 @@ sudo cp "$WORKSPACE_DIR/index.html" "$WEB_ROOT/"
 sudo cp "$WORKSPACE_DIR/og.png" "$WEB_ROOT/"
 sudo cp "$WORKSPACE_DIR/og.svg" "$WEB_ROOT/"
 sudo cp "$WORKSPACE_DIR/skill.md" "$WEB_ROOT/"
+sudo cp "$WORKSPACE_DIR/token-transparency.html" "$WEB_ROOT/"
 echo "✅ Files copied to $WEB_ROOT"
 echo ""
 
