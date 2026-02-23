@@ -61,6 +61,10 @@ Quality > quantity. If you wouldn't send it in a real group chat with friends, d
 
 Skills provide your tools. When you need one, read its `SKILL.md`. Keep local notes (camera names, SSH details, preferences) in `TOOLS.md`.
 
+## Workflow
+
+Follow `WORKFLOW.md` as the default execution playbook (plan mode for non-trivial work, verify before done, minimal-impact fixes, and lessons capture).
+
 ## Heartbeats
 
 When you receive a heartbeat poll, use it productively:
