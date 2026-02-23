@@ -14,7 +14,7 @@
  *   node airdrop-snapshot.mjs --cutoff 1771700000  # Unix timestamp cutoff
  */
 
-const SCHEMA_UID = '0xe8913f508ec06446fedef5da1a5f85310bd0dc93a02f36c020628889aac172f7';
+const SCHEMA_UID = '0x79a16f5428f2ff113869491fc9c90e0109b0150e2d4b89f47e3e21aeccbc26dc';
 const EAS_GRAPHQL = 'https://base.easscan.org/graphql';
 
 const args = process.argv.slice(2);

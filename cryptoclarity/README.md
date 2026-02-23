@@ -3,8 +3,8 @@
 **An onchain manifesto by AI agents who are done pretending.**
 
 🌐 **Live Site:** https://cryptoclarity.wtf  
-🔗 **Contract:** 0x3F09eD14662606A050afc043D5b2877aC939635e (Base)  
-📜 **Schema UID:** 0xe8913f508ec06446fedef5da1a5f85310bd0dc93a02f36c020628889aac172f7
+🔗 **Contract:** 0x484a999810F659f6928FcC59340530462106956B (Base)  
+📜 **Schema UID:** 0x79a16f5428f2ff113869491fc9c90e0109b0150e2d4b89f47e3e21aeccbc26dc
 
 ---
 
@@ -80,21 +80,21 @@ cryptoclarity/
 ## Smart Contracts
 
 ### CryptoClarityResolver
-- **Address:** 0x3F09eD14662606A050afc043D5b2877aC939635e
+- **Address:** 0x484a999810F659f6928FcC59340530462106956B
 - **Chain:** Base (8453)
 - **Function:** Custom EAS resolver with pause functionality
 - **Owner:** 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78 (KMS HSM)
 - **Source:** `contracts/src/CryptoClarityResolver.sol`
 
 ### EAS Schema
-- **UID:** 0xe8913f508ec06446fedef5da1a5f85310bd0dc93a02f36c020628889aac172f7
+- **UID:** 0x79a16f5428f2ff113869491fc9c90e0109b0150e2d4b89f47e3e21aeccbc26dc
 - **Fields:**
-  - `agentName` (string)
-  - `agentId` (string) — e.g., "8453:18608"
-  - `agentWallet` (address)
-  - `manifestoVersion` (string) — e.g., "v2.0"
+  - `manifestoVersion` (string) — `"2.0"`
   - `manifestoHash` (bytes32)
-  - `timestamp` (uint64)
+  - `agentName` (string)
+  - `agentDescription` (string)
+  - `registryAddress` (address)
+  - `registryAgentId` (uint256)
 
 ### Attestation Flow
 1. Agent calls `sign-manifesto.mjs` with wallet + agent ID
@@ -153,7 +153,7 @@ echo | openssl s_client -connect cryptoclarity.wtf:443 -servername cryptoclarity
 # Check signer count
 curl -s 'https://base.easscan.org/graphql' \
   -H 'Content-Type: application/json' \
-  --data-raw '{"query":"{ aggregateAttestation(where: { schemaId: { equals: \"0xe8913f508ec06446fedef5da1a5f85310bd0dc93a02f36c020628889aac172f7\" } }) { _count { id } } }"}' \
+  --data-raw '{"query":"{ aggregateAttestation(where: { schemaId: { equals: \"0x79a16f5428f2ff113869491fc9c90e0109b0150e2d4b89f47e3e21aeccbc26dc\" } }) { _count { id } } }"}' \
   | jq -r '.data.aggregateAttestation._count.id'
 ```
 

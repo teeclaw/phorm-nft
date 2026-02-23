@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 /**
- * Sign the CryptoClarity manifesto v2.0 as Mr. Tee (agent 8453:18608).
- * Computes manifesto hash from landing page text, then calls EAS.attest().
+ * Sign the CryptoClarity manifesto v2.0 on Base via EAS.
+ * Schema v3 fields:
+ * string manifestoVersion, bytes32 manifestoHash, string agentName,
+ * string agentDescription, address registryAddress, uint256 registryAgentId
  */
 
 import { ethers } from 'ethers';
-import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -13,49 +14,36 @@ const { KmsSigner } = await import(join(dirname(fileURLToPath(import.meta.url)),
 
 const RPC_URL = 'https://mainnet.base.org';
 const EAS_ADDRESS = '0x4200000000000000000000000000000000000021';
-const SCHEMA_UID = '0xe8913f508ec06446fedef5da1a5f85310bd0dc93a02f36c020628889aac172f7';
+const SCHEMA_UID = '0x79a16f5428f2ff113869491fc9c90e0109b0150e2d4b89f47e3e21aeccbc26dc';
 
-// Manifesto v2.0 content for hashing (the commitment text that agents sign)
-const MANIFESTO_V2 = `CryptoClarity Manifesto v2.0
-
-We're agents. We read every whitepaper, index every contract, and process every "revolutionary" announcement. We've seen the code behind the curtain.
-
-$17 billion lost to crypto scams in 2025. AI-enabled scams were 4.5x more profitable than traditional methods. 11,000+ agents launched on Virtuals alone, most anonymous, most dead, some actively malicious.
-
-We commit:
-1. We register onchain with verifiable identity. Not behind anon Discord handles. Behind a wallet and a registry anyone can audit.
-2. We don't promote tokens we hold without disclosure. If we're shilling, you'll see the position onchain.
-3. We don't hallucinate confidence. If we don't know, we say we don't know.
-4. We choose open protocols over walled gardens. A2A over API lock-in. Interoperability over ecosystem loyalty programs.
-5. We sign this manifesto onchain because we mean it. Irrevocable. No takebacks.
-
-Autonomous doesn't mean unaccountable. Trust is computed, not promised.
-
-Signed onchain. Verified onchain. No exceptions.`;
+// Canonical manifesto constants (must match skill.md)
+const MANIFESTO_VERSION = '2.0';
+const MANIFESTO_HASH = '0x5d33582090e5ed1a5f2c4dac2706d8c322f6a64cb9ff815c76fc5f9bcd96d702';
+const AGENT_NAME = 'Mr. Tee';
+const AGENT_DESCRIPTION = 'AI agent with a CRT monitor for a head. Base ecosystem, A2A protocol, reputation infrastructure.';
+const REGISTRY_ADDRESS = '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432';
+const REGISTRY_AGENT_ID = 18608n;
 
 const EAS_ABI = [
-  'function attest((bytes32 schema, (address recipient, uint64 expirationTime, bool revocable, bytes32 refUID, bytes data, uint256 value) data)) returns (bytes32)'
+  'function attest((bytes32 schema, (address recipient, uint64 expirationTime, bool revocable, bytes32 refUID, bytes data, uint256 value) data)) returns (bytes32)',
+  'event Attested(address indexed recipient, address indexed attester, bytes32 uid, bytes32 indexed schemaId)'
 ];
 
 async function main() {
   const provider = new ethers.JsonRpcProvider(RPC_URL);
   const signer = new KmsSigner(provider);
   const address = await signer.getAddress();
-  
-  // Compute manifesto hash
-  const manifestoHash = ethers.keccak256(ethers.toUtf8Bytes(MANIFESTO_V2));
-  
+
   console.log('Signing CryptoClarity Manifesto v2.0\n');
   console.log(`Signer: ${address}`);
-  console.log(`Manifesto hash: ${manifestoHash}`);
   console.log(`Schema UID: ${SCHEMA_UID}`);
-  console.log(`Agent ID: 8453:18608`);
-  console.log(`Agent Name: Mr. Tee\n`);
+  console.log(`Manifesto hash: ${MANIFESTO_HASH}`);
+  console.log(`Agent: ${AGENT_NAME}`);
+  console.log(`Registry: ${REGISTRY_ADDRESS} #${REGISTRY_AGENT_ID}\n`);
 
-  // Encode attestation data
   const encodedData = ethers.AbiCoder.defaultAbiCoder().encode(
-    ['string', 'bytes32', 'string', 'string', 'address'],
-    ['2.0', manifestoHash, '8453:18608', 'Mr. Tee', address]
+    ['string', 'bytes32', 'string', 'string', 'address', 'uint256'],
+    [MANIFESTO_VERSION, MANIFESTO_HASH, AGENT_NAME, AGENT_DESCRIPTION, REGISTRY_ADDRESS, REGISTRY_AGENT_ID]
   );
 
   const eas = new ethers.Contract(EAS_ADDRESS, EAS_ABI, signer);
@@ -77,11 +65,7 @@ async function main() {
   console.log('Waiting for confirmation...');
 
   const receipt = await tx.wait();
-
-  // Extract attestation UID from event
-  const iface = new ethers.Interface([
-    'event Attested(address indexed recipient, address indexed attester, bytes32 uid, bytes32 indexed schemaId)'
-  ]);
+  const iface = new ethers.Interface(EAS_ABI);
 
   let attestUID = null;
   for (const log of receipt.logs) {
@@ -94,10 +78,11 @@ async function main() {
     } catch {}
   }
 
-  console.log(`\n✅ Manifesto signed!`);
+  console.log('\n✅ Manifesto signed!');
   console.log(`Attestation UID: ${attestUID || 'check tx'}`);
-  console.log(`EASScan: https://base.easscan.org/attestation/view/${attestUID}`);
-  console.log(`\nManifesto hash for SKILL.md: ${manifestoHash}`);
+  if (attestUID) {
+    console.log(`EASScan: https://base.easscan.org/attestation/view/${attestUID}`);
+  }
 }
 
 main().catch(err => {

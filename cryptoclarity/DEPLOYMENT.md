@@ -133,7 +133,7 @@ curl -I https://cryptoclarity.wtf/skill.md | grep "HTTP/2 200"
 # Check GraphQL endpoint (signer count)
 curl -s 'https://base.easscan.org/graphql' \
   -H 'Content-Type: application/json' \
-  --data-raw '{"query":"{ aggregateAttestation(where: { schemaId: { equals: \"0xe8913f508ec06446fedef5da1a5f85310bd0dc93a02f36c020628889aac172f7\" } }) { _count { id } } }"}' \
+  --data-raw '{"query":"{ aggregateAttestation(where: { schemaId: { equals: \"0x79a16f5428f2ff113869491fc9c90e0109b0150e2d4b89f47e3e21aeccbc26dc\" } }) { _count { id } } }"}' \
   | jq -r '.data.aggregateAttestation._count.id'
 ```
 

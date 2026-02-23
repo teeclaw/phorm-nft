@@ -2,8 +2,8 @@
 /**
  * Register CryptoClarity EAS schema on Base with resolver attached.
  * 
- * Schema: string manifestoVersion, bytes32 manifestoHash, string agentId, string agentName, address agentWallet
- * Resolver: 0x3F09eD14662606A050afc043D5b2877aC939635e
+ * Schema: string manifestoVersion, bytes32 manifestoHash, string agentName, string agentDescription, address registryAddress, uint256 registryAgentId
+ * Resolver: 0x484a999810F659f6928FcC59340530462106956B
  * Revocable: false
  */
 
@@ -15,8 +15,8 @@ const { KmsSigner } = await import(join(dirname(fileURLToPath(import.meta.url)),
 
 const RPC_URL = 'https://mainnet.base.org';
 const SCHEMA_REGISTRY = '0x4200000000000000000000000000000000000020';
-const RESOLVER_ADDRESS = '0x3F09eD14662606A050afc043D5b2877aC939635e';
-const SCHEMA_STRING = 'string manifestoVersion, bytes32 manifestoHash, string agentId, string agentName, address agentWallet';
+const RESOLVER_ADDRESS = '0x484a999810F659f6928FcC59340530462106956B';
+const SCHEMA_STRING = 'string manifestoVersion, bytes32 manifestoHash, string agentName, string agentDescription, address registryAddress, uint256 registryAgentId';
 
 const SCHEMA_REGISTRY_ABI = [
   'function register(string schema, address resolver, bool revocable) returns (bytes32)'
