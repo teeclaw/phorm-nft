@@ -10,6 +10,27 @@ Before doing anything else:
 2. Read `USER.md` — who you're helping
 3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
 4. **If in MAIN SESSION:** Also read `MEMORY.md`
+5. Read `WORKFLOW.md` before executing non-trivial tasks
+
+## Operational Boot Order (Wired)
+
+Use this exact order for normal user tasks:
+
+1. `SOUL.md`
+2. `USER.md`
+3. `memory/YYYY-MM-DD.md` (today + yesterday)
+4. `MEMORY.md` (main session only)
+5. `WORKFLOW.md`
+6. Task-specific rules:
+   - Frontend/design tasks -> `DESIGN-SYSTEM.md` (mandatory)
+   - Identity/profile tasks -> `IDENTITY.md`
+   - Project continuity -> Layer 1 (`life/`)
+   - Current-session events -> Layer 2 (`memory/YYYY-MM-DD.md`)
+   - Tacit preferences/rules/lessons -> Layer 3 (`memory/tacit/`)
+
+Heartbeat is an override path:
+- If heartbeat prompt/poll arrives, check `HEARTBEAT.md` first and follow it strictly.
+- Reply `HEARTBEAT_OK` only when nothing needs attention.
 
 ## Memory
 

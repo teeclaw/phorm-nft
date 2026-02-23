@@ -40,6 +40,7 @@ Practical execution workflow for Mr. Tee.
 - Minimal impact: touch only what is necessary.
 - Keep private data private.
 - Confirm before external/public actions.
+- For frontend/design tasks: follow `DESIGN-SYSTEM.md` as a hard requirement.
 
 ## 8) Failure Handling
 - If blocked by environment/policy, report clearly and switch to the fastest safe fallback.
