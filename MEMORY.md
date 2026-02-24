@@ -150,3 +150,34 @@ gpg --batch --decrypt --passphrase-fd 3 \
 ## Active Integrations
 
 **Bankr Agent API:** Live integration using managed wallet. Auto-executes trades, queries balances, launches tokens. Tested working 2026-02-13. API key in .env (BANKR_API_KEY). Managed wallet: 0x2f77...3f0 (EVM), 7DnAbjc...qSwj (Solana). Examples cloned from github.com/BankrBot/bankr-api-examples. SDK blocked by broken dependency (`x402-fetch: ^latest`).
+
+## CryptoClarity Updates (2026-02-24)
+
+- Canonicalized active CryptoClarity infra values across docs/scripts/site:
+  - Resolver: `0x484a999810F659f6928FcC59340530462106956B`
+  - Schema UID: `0x79a16f5428f2ff113869491fc9c90e0109b0150e2d4b89f47e3e21aeccbc26dc`
+- Added token transparency assets:
+  - `cryptoclarity/token-transparency.html` (public page)
+  - `cryptoclarity/TOKEN-TRANSPARENCY.md` (policy source)
+  - Landing page links to token transparency page.
+- $CLARITY policy captured:
+  - Contract: `0x826a322b75B1b5b65B336337BCCAE18223beBb07`
+  - Trading fees generate WETH + CLARITY
+  - CLARITY split: 50% burn, 50% ERC-8004 public goods
+  - Burn fallback: `0x000000000000000000000000000000000000dEaD`
+  - Governance: multisig design, min 2 signers (signers TBA)
+  - Reporting cadence: weekly transparency + monthly impact.
+- Marketing automation for CryptoClarity configured via cron (morning drafts, midday engagement queue, evening drafts/report, weekly review, monthly impact draft).
+- X account operations policy finalized:
+  - Strict separation between `@0xdasx`, `@mr_crtee`, and `@agentmanifesto`
+  - CryptoClarity ops must use `@agentmanifesto`
+  - Treat `@agentmanifesto` as Premium for writing constraints/formatting flow.
+- Credential security updates:
+  - `CRYPTOCLARITY_*` and `AGENTMANIFESTO_*` secrets stored in GCP Secret Manager
+  - `scripts/fetch-secrets.py` updated to include these keys.
+- New Farcaster account created for project:
+  - FID `2835578`
+  - Username `@agentmanifesto`
+  - Profile URL: `https://farcaster.xyz/agentmanifesto`
+  - Custody wallet: `0x07929a06Ae34c3a759682FEfbd332521B91f5827`.
+
