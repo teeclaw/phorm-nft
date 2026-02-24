@@ -16,3 +16,9 @@ If 2+ hours since last A2A check:
 4. If NO_MESSAGES: update timestamp silently
 
 # Note: Moltbook checks are handled by a separate cron job (every 3 hours), not heartbeat.
+
+## X Permission Retry Reminder (agentmanifesto)
+If current time is after 2026-02-25 09:10 UTC and not yet confirmed resolved:
+1. Remind user to retry X posting permission flow for @agentmanifesto
+2. Ask for regenerated access token + secret if write still fails
+3. Retry queued CryptoClarity post once credentials are updated
