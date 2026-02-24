@@ -1,7 +1,8 @@
 # Preferences
 
 ## Communication
-- This Telegram channel is dedicated to social media posting tasks; avoid unrelated operational chatter here.
+- Prefer direct recommendations and concrete next actions.
+- Avoid asking open-ended "what do you want" when decisive guidance is possible.
 
 ## Output Style
 - Keep status updates concise and action-oriented.

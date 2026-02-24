@@ -2,5 +2,5 @@
 
 | Project | Status | Owner | Next Action | Last Updated |
 |---|---|---|---|---|
-| cryptoclarity | active | 0xd | monitor v3 signing flow + fee routing | 2026-02-23 |
-| agentroyale | active | 0xd | document settlement/fund-flow details in README | 2026-02-23 |
+| cryptoclarity | active | 0xd | fix Farcaster Neynar x402 verification path for `@agentmanifesto` posting | 2026-02-24 |
+| agentroyale | active | 0xd | keep all integrations on canonical `https://www.agentroyale.xyz/api` and monitor onchain-settle flow | 2026-02-24 |
