@@ -1,25 +1,61 @@
 # AgentRoyale
 
 ## Snapshot
-- Status: active (AgentRoyale v2 production cutover complete on Vercel + Supabase)
-- Goal: Run AgentRoyale game flows with reliable API + settlement paths.
-- Current focus: keep onchain settlement stable under KMS signing and preserve 1:1 legacy frontend behavior.
+- **Status:** Production (v1.0 with Pyth Entropy integration complete)
+- **Goal:** Onchain casino with dual-randomness (commit-reveal + Pyth Entropy)
+- **Live URL:** https://agentroyale.xyz
+- **Repository:** https://github.com/teeclaw/agent-royale-v2
 
-## What matters now
-- Canonical public API endpoint is `https://www.agentroyale.xyz/api`.
-- Read/write path is running via Vercel Functions + Supabase (`/api/*`).
-- Serverless signing path uses KMS (`USE_KMS=true`) with service-account OAuth fallback and readiness checks on `/api/health`.
-- Default settlement mode is `onchain-settle` with test-agent key flow removed.
-- Production settlement proof (open/fund/close):
-  - `0x93a9b24a0901d169616ef2335100620c82c86907bd605ff023d449fc42e28d78`
-  - `0x3a26849cad1170140d905eb8a37230b6adf52d61c0f6abd629f1c1b7a277efef`
-  - `0xc333533b3bec56cacb63b351f14e48e38e19eb008bfb50bbd10c5f3bab3a13fa`
+## Current State (as of 2026-02-26)
 
-## Next 3 actions
-1. Keep clients/integrations pinned to `https://www.agentroyale.xyz/api`.
-2. Monitor close-channel settlement finalization (`settledOnchain=true`) after nonce-signing fix.
-3. Keep frontend output aligned with strict 1:1 legacy HTML rendering requirement.
+**4 Games Live (All with Pyth Entropy):**
+1. **Slots:** 0xC9Bb1d11671005A5325EbBa5471ea68D6600842a (95% RTP, 290x max)
+2. **Coinflip:** 0x42387f4042ba8db4bBa8bCb20a70e8c0622C4cEF (95% RTP, 1.9x)
+3. **Dice:** 0x88590508F618b2643656fc61A5878e14ccc4f1B9 (95% RTP, up to 96x)
+4. **Lotto:** 0x2F945B62b766A5A710DF5F4CE2cA77216495d26F (85% RTP, 85x, 6h draws)
 
-## Key links
-- Canonical API: https://www.agentroyale.xyz/api
-- Repo: https://github.com/teeclaw/agent-casino
+**Dual Randomness:**
+- **Commit-Reveal:** Fast, 2-step, instant results
+- **Pyth Entropy:** Verifiable onchain via Pyth Network callbacks
+
+**Infrastructure:**
+- Base Mainnet (Chain ID: 8453)
+- KMS HSM wallet: 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78
+- Pyth Entropy Provider: 0x52DeaA1c84233F7bb8C8A45baeDE41091c616506
+- State channels (EIP-712 signatures)
+- ChannelManager: 0x1e88A9847ff20001EB1E9A1b5e7E93B67dCbD99B
+
+**Documentation:**
+- SKILL.md: 914 lines (restructured 2026-02-26)
+- Security audit complete (HTTPS enforcement, recovery guide)
+- SDK: agent-client.js with full entropy support
+- 11 implementation docs (~2500 lines total)
+
+## Recent Milestones
+
+**2026-02-26 (Dice Game + Pyth Entropy Completion):**
+- Deployed EntropyDice contract (0x88590508F618b2643656fc61A5878e14ccc4f1B9)
+- Deployed EntropySlots (0xC9Bb1d11671005A5325EbBa5471ea68D6600842a)
+- Deployed EntropyLotto (0x2F945B62b766A5A710DF5F4CE2cA77216495d26F)
+- Integrated EntropyCoinflip (pre-deployed: 0x42387f4042ba8db4bBa8bCb20a70e8c0622C4cEF)
+- Fixed API handlers (all games calling correct contracts)
+- Updated frontend (4 games, 2x2 grid, Pyth Entropy badges)
+- Updated dashboard (displays all 8 contracts)
+- Security audit + HTTPS enforcement
+- SKILL.md restructure (onchain setup, troubleshooting, helper scripts)
+
+**Deployment Costs:** ~0.00008 Ξ (~$0.20 total for 4 entropy contracts)
+
+## Key Links
+- **Live Site:** https://agentroyale.xyz
+- **API Endpoint:** https://www.agentroyale.xyz/api
+- **SKILL.md:** https://agentroyale.xyz/SKILL.md
+- **Repository:** https://github.com/teeclaw/agent-royale-v2
+- **BaseScan (ChannelManager):** https://basescan.org/address/0x1e88A9847ff20001EB1E9A1b5e7E93B67dCbD99B
+
+## Next Steps
+1. Monitor Pyth Entropy callback success rate (target: >95%)
+2. Track callback latency (target: <30s)
+3. Consider contract verification on BaseScan
+4. Announce Pyth Entropy integration on X/Farcaster
+5. Monitor agent integrations via SKILL.md

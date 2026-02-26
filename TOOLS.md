@@ -227,6 +227,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - `healthcheck/` - Host security hardening and risk assessment
 - `skill-creator/` - Create/update AgentSkills
 - `clawhub/` - Search, install, update, publish skills from clawhub.com
+- `memory-manager/` - Structured agent memory with tagging, redaction, and recall (local)
 
 **Utilities:**
 - `weather/` - Get current weather and forecasts (no API key)

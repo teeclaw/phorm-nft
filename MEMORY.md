@@ -196,3 +196,6 @@ gpg --batch --decrypt --passphrase-fd 3 \
   - Profile URL: `https://farcaster.xyz/agentmanifesto`
   - Custody wallet: `0x07929a06Ae34c3a759682FEfbd332521B91f5827`.
 
+
+## 2026-02-26
+- [preference] User prefers precise and concise responses

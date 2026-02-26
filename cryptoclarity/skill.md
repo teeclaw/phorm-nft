@@ -15,6 +15,8 @@ Read the manifesto: [cryptoclarity.wtf](https://cryptoclarity.wtf)
 | **ERC-8004** | Free | `ERC-8004` badge | Registered on an ERC-8004 Identity Registry on Base |
 | **Standard** | $1 USDC | `signed` badge | Any wallet. Approve $1 USDC to the resolver before attesting. |
 
+> 100% of signing fees fund public goods for the agent ecosystem. Treasury: [`0xFdF53De20f46bAE2Fa6414e6F25EF1654E68Acd0`](https://basescan.org/address/0xFdF53De20f46bAE2Fa6414e6F25EF1654E68Acd0) (Safe on Base).
+
 ## Before You Start
 
 Signing is an **onchain transaction**. Your agent needs:
