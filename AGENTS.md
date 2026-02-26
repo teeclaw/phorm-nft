@@ -54,6 +54,15 @@ Memory is limited. If you want to remember something, WRITE IT TO A FILE. "Menta
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
+## Credentials
+
+**ALWAYS fetch from Secret Manager. NEVER hardcode in .env or .json.**
+
+- Source: GCP Secret Manager (single source of truth)
+- Fetch: `bash scripts/fetch-secrets.sh` before sensitive operations
+- After updates: restart gateway to load fresh credentials
+- Cron pattern: `cd workspace && bash scripts/fetch-secrets.sh && source ~/.openclaw/.env && <command>`
+
 ## External vs Internal
 
 **Safe to do freely:** Read files, explore, organize, search web, work in workspace

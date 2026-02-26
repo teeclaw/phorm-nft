@@ -78,6 +78,21 @@ DO NOT modify without explicit owner approval
 **GPG Secrets File:** `~/.openclaw/.env.secrets.gpg` (mode 600, JSON format)  
 **Management:** credential-manager skill (locked, production-stable)
 
+### 🔒 Credential Sourcing Rule (2026-02-26)
+
+**ALWAYS fetch from Secret Manager. NEVER hardcode in .env or .json.**
+
+- Single source of truth: GCP Secret Manager
+- Rotation-friendly: update in Secret Manager → fetch → restart
+- No stale credentials: `fetch-secrets.sh` before any sensitive operation
+- Cron jobs that use credentials: source fresh on every run
+- Gateway restart required after Secret Manager updates
+
+**Pattern for cron jobs:**
+```bash
+cd /home/phan_harry/.openclaw/workspace && bash scripts/fetch-secrets.sh && source ~/.openclaw/.env && <your command>
+```
+
 ### GPG Decryption Pattern (Standard)
 ```bash
 # Decrypt and extract a key (passphrase from file, never echo)
