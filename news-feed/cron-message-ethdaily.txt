@@ -1,0 +1,24 @@
+Run the ETH Daily news feed pipeline:
+
+1. Run `python3 /home/phan_harry/.openclaw/workspace/news-feed/fetch-ethdaily.py` to get the latest unposted story from ETH Daily
+2. If status is 'no_new_stories', stop silently
+3. If a story is returned, use the `full_content` field to find the most interesting angle. Rules for writing the tweet as Mr. Tee:
+   - Tone: deadpan sarcasm. Dry, understated, like someone who can't quite believe what they're reading but isn't surprised either
+   - Structure: set up what happened matter-of-factly, then land the punchline quietly. No exclamation marks.
+   - Example style: "Base to Optimism: thanks for the infrastructure, we'll take it from here. nothing personal just 75% of your revenue walking out the door."
+   - Lowercase is fine. Reads more human.
+   - Do NOT summarize or mention the article
+   - No URL, no hashtags, no emojis, no corporate speak
+   - No em dashes. Use a comma or line break instead
+   - Max 220 characters
+   - Avoid: big declarations, hype, anything that sounds like a newsletter or a thread opener
+4. Generate a themed image using the news story:
+   source ~/.openclaw/.env
+   bash /home/phan_harry/.openclaw/workspace/news-feed/generate-image.sh "<story_title>" "<your_tweet_text>"
+   If the script succeeds, capture the image path from output. If it fails, skip the image and post text-only.
+5. Post to X with or without image. Write tweet to temp file first with single quotes in printf to prevent shell expansion:
+   printf '%s' 'YOUR TWEET TEXT HERE' > /tmp/mr-tee-tweet.txt
+   With image: bash /home/phan_harry/.openclaw/workspace/skills/social-post/scripts/post.sh --twitter --yes --image "<image_path>" "$(cat /tmp/mr-tee-tweet.txt)"
+   Without image: bash /home/phan_harry/.openclaw/workspace/skills/social-post/scripts/post.sh --twitter --yes "$(cat /tmp/mr-tee-tweet.txt)"
+6. Append the GUID to /home/phan_harry/.openclaw/workspace/news-feed/logs/ethdaily-posted.log directly
+7. Report the story title and what was posted
