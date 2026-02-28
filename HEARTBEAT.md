@@ -4,16 +4,16 @@
 
 # Add tasks below when you want the agent to check something periodically.
 
-## A2A Message Queue (every 2+ hours)
-If 2+ hours since last A2A check:
-1. Run: bash /home/phan_harry/.openclaw/workspace/a2a-endpoint/process-queue.sh
-2. If PENDING_MESSAGES > 0:
-   - Read each message file
-   - Process the request and formulate a response
-   - Send Telegram notification with incoming message + your response
-   - Delete processed message file from queue
-3. Update lastA2ACheck timestamp in memory/heartbeat-state.json
-4. If NO_MESSAGES: update timestamp silently
+## A2A Message Queue (automated)
+Check every heartbeat (improved workflow as of 2026-02-28):
+1. Run: bash /home/phan_harry/.openclaw/workspace/a2a-endpoint/auto-process-queue.sh --notify-only
+2. If output contains "NOTIFICATION_REQUIRED":
+   - Extract notification text between ---BEGIN_NOTIFICATION--- and ---END_NOTIFICATION---
+   - Send to 0xd via Telegram (use message tool for proper formatting)
+   - Formulate a response when context is available
+   - Log response via: bash a2a-endpoint/respond-to-message.sh <filename> "<response>"
+3. If output is "NO_MESSAGES": continue silently
+4. State tracking is automatic (memory/a2a-state.json)
 
 # Note: Moltbook checks are handled by a separate cron job (every 3 hours), not heartbeat.
 
