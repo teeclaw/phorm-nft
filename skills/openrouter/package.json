@@ -1,0 +1,9 @@
+{
+  "name": "openrouter-skill",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "OpenRouter API integration for OpenClaw",
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
+}
