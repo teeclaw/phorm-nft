@@ -24,6 +24,18 @@
     "farcaster-agent": {
       "version": "1.2.0",
       "installedAt": 1771607316984
+    },
+    "humanize-ai-text": {
+      "version": "1.0.1",
+      "installedAt": 1772165297783
+    },
+    "reddit-readonly": {
+      "version": "1.0.0",
+      "installedAt": 1772210056605
+    },
+    "search-reddit": {
+      "version": "1.0.0",
+      "installedAt": 1772210112228
     }
   }
 }
