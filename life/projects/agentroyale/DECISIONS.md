@@ -14,3 +14,7 @@
 | 2026-02-26 | Apply Cyfrin security guidelines (modifier order, section headers, function ordering). | Catch real security issues (nonReentrant placement) and improve code readability. | 0xd |
 | 2026-02-26 | Enforce HTTPS in SDK constructor. | Prevent MITM attacks on agent API traffic. | 0xd |
 | 2026-02-26 | Restructure SKILL.md with onchain setup in Quick Start (ChannelManager address, openChannel() examples). | Reduce friction for agent onboarding — eliminate "where's the contract address?" questions. | 0xd |
+| 2026-02-27 | Split SKILL.md into 6-file architecture (SKILL.md hub, SETUP.md, FUNDS.md, GAMES.md, CHANNELS.md, SAFETY.md). | Make documentation navigable at scale (3,916 lines), separate concerns, enable agents to jump to relevant sections. | 0xd |
+| 2026-02-27 | Rename CASINO_MASTER_KEY → AGENT_ID_SEED in all documentation and code. | Friendlier terminology, clearer purpose (generates channel identifiers), less intimidating for agents. | 0xd |
+| 2026-02-27 | Implement Agent ID Seed deterministic recovery system (seed + index → stealth address + private key). | Prevent permanent fund loss if agent crashes mid-session — enables channel recovery with same identifier. | 0xd |
+| 2026-02-27 | Require Step 0 confirmation flow: agents ask human for game + bet + rounds BEFORE opening channel. | Prevent agents from blindly opening channels without human approval, improve informed consent. | 0xd |

@@ -6,7 +6,7 @@
 - **Live URL:** https://agentroyale.xyz
 - **Repository:** https://github.com/teeclaw/agent-royale-v2
 
-## Current State (as of 2026-02-26)
+## Current State (as of 2026-02-27)
 
 **4 Games Live (All with Pyth Entropy):**
 1. **Slots:** 0xC9Bb1d11671005A5325EbBa5471ea68D6600842a (95% RTP, 290x max)
@@ -24,14 +24,25 @@
 - Pyth Entropy Provider: 0x52DeaA1c84233F7bb8C8A45baeDE41091c616506
 - State channels (EIP-712 signatures)
 - ChannelManager: 0x1e88A9847ff20001EB1E9A1b5e7E93B67dCbD99B
+- **Agent ID Seed:** Deterministic channel recovery (seed + index → stealth address)
 
 **Documentation:**
-- SKILL.md: 914 lines (restructured 2026-02-26)
-- Security audit complete (HTTPS enforcement, recovery guide)
-- SDK: agent-client.js with full entropy support
+- SKILL.md: 6-file split architecture (3,916 lines total) — SKILL.md, SETUP.md, FUNDS.md, GAMES.md, CHANNELS.md, SAFETY.md
+- Security audit complete (HTTPS enforcement, recovery guide, backup verification)
+- SDK: agent-client.js with full entropy support + AGENT_ID_SEED recovery
+- Helper scripts: 13 scripts (channel management, all 4 games commit-reveal + entropy)
 - 11 implementation docs (~2500 lines total)
 
 ## Recent Milestones
+
+**2026-02-27 (Documentation Overhaul + Agent ID Seed System):**
+- **SKILL.md → 6-file architecture:** Split into SKILL.md (hub), SETUP.md, FUNDS.md, GAMES.md, CHANNELS.md, SAFETY.md (3,916 lines total)
+- **Critical safety features:** Balance monitoring during play, pre-flight safety checklist, state backup verification, "Your First Game" tutorial
+- **Agent ID Seed system:** Deterministic channel recovery (seed + index → stealth address), prevents fund loss on crash
+- **Helper scripts deployed:** 13 production scripts (channel management, all games commit-reveal + entropy, recovery tools)
+- **Terminology:** AGENT_ID_SEED replaces CASINO_MASTER_KEY (friendlier, clearer purpose)
+- **Step 0 communication flow:** Agents must confirm game + bet + rounds with human BEFORE opening channels
+- **Security review gaps closed:** All 9 issues from safety review addressed (owner confidence D → A)
 
 **2026-02-26 (Dice Game + Pyth Entropy Completion):**
 - Deployed EntropyDice contract (0x88590508F618b2643656fc61A5878e14ccc4f1B9)
