@@ -17,7 +17,7 @@ POSTED_LOG = os.path.join(os.path.dirname(__file__), "logs/posted.log")
 TOP_N = 5  # candidates to consider
 
 # ── Filters ──────────────────────────────────────────────────────────────────
-SKIP_CATEGORIES = {"Markets", "Price", "Trading"}
+SKIP_CATEGORIES = {"Price", "Trading"}  # Allow "Markets" but block pure price/trading spam
 SKIP_TITLE_KEYWORDS = ["price", "rally", "all-time high", "crash", "dump", "surges", "plunges", "soars"]
 # ─────────────────────────────────────────────────────────────────────────────
 
