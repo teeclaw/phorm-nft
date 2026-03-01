@@ -17,3 +17,4 @@
 - **KMS deployment works reliably** — no private key exposure, smooth deployment flow.
 - **Systematic pre-launch review catches critical issues** — HTTPS enforcement gap would have caused agent MITM vulnerabilities.
 - **Systematic evidence-based investigation > assumption-based debugging** — checking data layer (API response) faster than chasing cache/deployment issues.
+- **Research infrastructure needs documented fallbacks** — multiple API failures (Brave subscription, Cloudflare blocks, broken feeds) reveal fragility; maintain list of working sources and alternatives.
