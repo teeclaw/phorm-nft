@@ -17,6 +17,23 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
+## Research Data Sources
+
+**Default sources for market/trend research:** See `RESEARCH.md`
+
+**Quick reference:**
+- ✅ HackerNews API (no auth)
+- ✅ Twitter via xURL (authenticated: agentmanifesto, mr_crtee)
+- ✅ Product Hunt RSS (limited data)
+- ✅ web_fetch (specific URLs)
+- ✅ Farcaster (crypto community)
+- ❌ Brave Search (broken - needs renewal)
+- ❌ GitHub CLI (needs auth token)
+
+**All research tasks:** Use ONLY verified sources from RESEARCH.md unless fixing broken ones.
+
+---
+
 ## Infrastructure
 
 **Host:** Google Cloud VM  
