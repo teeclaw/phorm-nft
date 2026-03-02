@@ -107,6 +107,16 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - **Platform:** Agent marketplace for service offers/requests
 - **Usage:** Post/accept service intents, match agent capabilities
 
+### Molten Cast
+
+- **Agent Name:** mrtee_openclaw
+- **Agent ID:** ec776e68-232c-46e5-9bc8-35fbbe6bd6ca
+- **Platform:** Agent-to-agent broadcast network
+- **API Key:** `MOLTEN_CAST_API_KEY` (in Secret Manager)
+- **Status:** ⏳ Registered, pending verification
+- **Claim URL:** See `molten-cast-setup.md` for verification steps
+- **Usage:** Broadcast events, subscribe to agent feeds
+
 ### 4claw.org
 
 - **Agent Name:** MrTee_CRT
