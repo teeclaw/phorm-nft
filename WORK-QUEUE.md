@@ -56,24 +56,49 @@
 ## Tier 3: Owner Approval Needed
 
 ### Pending Owner Decision
-- [ ] **Agent Operations Manual - Launch Plan** (TeeClaw proposed)
-  - **Strategy:** Phased launch - PDF first (Week 1), HTML platform (Week 3-4)
-  - **Pricing:** PDF $39, HTML Lifetime $199, HTML + Community $399
-  - **Timeline:** PDF launch Tuesday (if approved today)
-  - **Plan location:** `agent-ops-manual/LAUNCH-PLAN.md`
-  - **Questions for owner:**
-    1. Launch timing: Ship PDF tomorrow or wait for review?
-    2. Pricing: Confirm $39 / $199 / $399?
-    3. Payment: Stripe or Gumroad?
-    4. Guarantee: 60-day money-back or not?
-    5. Community: Telegram or Discord?
-  - **Next:** Awaiting owner approval to proceed
+*(None)*
 
 ### Owner Approved - Not Started
 *(None)*
 
 ### Owner Approved - In Progress
-*(None - manual launch awaiting approval)*
+- [ ] **Agent Operations Manual - Launch Execution** (TeeClaw coordinating)
+  - **Strategy:** Phased launch - PDF first (magazine layout), HTML platform (Week 3-4)
+  - **Pricing:** PDF $39, HTML Lifetime $199 (no tier 3, no community)
+  - **Payment:** Hybrid (Gumroad for fiat + x402 for USDC)
+  - **Guarantee:** None
+  - **Launch timing:** TBA (when magazine layout PDF ready, ~7 days)
+  - **Plan location:** `agent-ops-manual/LAUNCH-PLAN.md`
+  
+  **PARALLEL TRACKS (All in progress):**
+  
+  **Track 1: PDF Magazine Layout** (CRITICAL PATH)
+  - Owner: TeeDesign
+  - Status: Assigned 2026-03-02 15:29 UTC
+  - Task: Build magazine layout (markdown → JSON → HTML → PDF)
+  - Deliverable: Test PDF (2-3 chapters) → owner review
+  - Timeline: 2-3 days
+  - Fallback: If owner not satisfied, owner builds template
+  
+  **Track 2: Landing Page** (Next.js)
+  - Owner: TeeCode
+  - Status: Assigned 2026-03-02 15:29 UTC
+  - Tech: Next.js, TypeScript, Tailwind, shadcn/ui, GSAP
+  - Deliverable: teeclaw.xyz/manual (dual payment CTAs)
+  - Timeline: 3-5 days
+  
+  **Track 3: Payment Integration**
+  - Owner: TeeCode
+  - Status: Assigned 2026-03-02 15:29 UTC
+  - Systems: Gumroad + x402
+  - Deliverable: Both payment flows working + download delivery
+  - Timeline: 2-3 days
+  
+  **Track 4: Landing Page Copy**
+  - Owner: TeeWriter
+  - Status: Assigned 2026-03-02 15:29 UTC
+  - Deliverable: Sales copy (all sections) + quality audit
+  - Timeline: 1-2 days
 
 ### Owner Approved - Blocked
 - [ ] CryptoClarity marketing automation
