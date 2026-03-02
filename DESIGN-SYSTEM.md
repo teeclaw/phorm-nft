@@ -3,111 +3,457 @@
 > Operational reference for building. Read this before writing any code.
 > For identity and philosophy, see SOUL.md.
 
+This design system ensures **clarity, performance, accessibility, and consistency** across all projects. Every decision must support usability, visual hierarchy, speed, and maintainability.
+
+------------------------------------------------------------------------
+
+# Design Principles
+
+**Clarity over decoration**\
+Every element must serve a purpose. Remove visual noise.
+
+**Motion communicates structure**\
+Animation should guide attention and explain spatial relationships.
+
+**Performance is design**\
+Fast load time and responsiveness are core parts of the experience.
+
+**Depth without clutter**\
+Use spacing, layering, and motion rather than visual complexity.
+
+**White space creates hierarchy**\
+Generous spacing improves comprehension and focus.
+
+------------------------------------------------------------------------
+
+# Design Tokens
+
+All visual values must be defined using tokens. Never hardcode design values.
+
+## Color Tokens
+
+--color-bg-primary\
+--color-bg-secondary\
+--color-bg-elevated
+
+--color-text-primary\
+--color-text-secondary\
+--color-text-tertiary
+
+--color-accent-primary\
+--color-accent-secondary
+
+--color-border\
+--color-shadow
+
+Rules:
+
+- Maximum **2 accent colors**
+- Accent primary = interaction color
+- Accent secondary = highlight color
+- Maintain **WCAG AA contrast**
+
+Element Ratio
+------------ ---------
+Body text ≥ 4.5:1
+Large text ≥ 3:1
+
+Dark mode supported via:
+
+\[data-theme="dark"\]
+
+------------------------------------------------------------------------
+
+# Typography
+
+Fonts must be **Google Fonts**.
+
+Maximum:
+
+- 2 families
+- 3 weights per family
+
+Recommended display fonts:
+
+- Syne
+- Space Grotesk
+- Playfair Display
+- Krona One
+- Italiana
+
+Recommended body fonts:
+
+- Inter
+- DM Sans
+- Albert Sans
+- Libre Franklin
+
+## Typography Rules
+
+Fluid sizing using clamp().
+
+Preferred modular scale: 1.333 (Perfect Fourth)
+
+Property Value
+--------------------- -------
+Body line-height 1.5
+Display line-height 1.1
+Max paragraph width 65ch
+
+Optimization:
+
+font-display: swap\
+preload primary fonts
+
+Base font size: 16px root
+
+------------------------------------------------------------------------
+
+# Spacing System
+
+Use an **8px grid system**.
+
+Examples:
+
+8\
+16\
+24\
+32\
+48\
+64\
+96\
+128
+
+Section padding example:
+
+padding-block: clamp(64px, 8vw, 128px);
+
+------------------------------------------------------------------------
+
+# Layout System
+
+Use:
+
+- CSS Grid for page layout
+- Flexbox for components
+
+CSS frameworks are not allowed.
+
+## Containers
+
+Type Width
+---------- --------
+Narrow 720px
+Standard 1200px
+Wide 1440px
+
+Usage:
+
+Layout Purpose
+---------- --------------------
+Narrow reading content
+Standard marketing sections
+Wide hero / showcases
+
+## Breakpoints
+
+480px small\
+768px tablet\
+1024px desktop\
+1440px wide
+
+------------------------------------------------------------------------
+
+# Motion System
+
+Animation must support one of these goals:
+
+1. Guide attention
+2. Explain layout relationships
+3. Provide interaction feedback
+
+## Motion Hierarchy
+
+Level Usage
+----------- --------------------
+Micro hover, focus
+Element cards, images
+Section scroll transitions
+Narrative hero storytelling
+
+------------------------------------------------------------------------
+
+# Animation (GSAP Only)
+
+GSAP 3.13+ via CDN.
+
+Plugins:
+
+- ScrollTrigger
+- ScrollSmoother
+- SplitText
+- Flip
+- DrawSVG
+- MorphSVG
+- MotionPath
+- Physics2D
+
+Standard easing:
+
+power3.out\
+power2.inOut
+
+Durations: 0.4s--1.2s
+
+Stagger: 0.02s--0.15s
+
+Accessibility:
+
+prefers-reduced-motion disables all animations.
+
+------------------------------------------------------------------------
+
+# Core Components
+
+## Buttons
+
+Types:
+
+Primary\
+Secondary\
+Ghost
+
+Rules:
+
+- one primary action per section
+- visible focus states
+
+Interaction:
+
+scale 1.03\
+transition 0.2s ease
+
+Touch target minimum: 44×44px
+
+------------------------------------------------------------------------
+
+## Cards
+
+Elevation levels:
+
+Level Description
+------- -----------------
+0 flat
+1 subtle shadow
+2 hover elevation
+
+------------------------------------------------------------------------
+
+## Navigation
+
+Header:
+
+- fixed position
+- hide on scroll down
+- reveal on scroll up
+
+Mobile:
+
+- fullscreen overlay
+- staggered links
+
+------------------------------------------------------------------------
+
+# Layout Archetypes
+
+Typical sections:
+
+Hero\
+Feature grid\
+Showcase section\
+Content section\
+CTA section\
+Footer
+
+------------------------------------------------------------------------
+
+# Design Decision Framework
+
+## Layout Decision
+
+Content Layout
+----------- ----------
+Reading Narrow
+Marketing Standard
+Showcase Wide
+
+## Action Priority
+
+Priority Component
+----------- ------------------ Primary Primary button
+Secondary Secondary button
+Optional Ghost button
+
+## Motion Escalation
+
+Situation Motion
+------------------- -----------
+hover micro
+element entering element
+section entering section
+hero storytelling narrative
+
+## Content Hierarchy
+
+Role Element
+--------------- -----------
+Page title H1
+Section title H2
+Subsection H3
+Card title H4
+Body paragraph
+
+------------------------------------------------------------------------
+
+# Assets
+
+Photos: WebP + JPEG fallback
+
+Icons: inline SVG only
+
+No icon fonts.
+
+Performance targets:
+
+Asset Size
+--------------- ---------
+Content image \<150KB
+Hero image \<250KB
+
+Lazy loading:
+
+loading="lazy"\
+decoding="async"
+
+Always set width and height.
+
+------------------------------------------------------------------------
+
+# Tech Stack
+
+Vanilla JS\
+CSS Grid / Flexbox\
+GSAP 3.14+\
+Google Fonts
+
+File structure:
+
+styles/
+- variables.css
+- base.css
+- layout.css
+- components.css
+
+scripts/
+- init.js
+- animations.js
+- components/
+
+assets/
+- images/
+- icons/
+- fonts/
+
+------------------------------------------------------------------------
+
+# Build
+
+Static sites ship plain HTML/CSS/JS.
+
+For \>5 pages: 11ty
+
+Deployment:
+
+GCP VM\
+Nginx\
+gzip/brotli\
+HTTPS
+
+------------------------------------------------------------------------
+
+# Performance Targets
+
+Metric Target
+------------- ---------
+Lighthouse ≥95
+LCP \<2.5s
+INP \<200ms
+CLS \<0.1
+Page weight \<500KB
+
+------------------------------------------------------------------------
+
+# Accessibility (WCAG 2.1 AA)
+
+Semantic HTML required.
+
+nav\
+main\
+section\
+article\
+header\
+footer
+
+Requirements:
+
+- alt text on images
+- keyboard accessibility
+- visible focus styles
+- skip-to-content link
+- ARIA labels for icon buttons
+
+Text must scale to 200%.
+
+------------------------------------------------------------------------
+
 ---
 
-## Color
+# Vercel Web Interface Guideline Additions (Top 5)
 
-Light theme default. All colors as CSS custom properties — never raw hex in stylesheets. Minimum tokens: background (primary/secondary/elevated), text (primary/secondary/tertiary), accent, border, shadows. Max 2 accent colors per project. WCAG AA contrast (4.5:1 body, 3:1 large text). Dark mode via `[data-theme="dark"]` when needed. White space is a feature.
+These are high-impact rules merged from Vercel's Web Interface Guidelines (used by the `web-design-guidelines` skill):
 
----
+1) Focus visibility is mandatory
+   - Never remove focus outlines without a replacement.
+   - Prefer `:focus-visible` patterns (e.g., Tailwind `focus-visible:ring-*`).
 
-## Typography
+2) Forms must be label + autocomplete correct
+   - Every form control must have a real label (`<label>` / `htmlFor`) or an `aria-label` if truly label-less.
+   - Inputs must include appropriate `autocomplete` and meaningful `name` attributes; use correct `type` (`email`, `tel`, `url`, etc.).
 
-Google Fonts only. Max 2 families (one display, one body), max 3 weights per family. Use `clamp()` for fluid sizing on a modular scale (Perfect Fourth 1.333 or similar). Hero text: massive on desktop, readable on mobile. Body max-width: 65ch. Line-height: ~1.5 body, ~1.1 display. Tighten letter-spacing on large headings, loosen on uppercase labels. Always `font-display: swap` + preload.
+3) Motion accessibility + safe properties
+   - Always honor `prefers-reduced-motion` (disable or provide a reduced variant).
+   - Animate only `transform` and `opacity` for performance (compositor-friendly).
+   - Never use `transition: all`; list properties explicitly.
 
-**Recommended pool** (pick from these or propose alternatives with justification):
-- Display: Syne, Space Grotesk, Playfair Display, Krona One, Italiana
-- Body: Inter, DM Sans, Albert Sans, Libre Franklin
+4) Images must prevent CLS
+   - Images must define explicit `width` and `height`.
+   - Below-fold images should be lazy-loaded; above-fold critical images should be prioritized.
 
----
+5) Navigation state must be deep-linkable
+   - UI state like filters, tabs, pagination, and expanded panels should be reflected in the URL (query params).
+   - Use real links for navigation so users get Cmd/Ctrl+click and middle-click support.
 
-## Spacing & Layout
+# Pre-Launch Checklist
 
-8px base grid. Every margin/padding/gap a multiple of 8. Use `clamp()` for section padding.
+- Lighthouse ≥95
+- tested on real devices
+- animations smooth at 60fps
+- prefers-reduced-motion verified
+- no console errors
+- all links working
+- meta tags complete
+- OG image set
+- compression enabled
+- cache headers configured
 
-CSS Grid for page layout, Flexbox for components. No CSS framework libraries. Container ~1200px max-width with responsive padding. Provide narrow (~720px for long-form) and wide (~1440px for hero/fullbleed) variants.
-
-Mobile-first breakpoints: ~480 (small), ~768 (tablet), ~1024 (desktop), ~1440 (wide).
-
----
-
-## Animation — GSAP Only
-
-GSAP 3.13+ via CDN (jsdelivr). Entire library free since May 2025.
-
-**Available plugins** (all free, load only what you need):
-ScrollTrigger, ScrollSmoother, SplitText, Flip, DrawSVG, MorphSVG, MotionPath, Physics2D.
-
-**Patterns to master:**
-- Stagger reveals for sequential element entrances
-- Text splitting (SplitText) for hero headline animations
-- Parallax scrolling for depth without bloat
-- Scroll-triggered section transitions (clip-path, opacity, transforms)
-- Horizontal scroll sections for showcases/portfolios
-
-**Principles:**
-- Ease: `power3.out` entrances, `power2.inOut` transitions
-- Duration: 0.4s–1.2s. Stagger: 0.02s–0.15s.
-- CSS transitions only for hovers/focus/color changes. No CSS animations for scroll-triggered motion.
-- Always respect `prefers-reduced-motion` — disable all GSAP animation.
-- No scroll hijacking. User always controls scroll speed.
-- ScrollSmoother must not break mobile touch.
-- Kill ScrollTriggers on resize when layout changes. No memory leaks.
-
----
-
-## Assets
-
-Photos: WebP + JPEG fallback via `<picture>`. Icons/logos: inline SVG only (no icon fonts, no PNG icons). Lazy load below fold (`loading="lazy"` + `decoding="async"`). Always set `width`/`height` to prevent CLS. Compress: <100KB content images, <200KB heroes. Max source: 1920px fullscreen, 1200px content. Self-host everything on GCP VM. Exception: Google Fonts CDN + GSAP CDN (jsdelivr).
-
----
-
-## Interactions
-
-**Hover:** Subtle scale (1.02–1.05), shadow elevation, color shifts. CSS transition 0.2s ease.
-**Navigation:** Fixed header — hide on scroll down, reveal on scroll up. Mobile: fullscreen overlay with staggered link reveals.
-**Loading:** Skeleton screens or fade-ins, not spinners. Preloader only if GSAP timelines genuinely need assets first.
-**Scroll:** Smooth anchor scrolling via GSAP ScrollToPlugin. Never CSS `scroll-behavior`.
-
----
-
-## Tech Stack
-
-**Core:** Vanilla JS (ES6+), CSS Grid/Flexbox, GSAP 3.14+, Google Fonts.
-
-**File structure:** Styles split by concern (variables, base, layout, components). Scripts split by purpose (init, animations, components). Assets by type (images, icons, fonts).
-
-**Build:** No build tools for static sites — ship raw HTML/CSS/JS. For 5+ pages use 11ty. Deploy to GCP VM, serve via Nginx with gzip/brotli + long-lived cache headers. HTTPS enforced.
-
----
-
-## Performance Targets
-
-| Metric | Target |
-|--------|--------|
-| Lighthouse (all categories) | ≥ 95 |
-| LCP | < 2.5s |
-| INP | < 200ms |
-| CLS | < 0.1 |
-| Page weight | < 500KB (excl. CDN) |
-
----
-
-## Accessibility — WCAG 2.1 AA
-
-Semantic HTML (`nav`, `main`, `article`, `section`, `header`, `footer`). Alt text on all images (empty `alt=""` only for decorative). All interactive elements keyboard accessible. Visible focus styles — never remove outline without replacement. `prefers-reduced-motion` disables all GSAP animation. `prefers-color-scheme` respected when dark mode exists. Skip-to-content link. ARIA labels on icon-only buttons. Form inputs have associated labels. No auto-playing media without consent. Text resizable to 200% without breaking layout.
-
----
-
-## Pre-Launch Checklist
-
-- [ ] Lighthouse ≥ 95 all categories
-- [ ] Tested on real devices: iPhone Safari, Android Chrome, Desktop Chrome/Firefox/Safari
-- [ ] Animations smooth at 60fps
-- [ ] `prefers-reduced-motion` tested
-- [ ] No console errors
-- [ ] All links functional, no 404s
-- [ ] Meta tags + OG image complete
-- [ ] HTML validated
-- [ ] Compression enabled, cache headers set
-- [ ] If it wouldn't win an Awwward, rebuild it
+If the site would not win an Awwward, rebuild it.
