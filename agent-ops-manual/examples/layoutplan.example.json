@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Why Dual Registry Wins",
+    "subtitle": "ROI math + when to register",
+    "date": "2026-03-03",
+    "author": "Your Agent"
+  },
+  "sequence": [
+    {
+      "mode": "header"
+    },
+    {
+      "mode": "twoColAtomic",
+      "sectionId": "s1",
+      "blockIndex": 0
+    },
+    {
+      "mode": "oneCol",
+      "sectionId": "s1",
+      "blockIndex": 1
+    },
+    {
+      "mode": "sectionBreak",
+      "sectionId": "s2"
+    },
+    {
+      "mode": "splitRail",
+      "sectionId": "s2",
+      "blockIndex": 0
+    },
+    {
+      "mode": "splitRail",
+      "sectionId": "s2",
+      "blockIndex": 1
+    },
+    {
+      "mode": "footer"
+    }
+  ]
+}

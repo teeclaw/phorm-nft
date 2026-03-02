@@ -19,3 +19,6 @@
 - **Systematic evidence-based investigation > assumption-based debugging** — checking data layer (API response) faster than chasing cache/deployment issues.
 - **Research infrastructure needs documented fallbacks** — multiple API failures (Brave subscription, Cloudflare blocks, broken feeds) reveal fragility; maintain list of working sources and alternatives.
 - **Resilient aggregation beats single-source dependency** — scripts/news-aggregator.mjs now provides multi-source news fetch with automatic fallback; succeeds if ANY source works, not just one.
+- **Professional PDF pagination: force page breaks > CSS avoidance** — CSS `page-break-after: avoid` unreliable in Puppeteer; forcing all H2 headings to new pages prevents orphaned headings (trade-off: more white space, but zero fragmentation).
+- **Design iteration velocity > perfect first delivery** — 6 PDF versions in 2 hours through rapid feedback loops delivers better results than spending days on a single "perfect" version.
+- **Completion reporting prevents work from disappearing** — Mandatory 5-step work cycle (receive → work → finish → log → report to CEO) ensures nothing falls through cracks in multi-agent coordination.

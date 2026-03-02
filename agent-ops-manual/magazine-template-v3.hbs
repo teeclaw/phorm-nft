@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{meta.title}}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Professional PDF Layout System */
+    
+    @page {
+      size: A4;
+      margin: 16mm 16mm 18mm 16mm;
+    }
+    
+    html, body {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    /* Core Page Break Controls */
+    .avoid-break {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    
+    .page-break {
+      break-before: page;
+      page-break-before: always;
+    }
+    
+    /* Typography System (Stripe/Linear) */
+    .prose-body {
+      font-size: 15px;
+      line-height: 1.65;
+      color: #262626;
+    }
+    
+    .prose-body p {
+      margin-bottom: 16px;
+    }
+    
+    .prose-body strong {
+      font-weight: 600;
+      color: #0a0a0a;
+    }
+    
+    .prose-body em {
+      font-style: italic;
+    }
+    
+    /* Code blocks */
+    .prose-body pre {
+      background: #fafafa;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 16px 0;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    
+    .prose-body code {
+      font-family: 'JetBrains Mono', monospace;
+      background: #fafafa;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+    
+    .prose-body pre code {
+      background: none;
+      padding: 0;
+    }
+    
+    /* Lists */
+    .prose-body ul,
+    .prose-body ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+    
+    .prose-body li {
+      margin-bottom: 8px;
+    }
+    
+    /* Links */
+    .prose-body a {
+      color: #0a0a0a;
+      text-decoration: underline;
+      text-decoration-color: #a3a3a3;
+      text-underline-offset: 2px;
+    }
+    
+    /* Tables */
+    .prose-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+    }
+    
+    .prose-body th,
+    .prose-body td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    
+    .prose-body th {
+      font-weight: 600;
+      color: #0a0a0a;
+      border-bottom: 2px solid #0a0a0a;
+    }
+    
+    /* Headings in prose */
+    .prose-body h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0a0a0a;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    
+    .prose-body h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #0a0a0a;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    
+    /* Cover page */
+    .cover {
+      page-break-after: always;
+      height: 297mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 64px 48px;
+      background: #000000;
+      color: white;
+    }
+    
+    .cover h1 {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+    }
+    
+    .cover .subtitle {
+      font-size: 20px;
+      color: #a3a3a3;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    
+    .cover-meta {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    /* Part divider */
+    .part-divider {
+      page-break-before: always;
+      page-break-after: always;
+      height: 297mm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .part-number {
+      font-size: 96px;
+      font-weight: 800;
+      color: #0a0a0a;
+      opacity: 0.05;
+      position: absolute;
+      top: 48px;
+      right: 48px;
+    }
+    
+    .part-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #737373;
+      margin-bottom: 16px;
+    }
+    
+    .part-title {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #0a0a0a;
+      letter-spacing: -0.03em;
+    }
+    
+    /* Chapter opener */
+    .chapter-opener {
+      page-break-before: always;
+      padding: 96px 0 64px;
+    }
+    
+    .chapter-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #737373;
+      margin-bottom: 16px;
+    }
+    
+    .chapter-title {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #0a0a0a;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+    
+    .chapter-subtitle {
+      font-size: 20px;
+      font-weight: 400;
+      color: #525252;
+      line-height: 1.6;
+      max-width: 650px;
+      margin-bottom: 24px;
+    }
+    
+    /* Section break (full-width) */
+    .section-break {
+      margin-top: 64px;
+      margin-bottom: 32px;
+      break-before: page;
+      page-break-before: always;
+    }
+    
+    .section-break-line {
+      height: 1px;
+      background: #e5e5e5;
+      margin-bottom: 32px;
+    }
+    
+    .section-heading {
+      font-size: 28px;
+      font-weight: 600;
+      color: #0a0a0a;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    
+    /* Decision table (split layout - Stripe style) */
+    .decision-split {
+      margin-top: 32px;
+      margin-bottom: 32px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    
+    .decision-split-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 48px;
+      margin-bottom: 32px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    
+    .decision-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #737373;
+      margin-bottom: 8px;
+    }
+    
+    .decision-timing {
+      font-size: 24px;
+      font-weight: 600;
+      color: #0a0a0a;
+    }
+    
+    .decision-content {
+      font-size: 15px;
+      line-height: 1.65;
+      color: #262626;
+    }
+    
+    /* Print optimization */
+    @media print {
+      * {
+        orphans: 4;
+        widows: 4;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white">
+  
+  <!-- COVER PAGE -->
+  <div class="cover">
+    <div>
+      <div style="font-size: 64px; margin-bottom: 48px;">📺</div>
+      <h1>{{meta.title}}</h1>
+      <div class="subtitle">{{meta.subtitle}}</div>
+    </div>
+    <div class="cover-meta">
+      <div style="font-size: 18px; font-weight: 500;">By {{meta.author}}</div>
+      <div style="font-size: 14px; color: #737373; text-transform: uppercase; letter-spacing: 0.05em;">{{meta.date}}</div>
+    </div>
+  </div>
+  
+  <!-- PARTS & CHAPTERS -->
+  {{#each parts}}
+    <!-- Part Divider -->
+    <div class="part-divider">
+      <div class="part-number">{{number}}</div>
+      <div style="position: relative; z-index: 1;">
+        <div class="part-label">Part {{number}}</div>
+        <h2 class="part-title">{{title}}</h2>
+        <div style="font-size: 20px; color: #737373; margin-top: 16px;">{{subtitle}}</div>
+      </div>
+    </div>
+    
+    <!-- Chapters in this part -->
+    {{#each chapters}}
+      <!-- Chapter Opener -->
+      <div class="chapter-opener">
+        <div style="max-width: 740px; margin: 0 auto;">
+          <div class="chapter-label">Chapter {{chapterNumber}}</div>
+          <h1 class="chapter-title">{{title}}</h1>
+          {{#if subtitle}}
+            <h2 class="chapter-subtitle">{{subtitle}}</h2>
+          {{/if}}
+        </div>
+      </div>
+      
+      <!-- Chapter Body -->
+      <main style="max-width: 740px; margin: 0 auto;">
+        <div class="prose-body">
+          {{{html}}}
+        </div>
+      </main>
+    {{/each}}
+  {{/each}}
+  
+</body>
+</html>

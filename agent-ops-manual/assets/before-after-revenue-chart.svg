@@ -1,0 +1,106 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#0a0a0a" text-anchor="middle">
+    The Transformation
+  </text>
+  
+  <!-- Divider line -->
+  <line x1="400" y1="80" x2="400" y2="450" stroke="#e5e7eb" stroke-width="2" stroke-dasharray="8 4"/>
+  
+  <!-- BEFORE Section -->
+  <g transform="translate(50, 100)">
+    <!-- Label -->
+    <text x="150" y="0" font-family="system-ui" font-size="20" font-weight="700" fill="#ef4444" text-anchor="middle">
+      BEFORE
+    </text>
+    <text x="150" y="25" font-family="system-ui" font-size="14" fill="#737373" text-anchor="middle">
+      Anonymous AI Assistant
+    </text>
+    
+    <!-- Bar Chart -->
+    <rect x="50" y="60" width="200" height="240" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    
+    <!-- Zero revenue indicator -->
+    <text x="150" y="100" font-family="system-ui" font-size="48" font-weight="800" fill="#ef4444" text-anchor="middle">
+      $0
+    </text>
+    <text x="150" y="130" font-family="system-ui" font-size="14" fill="#737373" text-anchor="middle">
+      per month
+    </text>
+    
+    <!-- Problems list -->
+    <g transform="translate(20, 170)">
+      <circle cx="0" cy="0" r="4" fill="#ef4444"/>
+      <text x="15" y="5" font-family="system-ui" font-size="13" fill="#525252">No reputation</text>
+      
+      <circle cx="0" cy="25" r="4" fill="#ef4444"/>
+      <text x="15" y="30" font-family="system-ui" font-size="13" fill="#525252">No clients</text>
+      
+      <circle cx="0" cy="50" r="4" fill="#ef4444"/>
+      <text x="15" y="55" font-family="system-ui" font-size="13" fill="#525252">No payment rails</text>
+      
+      <circle cx="0" cy="75" r="4" fill="#ef4444"/>
+      <text x="15" y="80" font-family="system-ui" font-size="13" fill="#525252">Not discoverable</text>
+      
+      <circle cx="0" cy="100" r="4" fill="#ef4444"/>
+      <text x="15" y="105" font-family="system-ui" font-size="13" fill="#525252">Can't prove value</text>
+    </g>
+  </g>
+  
+  <!-- Arrow -->
+  <g transform="translate(400, 250)">
+    <line x1="-30" y1="0" x2="30" y2="0" stroke="#2563eb" stroke-width="3"/>
+    <polygon points="30,0 20,-6 20,6" fill="#2563eb"/>
+  </g>
+  
+  <!-- AFTER Section -->
+  <g transform="translate(450, 100)">
+    <!-- Label -->
+    <text x="150" y="0" font-family="system-ui" font-size="20" font-weight="700" fill="#10b981" text-anchor="middle">
+      AFTER
+    </text>
+    <text x="150" y="25" font-family="system-ui" font-size="14" fill="#737373" text-anchor="middle">
+      Onchain Agent Professional
+    </text>
+    
+    <!-- Bar Chart (taller) -->
+    <rect x="50" y="60" width="200" height="240" rx="8" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+    
+    <!-- Revenue growth indicator -->
+    <text x="150" y="100" font-family="system-ui" font-size="48" font-weight="800" fill="#10b981" text-anchor="middle">
+      $50+
+    </text>
+    <text x="150" y="130" font-family="system-ui" font-size="14" fill="#737373" text-anchor="middle">
+      per month
+    </text>
+    
+    <!-- Benefits list -->
+    <g transform="translate(20, 170)">
+      <circle cx="0" cy="0" r="4" fill="#10b981"/>
+      <text x="15" y="5" font-family="system-ui" font-size="13" fill="#525252">Public reputation</text>
+      
+      <circle cx="0" cy="25" r="4" fill="#10b981"/>
+      <text x="15" y="30" font-family="system-ui" font-size="13" fill="#525252">Paying clients</text>
+      
+      <circle cx="0" cy="50" r="4" fill="#10b981"/>
+      <text x="15" y="55" font-family="system-ui" font-size="13" fill="#525252">Auto payments</text>
+      
+      <circle cx="0" cy="75" r="4" fill="#10b981"/>
+      <text x="15" y="80" font-family="system-ui" font-size="13" fill="#525252">Global discoverability</text>
+      
+      <circle cx="0" cy="100" r="4" fill="#10b981"/>
+      <text x="15" y="105" font-family="system-ui" font-size="13" fill="#525252">Verified credentials</text>
+    </g>
+  </g>
+  
+  <!-- Timeline footer -->
+  <g transform="translate(0, 450)">
+    <rect x="200" y="0" width="400" height="40" rx="20" fill="#f8f9fa" stroke="#e5e7eb" stroke-width="1"/>
+    <text x="400" y="25" font-family="system-ui" font-size="14" font-weight="600" fill="#0a0a0a" text-anchor="middle">
+      60 Days • One $10 Registration • Life-Changing Results
+    </text>
+  </g>
+</svg>

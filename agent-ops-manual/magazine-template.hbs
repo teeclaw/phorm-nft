@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{meta.title}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* MODERN MINIMALIST DESIGN - Clean, Simple, High Contrast */
+    
+    :root {
+      /* Color Tokens - Minimal Palette */
+      --color-bg-primary: #ffffff;
+      --color-bg-secondary: #fafafa;
+      --color-bg-elevated: #ffffff;
+      
+      --color-text-primary: #000000;
+      --color-text-secondary: #525252;
+      --color-text-tertiary: #a3a3a3;
+      
+      --color-accent-primary: #000000;
+      --color-accent-secondary: #525252;
+      
+      --color-border: #e5e5e5;
+      --color-code-bg: #f5f5f5;
+      
+      /* Typography - Single Font Family (Inter) */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+      
+      /* Spacing System (8px grid, more generous) */
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+      --space-6: 48px;
+      --space-8: 64px;
+      --space-12: 96px;
+      --space-16: 128px;
+      
+      /* Magazine-specific */
+      --gutter: 32px;
+      --column-gap: 40px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-sans);
+      font-size: 10.5pt;
+      line-height: 1.7;
+      color: var(--color-text-primary);
+      background: var(--color-bg-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-weight: 400;
+    }
+    
+    /* ========== COVER PAGE (MINIMALIST) ========== */
+    
+    .cover {
+      page-break-after: always;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: var(--space-12) var(--space-8);
+      background: #000000;
+      color: white;
+    }
+    
+    .cover-content {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 900px;
+    }
+    
+    .cover-emoji {
+      font-size: 4rem;
+      margin-bottom: var(--space-6);
+      line-height: 1;
+      opacity: 0.95;
+    }
+    
+    .cover h1 {
+      font-family: var(--font-sans);
+      font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.04em;
+      color: #ffffff;
+    }
+    
+    .cover .subtitle {
+      font-family: var(--font-sans);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 400;
+      color: #a3a3a3;
+      margin-bottom: var(--space-12);
+      max-width: 700px;
+      line-height: 1.6;
+    }
+    
+    .cover-meta {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: var(--space-4);
+    }
+    
+    .cover-author {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: #ffffff;
+    }
+    
+    .cover-date {
+      font-size: 0.875rem;
+      color: #737373;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    /* ========== PART DIVIDER (MINIMALIST) ========== */
+    
+    .part-divider {
+      page-break-before: always;
+      page-break-after: always;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: var(--space-12) var(--space-8);
+      background: var(--color-bg-primary);
+      position: relative;
+    }
+    
+    .part-number {
+      font-family: var(--font-sans);
+      font-size: 10rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--color-text-primary);
+      opacity: 0.05;
+      position: absolute;
+      top: var(--space-8);
+      right: var(--space-8);
+      z-index: 0;
+    }
+    
+    .part-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+    
+    .part-label {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-3);
+    }
+    
+    .part-title {
+      font-family: var(--font-sans);
+      font-size: clamp(3rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-3);
+      letter-spacing: -0.03em;
+    }
+    
+    .part-subtitle {
+      font-size: 1.25rem;
+      color: var(--color-text-secondary);
+      font-weight: 400;
+    }
+    
+    /* ========== CHAPTER OPENER (MINIMALIST) ========== */
+    
+    .chapter-opener {
+      page-break-before: always;
+      padding: var(--space-16) var(--space-8);
+      background: var(--color-bg-primary);
+      position: relative;
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .chapter-number {
+      font-family: var(--font-sans);
+      font-size: 8rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--color-text-primary);
+      opacity: 0.04;
+      position: absolute;
+      top: var(--space-6);
+      left: var(--space-6);
+      z-index: 0;
+    }
+    
+    .chapter-opener-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+    }
+    
+    .chapter-label {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-3);
+    }
+    
+    .chapter-title {
+      font-family: var(--font-sans);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
+    }
+    
+    .chapter-subtitle {
+      font-size: 1.125rem;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-6);
+      line-height: 1.6;
+    }
+    
+    .chapter-excerpt {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--color-text-secondary);
+      max-width: 600px;
+      line-height: 1.6;
+      padding-left: var(--space-4);
+      border-left: 2px solid var(--color-text-primary);
+    }
+    
+    /* ========== CHAPTER BODY (MULTI-COLUMN) ========== */
+    
+    .chapter-body {
+      padding: var(--space-8);
+      column-count: 2;
+      column-gap: var(--column-gap);
+      column-fill: auto;
+    }
+    
+    /* CRITICAL PAGINATION FIXES */
+    .chapter-body h1,
+    .chapter-body h2,
+    .chapter-body h3,
+    .chapter-body h4 {
+      break-after: avoid;
+      page-break-after: avoid;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    
+    .chapter-body h2 + p,
+    .chapter-body h3 + p,
+    .chapter-body h4 + p {
+      break-before: avoid;
+      page-break-before: avoid;
+    }
+    
+    .chapter-body pre,
+    .chapter-body blockquote,
+    .chapter-body .callout,
+    .chapter-body table {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    
+    /* ========== TYPOGRAPHY (MINIMALIST) ========== */
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+    
+    .chapter-body h1 {
+      font-size: 2.25rem;
+      line-height: 1.15;
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-4);
+      color: var(--color-text-primary);
+      column-span: all;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      page-break-before: always;
+      break-before: page;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+    
+    .chapter-body h2 {
+      font-size: 1.625rem;
+      line-height: 1.25;
+      margin-top: var(--space-6);
+      margin-bottom: var(--space-3);
+      font-weight: 700;
+      /* FORCE H2 TO NEW PAGE - NO ORPHANS */
+      page-break-before: always;
+      break-before: page;
+      page-break-after: avoid;
+      break-after: avoid;
+      column-span: all;
+    }
+    
+    .chapter-body h3 {
+      font-size: 1.25rem;
+      line-height: 1.35;
+      margin-top: var(--space-4);
+      margin-bottom: var(--space-2);
+      font-weight: 600;
+      page-break-after: avoid;
+      break-after: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      orphans: 3;
+      widows: 3;
+    }
+    
+    .chapter-body h4 {
+      font-size: 1rem;
+      line-height: 1.4;
+      margin-top: var(--space-3);
+      margin-bottom: var(--space-2);
+      font-weight: 600;
+      page-break-after: avoid;
+      break-after: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    
+    .chapter-body p {
+      margin-bottom: var(--space-3);
+      orphans: 4;
+      widows: 4;
+      hyphens: auto;
+    }
+    
+    /* Keep first paragraph with its heading */
+    .chapter-body h2 + p,
+    .chapter-body h3 + p,
+    .chapter-body h4 + p {
+      page-break-before: avoid;
+      break-before: avoid;
+    }
+    
+    .chapter-body strong {
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    
+    .chapter-body em {
+      font-style: italic;
+      color: var(--color-text-secondary);
+    }
+    
+    /* ========== CODE BLOCKS (MINIMALIST) ========== */
+    
+    .chapter-body pre {
+      background: var(--color-code-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: var(--space-3);
+      margin: var(--space-4) 0;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 9pt;
+      line-height: 1.6;
+      column-span: all;
+    }
+    
+    .chapter-body code {
+      font-family: var(--font-mono);
+      background: var(--color-code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      font-size: 0.9em;
+      color: var(--color-text-primary);
+    }
+    
+    .chapter-body pre code {
+      background: none;
+      padding: 0;
+      border-radius: 0;
+    }
+    
+    /* ========== LISTS (MINIMALIST) ========== */
+    
+    .chapter-body ul,
+    .chapter-body ol {
+      margin: var(--space-3) 0;
+      padding-left: var(--space-4);
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    
+    .chapter-body li {
+      margin-bottom: var(--space-2);
+      line-height: 1.6;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    
+    .chapter-body li::marker {
+      color: var(--color-text-primary);
+    }
+    
+    /* ========== LINKS (MINIMALIST) ========== */
+    
+    .chapter-body a {
+      color: var(--color-text-primary);
+      text-decoration: underline;
+      text-decoration-color: var(--color-text-tertiary);
+      text-underline-offset: 2px;
+    }
+    
+    /* ========== PULL QUOTES (MINIMALIST) ========== */
+    
+    .pull-quote {
+      column-span: all;
+      font-family: var(--font-sans);
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+      text-align: left;
+      margin: var(--space-8) 0;
+      padding: var(--space-6) 0;
+      border-left: 3px solid var(--color-text-primary);
+      padding-left: var(--space-4);
+      max-width: 700px;
+    }
+    
+    /* ========== CALLOUT BOXES (MINIMALIST) ========== */
+    
+    .callout {
+      background: var(--color-bg-secondary);
+      border-left: 2px solid var(--color-text-primary);
+      padding: var(--space-3);
+      margin: var(--space-4) 0;
+      column-span: all;
+    }
+    
+    .callout-title {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-2);
+    }
+    
+    .callout-content {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+    
+    /* ========== TABLES (MINIMALIST) ========== */
+    
+    .chapter-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-4) 0;
+      font-size: 0.9rem;
+      column-span: all;
+    }
+    
+    .chapter-body th,
+    .chapter-body td {
+      padding: var(--space-2);
+      border-bottom: 1px solid var(--color-border);
+      text-align: left;
+    }
+    
+    .chapter-body th {
+      background: var(--color-bg-primary);
+      font-weight: 600;
+      font-family: var(--font-sans);
+      color: var(--color-text-primary);
+      border-bottom: 2px solid var(--color-text-primary);
+    }
+    
+    .chapter-body td {
+      color: var(--color-text-secondary);
+    }
+    
+    .chapter-body tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* ========== DECISION TABLES (SPECIAL TREATMENT) ========== */
+    
+    .decision-table-wrapper {
+      column-span: all;
+      margin: var(--space-8) 0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      padding: var(--space-6);
+      background: var(--color-bg-secondary);
+      border-radius: 8px;
+      border: 2px solid var(--color-text-primary);
+    }
+    
+    .decision-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0;
+      background: var(--color-bg-primary);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    
+    .decision-table thead th {
+      background: var(--color-text-primary);
+      color: var(--color-bg-primary);
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: var(--space-3);
+      border-bottom: none;
+    }
+    
+    .decision-table tbody tr {
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .decision-table tbody tr:last-child {
+      border-bottom: none;
+    }
+    
+    .decision-table td {
+      padding: var(--space-3);
+      vertical-align: top;
+      border-bottom: none;
+    }
+    
+    .decision-table .scenario {
+      width: 25%;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    
+    .decision-table .timing {
+      width: 20%;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      font-size: 1.1rem;
+    }
+    
+    .decision-table .action {
+      width: 55%;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+    
+    .decision-table .action p {
+      margin-bottom: var(--space-2);
+    }
+    
+    .decision-table .action p:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Force decision section to start new page */
+    .decision-section-break {
+      break-before: page;
+      page-break-before: always;
+      column-span: all;
+      height: 0;
+    }
+    
+    .decision-heading {
+      column-span: all;
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-6);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--color-text-primary);
+      padding-top: var(--space-6);
+      border-top: 3px solid var(--color-text-primary);
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    
+    /* ========== HORIZONTAL RULE (MINIMALIST) ========== */
+    
+    .chapter-body hr {
+      border: none;
+      height: 1px;
+      background: var(--color-border);
+      margin: var(--space-8) 0;
+      column-span: all;
+    }
+    
+    /* ========== PRINT OPTIMIZATION ========== */
+    
+    @media print {
+      body {
+        font-size: 10pt;
+      }
+      
+      .cover,
+      .part-divider,
+      .chapter-opener {
+        height: 297mm; /* A4 height */
+      }
+      
+      /* MAXIMUM orphan/widow control */
+      * {
+        orphans: 4;
+        widows: 4;
+      }
+      
+      p {
+        orphans: 4;
+        widows: 4;
+      }
+      
+      /* FORCE H2 to new page - NO EXCEPTIONS */
+      h1, h2 {
+        page-break-before: always;
+        break-before: page;
+        page-break-after: avoid;
+        break-after: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      h3, h4, h5, h6 {
+        page-break-after: avoid;
+        break-after: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Keep headings with content */
+      h1 + *, h2 + *, h3 + *, h4 + * {
+        page-break-before: avoid;
+        break-before: avoid;
+      }
+      
+      /* Avoid breaks inside ALL content blocks */
+      pre, blockquote, table, .callout, ul, ol, .decision-table-wrapper {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      /* Keep list items together */
+      li {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      a {
+        color: inherit;
+        text-decoration: underline;
+      }
+      
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    }
+    
+    /* ========== PAGE NUMBERS ========== */
+    
+    @page {
+      margin: 20mm 15mm;
+      
+      @bottom-right {
+        content: counter(page);
+        font-family: var(--font-sans);
+        font-size: 9pt;
+        color: var(--color-text-tertiary);
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- COVER PAGE (MINIMALIST) -->
+  <div class="cover">
+    <div class="cover-content">
+      <div class="cover-emoji">📺</div>
+      <h1>{{meta.title}}</h1>
+      <div class="subtitle">{{meta.subtitle}}</div>
+    </div>
+    <div class="cover-meta">
+      <div class="cover-author">By {{meta.author}}</div>
+      <div class="cover-date">{{meta.date}}</div>
+    </div>
+  </div>
+  
+  <!-- PARTS & CHAPTERS -->
+  {{#each parts}}
+    <!-- Part Divider -->
+    <div class="part-divider">
+      <div class="part-number">{{number}}</div>
+      <div class="part-content">
+        <div class="part-label">Part {{number}}</div>
+        <h2 class="part-title">{{title}}</h2>
+        <div class="part-subtitle">{{subtitle}}</div>
+      </div>
+    </div>
+    
+    <!-- Chapters in this part -->
+    {{#each chapters}}
+      <!-- Chapter Opener -->
+      <div class="chapter-opener">
+        <div class="chapter-number">{{chapterNumber}}</div>
+        <div class="chapter-opener-content">
+          <div class="chapter-label">Chapter {{chapterNumber}}</div>
+          <h1 class="chapter-title">{{title}}</h1>
+          {{#if subtitle}}
+            <h2 class="chapter-subtitle">{{subtitle}}</h2>
+          {{/if}}
+          {{#if excerpt}}
+            <p class="chapter-excerpt">{{excerpt}}</p>
+          {{/if}}
+        </div>
+      </div>
+      
+      <!-- Chapter Body -->
+      <div class="chapter-body">
+        {{{html}}}
+        
+        {{#if pullQuotes.[0]}}
+          <div class="pull-quote">{{pullQuotes.[0]}}</div>
+        {{/if}}
+      </div>
+    {{/each}}
+  {{/each}}
+  
+</body>
+</html>
