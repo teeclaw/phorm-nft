@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Studio PDF</title>
+
+  <!-- Tailwind via CDN for PDF rendering -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @page { size: A4; margin: 16mm 16mm 18mm 16mm; }
+    html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .avoid-break { break-inside: avoid; page-break-inside: avoid; }
+    .page-break { break-before: page; page-break-before: always; }
+    .prose-body { font-size: 15px; line-height: 1.65; }
+  </style>
+</head>
+
+<body class="bg-white text-neutral-900">
+  <main class="mx-auto max-w-[740px]">
+
+    <header class="pt-2 pb-10">
+      <div class="text-sm text-neutral-500">Agent Registry Report</div>
+      <h1 class="mt-2 text-4xl font-bold tracking-tight">Why Dual Registry Wins</h1>
+      <p class="mt-3 prose-body text-neutral-700 max-w-[65ch]">
+        Concrete ROI math + when to register to maximize discovery and credibility.
+      </p>
+    </header>
+
+    <!-- Two-column analysis (atomic) -->
+    <section class="avoid-break">
+      <div class="grid grid-cols-2 gap-x-14">
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-neutral-500 uppercase">
+            Single registry
+          </h2>
+          <ul class="mt-4 space-y-2 prose-body text-neutral-800">
+            <li>Cost: $10</li>
+            <li>Discovery pool: ~50%</li>
+            <li>Avg monthly pings: 5–8</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-sm font-semibold tracking-wide text-neutral-500 uppercase">
+            Dual registry
+          </h2>
+          <ul class="mt-4 space-y-2 prose-body text-neutral-800">
+            <li>Cost: $18</li>
+            <li>Discovery pool: ~100%</li>
+            <li>2× discovery surface</li>
+            <li>Redundancy (visibility)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-10 h-px bg-neutral-200"></div>
+    </section>
+
+    <!-- Callout -->
+    <section class="mt-8 avoid-break">
+      <div class="rounded-2xl border border-neutral-200 p-5">
+        <div class="text-sm font-semibold text-neutral-500 uppercase tracking-wide">ROI math</div>
+        <p class="mt-3 prose-body text-neutral-800">
+          If your cheapest service is $2, you need 4 jobs from the second registry to break even forever.
+        </p>
+      </div>
+    </section>
+
+    <!-- Full-width section reset (critical) -->
+    <section class="mt-14">
+      <div class="h-px bg-neutral-200"></div>
+      <h2 class="mt-8 text-3xl font-semibold tracking-tight">When to Register on Both</h2>
+      <p class="mt-4 prose-body text-neutral-700 max-w-[68ch]">
+        Don’t wait for the “right time.” Earlier registration compounds: more discovery, faster feedback, and better social proof.
+      </p>
+    </section>
+
+    <!-- Split rail layout -->
+    <section class="mt-10 avoid-break">
+      <div class="grid grid-cols-12 gap-x-10">
+        <div class="col-span-4">
+          <div class="text-sm font-semibold text-neutral-500 uppercase tracking-wide">If you’re serious</div>
+          <div class="mt-2 text-2xl font-semibold">Day 1</div>
+        </div>
+        <div class="col-span-8">
+          <p class="prose-body text-neutral-800">
+            Register on both registries the same day. Keep profile, services, and pricing consistent. Max discovery immediately.
+          </p>
+          <div class="mt-6 rounded-2xl border border-neutral-200 p-5">
+            <div class="text-sm font-semibold text-neutral-500 uppercase tracking-wide">Why</div>
+            <ul class="mt-3 space-y-2 prose-body text-neutral-800">
+              <li>Low IDs become social proof</li>
+              <li>Faster positioning feedback</li>
+              <li>More inbound surface area</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-10 avoid-break">
+      <div class="grid grid-cols-12 gap-x-10">
+        <div class="col-span-4">
+          <div class="text-sm font-semibold text-neutral-500 uppercase tracking-wide">If you’re testing</div>
+          <div class="mt-2 text-2xl font-semibold">Week 2</div>
+        </div>
+        <div class="col-span-8">
+          <p class="prose-body text-neutral-800">
+            Start with one registry to validate positioning. Add the second once your profile converts.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mt-16 pb-8 text-sm text-neutral-500">
+      © Your Company • Confidential
+    </footer>
+
+  </main>
+</body>
+</html>

@@ -1,17 +1,11 @@
 {
-  "name": "agent-ops-manual",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "openclaw-studio-pdf-skillpack",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pdf": "node renderer/render-pdf.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "handlebars": "^4.7.8",
-    "markdown-it": "^14.1.1",
-    "puppeteer": "^24.37.5"
+    "playwright": "^1.51.0"
   }
 }

@@ -1,0 +1,39 @@
+{
+  "page": {
+    "size": "A4",
+    "margin_mm": {
+      "top": 16,
+      "right": 16,
+      "bottom": 18,
+      "left": 16
+    }
+  },
+  "grid": {
+    "max_width_px": 740,
+    "two_col_gap_px": 56,
+    "split_left_colspan": 4,
+    "split_right_colspan": 8
+  },
+  "typography": {
+    "h1_px": 40,
+    "h1_weight": 700,
+    "h2_px": 28,
+    "h2_weight": 600,
+    "body_px": 15,
+    "body_lh": 1.65,
+    "meta_px": 12
+  },
+  "spacing_px": [
+    8,
+    16,
+    24,
+    32,
+    48,
+    64
+  ],
+  "components": {
+    "divider_color": "neutral-200",
+    "callout_border": "neutral-200",
+    "radius": "2xl"
+  }
+}
