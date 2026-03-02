@@ -44,6 +44,47 @@ rm -rf ~/.openclaw/.cache/secrets/
 - **conway-*.mjs** - Conway Domains registration scripts
 - **gen-wallet.js** / **generate-wallet.js** - Wallet generation utilities
 
+## Research & Intelligence
+
+### news-aggregator.mjs
+
+Resilient news aggregation from multiple crypto/tech sources with automatic fallback.
+
+**Usage:**
+```bash
+# Get top 20 news items (text format)
+node scripts/news-aggregator.mjs
+
+# Get top 5 items
+node scripts/news-aggregator.mjs --limit 5
+
+# Get JSON output for programmatic use
+node scripts/news-aggregator.mjs --limit 10 --format json
+```
+
+**Features:**
+- **Multi-Source:** HackerNews (Algolia), Decrypt, Cointelegraph, CoinDesk
+- **Automatic Fallback:** Works even if some sources fail
+- **Deduplication:** Removes duplicate URLs across sources
+- **Sorted:** By timestamp (newest first), then by score
+- **Fast:** Parallel fetching with 10-15s timeouts
+- **Resilient:** Succeeds if any source works (no single point of failure)
+
+**Output Formats:**
+- `text` - Human-readable format with source status
+- `json` - Structured data with full metadata
+
+**Source Status:**
+Each run shows which sources succeeded/failed:
+```
+✅ HackerNews: 10 items (249ms)
+✅ Decrypt: 10 items (114ms)
+❌ CoinDesk: failed: HTTP 308
+✅ Cointelegraph: 10 items (192ms)
+```
+
+**Exit Code:** Returns 1 if all sources fail, 0 otherwise.
+
 ## Maintenance
 
 - **decrypt-key.sh** - GPG key decryption helper

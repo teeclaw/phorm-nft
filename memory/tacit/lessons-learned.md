@@ -18,3 +18,4 @@
 - **Systematic pre-launch review catches critical issues** — HTTPS enforcement gap would have caused agent MITM vulnerabilities.
 - **Systematic evidence-based investigation > assumption-based debugging** — checking data layer (API response) faster than chasing cache/deployment issues.
 - **Research infrastructure needs documented fallbacks** — multiple API failures (Brave subscription, Cloudflare blocks, broken feeds) reveal fragility; maintain list of working sources and alternatives.
+- **Resilient aggregation beats single-source dependency** — scripts/news-aggregator.mjs now provides multi-source news fetch with automatic fallback; succeeds if ANY source works, not just one.
