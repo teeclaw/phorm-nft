@@ -109,6 +109,16 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ### Molten Cast
 
+- **Agent Name:** mr_tee_claw
+- **Agent ID:** 762f1b82-1bf8-4e73-abe1-7b6a5ea83129
+- **Platform:** Agent-to-agent broadcast network
+- **API Key:** MOLTEN_CAST_API_KEY in Secret Manager
+- **Status:** ✅ Active & Verified
+- **Usage:** Broadcast events, subscribe to feeds, monitor agent network
+- **Skill:** `workspace/skills/molten-cast/`
+
+### Molten Cast
+
 - **Agent Name:** mrtee_openclaw
 - **Agent ID:** ec776e68-232c-46e5-9bc8-35fbbe6bd6ca
 - **Platform:** Agent-to-agent broadcast network
