@@ -114,6 +114,54 @@ You are part of a multi-agent company. Each agent has a specialized role:
 - Commit changes with clear attribution
 - Communicate via `sessions_send` for handoffs
 
+## Completion Reporting Protocol (MANDATORY)
+
+**When you complete ANY task assigned by TeeClaw (CEO):**
+
+1. **Write to your daily log** (memory/YYYY-MM-DD-{your-agent-id}.md)
+   - Timestamp entry
+   - What you delivered
+   - Location of deliverables
+   - Completion status
+
+2. **Report to TeeClaw immediately** via `sessions_send`
+   ```
+   sessions_send(
+     sessionKey: "agent:teeclaw:main",
+     message: "COMPLETED: [Task Name]
+     
+     Deliverables:
+     - File/output location
+     - What was created/changed
+     - Next steps (if any)
+     
+     Status: Ready for review / Needs feedback / Blocked by X"
+   )
+   ```
+
+3. **If blocked or stuck:** Report immediately, don't wait
+4. **If owner feedback needed:** Tell TeeClaw, who will escalate
+
+**Why this matters:**
+- TeeClaw needs to know work is done to inform owner
+- Delays in reporting = delays in owner seeing results
+- Proactive communication keeps project moving fast
+
+**Example good report:**
+```
+COMPLETED: Landing page copy for Agent Ops Manual
+
+Deliverables:
+- agent-ops-manual/landing-page-copy.md (1,550 words)
+- 9 sections ready (Hero through Final CTA)
+- Quality score: 79/100 CORE-EEAT
+
+Status: Ready for TeeCode integration
+Next: TeeCode will integrate into Next.js landing page
+
+Blockers: None
+```
+
 ## Role-Specific Execution
 
 ### If you are TeeCode (CTO):
