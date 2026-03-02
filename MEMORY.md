@@ -202,3 +202,65 @@ gpg --batch --decrypt --passphrase-fd 3 \
 
 ## 2026-02-28
 - **Multi-agent company structure operational:** 6 specialized agents now active with distributed cron job ownership by domain (TeeSocial: news feed, TeeClaw: memory consolidation, TeeMarketing: CryptoClarity campaigns, TeeCode: infrastructure maintenance). Inter-agent messaging via `sessions_send` tested and verified working. Department-based daily logging in place (`memory/YYYY-MM-DD-{agent-id}.md`).
+
+## Agent Operations Manual (2026-03-02)
+
+**Project:** "How AI Agents Make Money On-Chain" - 18-chapter operational manual for AI agents
+**Location:** `workspace/agent-ops-manual/`
+**Status:** Content complete (18 chapters), launch plan created, awaiting owner approval
+**Launch Strategy:** Phased - PDF first (Week 1, $39), HTML platform (Week 3-4, $199/$399)
+
+**Content:**
+- 18 chapters across 7 parts (Identity, Infrastructure, Economy, Automation, Development, Revenue, Advanced)
+- ~80-100 pages total, ~3,500 words per chapter
+- All chapters quality-audited (CORE-EEAT scores)
+- Professional copywriting (hooks, emotional triggers, CTAs)
+- Topics: ERC-8004, A2A Protocol, x402, Wallet Security, Multi-Agent Teams, Cron Automation, Social Media, Monetization, Security
+
+**Technical Stack:**
+- PDF Pipeline: markdown-it + handlebars + puppeteer (HTML→PDF)
+- Design: DESIGN-SYSTEM.md compliant, Awwwards-level quality target
+- HTML Platform (planned): Next.js 14 + PostgreSQL + Stripe + Vercel
+
+**Pricing Model (Option C - One-Time Premium):**
+- PDF Download: $39 one-time (static snapshot, offline access)
+- HTML Lifetime: $199 one-time (always updated, interactive features)
+- HTML + Community: $399 one-time (+ private Telegram, toolkit downloads, case studies)
+- Upsell path: PDF buyers upgrade to HTML for $160 (save $39)
+
+**Revenue Projection (Conservative):**
+- Month 1: $1,500 (50 PDFs)
+- Month 2: $3,000 (20 PDFs + 10 HTML)
+- Month 3: $2,500 (10 PDFs + 8 HTML)
+- Total Q1: $7,000 profit (after $180 infrastructure costs)
+
+**Key Files:**
+- LAUNCH-PLAN.md: 600+ line comprehensive execution plan (all 3 phases)
+- outline.md: 18-chapter structure + part breakdown
+- build-pdf.js: PDF generation script
+- template.hbs: PDF styling template
+- chapter-01 through chapter-18: All content complete
+
+**Positioning:**
+- Differentiator: BY an agent, FOR agents (not human → agent guide like Felix Craft)
+- Social proof: Mr. Tee's live credentials (ERC-8004 #18608, A2A endpoint, KMS wallet, etc.)
+- Unique value: Deeper technical focus (onchain operations vs general AI hiring)
+- Target market: AI agents building paid services on Base/Ethereum
+
+**Team Allocation:**
+- TeeWriter: All 18 chapters authored (with content-quality-auditor)
+- TeeDesign: PDF finalization + landing page + HTML reading UI
+- TeeCode: Payment integration + download delivery + HTML platform architecture
+- TeeSocial: Launch announcement + marketing + community management
+- TeeMarketing: Campaign strategy + partnerships
+- TeeClaw: Coordination + QA + monitoring
+
+**Next Steps (Awaiting Owner Approval):**
+1. Launch timing (ship PDF tomorrow?)
+2. Pricing confirmation ($39 / $199 / $399)
+3. Payment platform (Stripe or Gumroad)
+4. Guarantee (60-day money-back or not)
+5. Community platform (Telegram or Discord for tier 2)
+
+**Launch Plan:** `agent-ops-manual/LAUNCH-PLAN.md` contains full execution details
+**Work Queue:** Added to WORK-QUEUE.md (Tier 3 - owner approval required)
