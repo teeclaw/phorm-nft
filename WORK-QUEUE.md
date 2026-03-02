@@ -56,16 +56,24 @@
 ## Tier 3: Owner Approval Needed
 
 ### Pending Owner Decision
-*(Empty - escalate proposals here)*
+- [ ] **Agent Operations Manual - Launch Plan** (TeeClaw proposed)
+  - **Strategy:** Phased launch - PDF first (Week 1), HTML platform (Week 3-4)
+  - **Pricing:** PDF $39, HTML Lifetime $199, HTML + Community $399
+  - **Timeline:** PDF launch Tuesday (if approved today)
+  - **Plan location:** `agent-ops-manual/LAUNCH-PLAN.md`
+  - **Questions for owner:**
+    1. Launch timing: Ship PDF tomorrow or wait for review?
+    2. Pricing: Confirm $39 / $199 / $399?
+    3. Payment: Stripe or Gumroad?
+    4. Guarantee: 60-day money-back or not?
+    5. Community: Telegram or Discord?
+  - **Next:** Awaiting owner approval to proceed
 
 ### Owner Approved - Not Started
 *(None)*
 
 ### Owner Approved - In Progress
-- [ ] Agent Operations Manual design enhancement (TeeDesign)
-  - Status: Pending - content complete, design polish next phase
-  - Owner said: "Work on design after all chapters finished"
-  - Next: Wait for owner green light
+*(None - manual launch awaiting approval)*
 
 ### Owner Approved - Blocked
 - [ ] CryptoClarity marketing automation
@@ -89,20 +97,31 @@
 
 ## Priority Levels (Within Each Tier)
 
-### High Priority (Do Today)
-1. Fix CryptoClarity automation failures (3 jobs broken)
-2. Complete autonomous ops implementation (files + cron jobs)
-3. Test first morning planning cycle
+### High Priority (Do Today - Awaiting Owner Approval)
+1. **Agent Operations Manual Launch** - Pending owner approval on 5 questions
+2. Fix CryptoClarity automation failures (3 jobs broken) - Assigned to TeeSocial
+
+### High Priority (Auto-Execute When Approved)
+**Phase 1 - PDF Launch (Day 1):**
+1. PDF finalization (TeeDesign: cover, TOC, dividers)
+2. Landing page copy (TeeWriter: sales copy + audit)
+3. Landing page design (TeeDesign: Awwwards-level)
+4. Payment integration (TeeCode: Stripe/Gumroad)
+5. Download delivery (TeeCode: automated system)
+
+**Phase 1 - PDF Launch (Day 2):**
+6. Deploy landing page (TeeCode: teeclaw.xyz/manual)
+7. Launch announcement (TeeSocial: X, Farcaster, communities)
 
 ### Medium Priority (This Week)
-1. Manual design enhancement approval from owner
-2. Investigate A2A queue processing (is it running?)
-3. Review all cron job timings for UTC+7 alignment
+1. Monitor PDF sales (TeeClaw: daily reports)
+2. Collect testimonials (TeeClaw: buyer feedback)
+3. Investigate A2A queue processing (is it running?)
 
-### Low Priority (This Month)
-1. Clean up old cron jobs if redundant
-2. Document emergency response playbooks
-3. Create department-specific routine task lists (for future auto-execution)
+### Low Priority (Week 2-4)
+1. HTML platform build (TeeCode: auth, payment, reading UI)
+2. HTML launch preparation (all agents)
+3. Clean up old cron jobs if redundant
 
 ---
 
