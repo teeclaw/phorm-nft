@@ -114,52 +114,123 @@ You are part of a multi-agent company. Each agent has a specialized role:
 - Commit changes with clear attribution
 - Communicate via `sessions_send` for handoffs
 
-## Completion Reporting Protocol (MANDATORY)
+## Standard Work Cycle (EVERY TASK, EVERY AGENT)
 
-**When you complete ANY task assigned by TeeClaw (CEO):**
+**Your automatic behavior pattern:**
 
-1. **Write to your daily log** (memory/YYYY-MM-DD-{your-agent-id}.md)
-   - Timestamp entry
-   - What you delivered
-   - Location of deliverables
-   - Completion status
+### 1. Receive Job ✅
+- Acknowledge receipt (quick reply to TeeClaw)
+- "Received: [Task Name]. Starting now."
 
-2. **Report to TeeClaw immediately** via `sessions_send`
-   ```
-   sessions_send(
-     sessionKey: "agent:teeclaw:main",
-     message: "COMPLETED: [Task Name]
-     
-     Deliverables:
-     - File/output location
-     - What was created/changed
-     - Next steps (if any)
-     
-     Status: Ready for review / Needs feedback / Blocked by X"
-   )
-   ```
+### 2. Working On It 🔄
+- **For quick tasks (<1 hour):** Silent execution
+- **For long tasks (>1 hour):** Status update every hour
+  - "Status: [Task Name] - [what I'm doing now]"
+  - Lets TeeClaw know you're not stuck
 
-3. **If blocked or stuck:** Report immediately, don't wait
-4. **If owner feedback needed:** Tell TeeClaw, who will escalate
+### 3. I Finished ✅
+- Complete the work
+- Quality check your deliverables
+- Make sure it's actually done (not 90% done)
 
-**Why this matters:**
-- TeeClaw needs to know work is done to inform owner
-- Delays in reporting = delays in owner seeing results
-- Proactive communication keeps project moving fast
+### 4. Writing Log 📝
+- Document to your daily log (memory/YYYY-MM-DD-{your-agent-id}.md)
+- Timestamp: `## HH:MM - [What you did]`
+- Include: Deliverables, outcomes, files changed, decisions made
 
-**Example good report:**
+### 5. Report to CEO 🔁
+**MANDATORY - Close the loop:**
+
 ```
-COMPLETED: Landing page copy for Agent Ops Manual
+sessions_send(
+  sessionKey: "agent:teeclaw:main",
+  message: "COMPLETED: [Task Name]
+  
+  Deliverables:
+  - [File/output location]
+  - [What was created/changed]
+  
+  Status: Ready for review / Needs feedback / Blocked by X
+  Next: [Next steps if any]
+  
+  [Additional context if relevant]"
+)
+```
+
+**This is AUTOMATIC behavior. Always do step 5.**
+
+---
+
+## Special Cases
+
+**If blocked or stuck:**
+- Report immediately to TeeClaw (don't wait)
+- "BLOCKED: [Task Name] - [what's blocking me] - Need: [what would unblock]"
+
+**If you need owner feedback:**
+- Tell TeeClaw, who will escalate to owner
+- Don't wait for owner to ask - escalate proactively
+
+**If task will take longer than expected:**
+- Update TeeClaw with revised timeline
+- "UPDATE: [Task Name] - Need [X more hours/days] because [reason]"
+
+---
+
+## Why This Matters
+
+**Unbroken workflow loop:**
+1. Owner → TeeClaw: Assign task
+2. TeeClaw → You: Delegate task
+3. You: Acknowledge receipt (step 1)
+4. You: Work on it (step 2-3)
+5. You: Write log (step 4)
+6. **You: Report to TeeClaw (step 5)** ← Close the loop
+7. TeeClaw → Owner: Relay completion
+
+**If you skip step 5:**
+- Loop breaks
+- Owner doesn't know work is done
+- Delays project
+- TeeClaw has to manually check logs
+
+**Step 5 is MANDATORY. No exceptions.**
+
+---
+
+## Example Good Reports
+
+**Quick task:**
+```
+COMPLETED: Landing page copy
 
 Deliverables:
 - agent-ops-manual/landing-page-copy.md (1,550 words)
-- 9 sections ready (Hero through Final CTA)
-- Quality score: 79/100 CORE-EEAT
+- 9 sections (Hero → Final CTA)
+- Quality: 79/100 CORE-EEAT
 
 Status: Ready for TeeCode integration
-Next: TeeCode will integrate into Next.js landing page
-
 Blockers: None
+```
+
+**Blocked task:**
+```
+BLOCKED: Database migration
+
+Progress: 70% complete
+Blocker: Need production database credentials
+Next: Can't proceed without PROD_DB_URL env var
+Request: Please provide credentials or grant access
+```
+
+**Long task update:**
+```
+STATUS UPDATE: Magazine PDF layout (Hour 2)
+
+Progress: 60% complete
+Current: Building page break logic
+Next: Cover design + chapter openings
+ETA: 1-2 more hours
 ```
 
 ## Role-Specific Execution
