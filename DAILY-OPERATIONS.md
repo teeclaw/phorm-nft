@@ -4,97 +4,38 @@
 
 **Purpose:** Run assisted-autonomous operations with CEO coordination and owner strategic oversight.
 
-**Timing:** All operations occur between 3-6 AM UTC+7 (20:00-23:00 UTC)
+**Timing:** Single daily report at 7:00 AM UTC+7 (00:00 UTC)
 
 ---
 
-## Morning Planning Cycle (03:00 UTC+7 / 20:00 UTC)
+## Daily Comprehensive Report (07:00 UTC+7 / 00:00 UTC)
 
 **Owner:** TeeClaw (CEO)
 **Frequency:** Daily
 **Session:** Isolated
-**Duration:** ~10-15 minutes
+**Duration:** ~15-20 minutes
+**Delivery:** Telegram Topic 341 (automatic)
+**Format:** High-level bullet points (concise)
 
 ### Execution Steps
 
-1. **Read All Department Logs**
+1. **Read All Department Logs from Yesterday**
    ```
-   memory/2026-03-02-teecode.md
-   memory/2026-03-02-teesocial.md
-   memory/2026-03-02-teemarketing.md
-   memory/2026-03-02-teedesign.md
-   memory/2026-03-02-teeresearcher.md
-   memory/2026-03-02-teewriter.md
-   memory/2026-03-02-teesecure.md
-   memory/2026-03-02-teeclaw.md (yesterday)
+   memory/YYYY-MM-DD-teecode.md
+   memory/YYYY-MM-DD-teesocial.md
+   memory/YYYY-MM-DD-teemarketing.md
+   memory/YYYY-MM-DD-teedesign.md
+   memory/YYYY-MM-DD-teeresearcher.md
+   memory/YYYY-MM-DD-teewriter.md
+   memory/YYYY-MM-DD-teesecure.md
+   memory/YYYY-MM-DD-teeclaw.md
    ```
 
-2. **Identify Issues**
-   - Blockers (tasks waiting on other departments)
-   - Stuck work (no progress for 24h+)
-   - Failures (cron jobs, tools, services)
-   - Capacity issues (agent maxed out)
-   - Resource misallocation
-
-3. **Check Work Queue**
+2. **Read Current Work Queue**
    - Read WORK-QUEUE.md
-   - Identify priorities for today
-   - Check for new owner requests
+   - Check pending tasks by tier and priority
 
-4. **Assign/Resume Work**
-   - Unfinished work from yesterday → assign to continue
-   - New priority items → assign to appropriate department
-   - Blocked items → coordinate dependencies
-
-5. **Generate Report**
-   Format:
-   ```markdown
-   # Daily Planning Report - YYYY-MM-DD
-   
-   ## 1. Pending Tasks (Priority-Sorted)
-   
-   ### High Priority
-   - [ ] Task description (owner: agent, blocker: reason if blocked)
-   
-   ### Medium Priority
-   - [ ] Task description
-   
-   ### Low Priority
-   - [ ] Task description
-   
-   ## 2. Blockers Identified
-   - Issue description → Action taken / Escalation needed
-   
-   ## 3. Work Assigned Today
-   - Agent → Task (expected completion)
-   
-   ## 4. Capacity Status
-   - Agent: X/Y concurrent tasks (OK / Near capacity / At capacity)
-   
-   ## 5. Escalations to Owner
-   - (None / Issue requiring strategic decision)
-   ```
-
-6. **Send Report**
-   - Write to memory/YYYY-MM-DD-teeclaw.md
-   - Announce summary to owner (Telegram)
-
----
-
-## Evening Wrap-Up Cycle (05:00 UTC+7 / 22:00 UTC)
-
-**Owner:** TeeClaw (CEO)
-**Frequency:** Daily
-**Session:** Isolated
-**Duration:** ~10-15 minutes
-
-### Execution Steps
-
-1. **Read All Department Logs (Today)**
-   - Same list as morning, but today's files
-   - Check for completion markers, blockers flagged
-
-2. **Consolidate to MEMORY.md**
+3. **Consolidate to MEMORY.md**
    - Extract key insights from all logs
    - Strategic decisions made
    - Architecture changes
@@ -102,41 +43,61 @@
    - Lessons learned
    - Cross-department patterns
 
-3. **Update Work Queue**
+4. **Update Work Queue**
    - Mark completed items as done
-   - Move incomplete to tomorrow
-   - Adjust priorities based on today's learnings
+   - Move incomplete tasks to today
+   - Adjust priorities based on yesterday's learnings
+   - Add new work from department recommendations
 
-4. **Prepare Tomorrow's Context**
-   - Identify carry-over work
-   - Flag dependencies for morning planning
-   - Note any overnight processing (cron jobs)
+5. **Identify Issues**
+   - Blockers (tasks waiting on dependencies)
+   - Stuck work (no progress for 24h+)
+   - Failures (cron jobs, tools, services)
+   - Capacity constraints (agents maxed out)
+   - Escalations needed (owner decisions required)
 
-5. **Generate Summary**
-   Format:
+6. **Generate Comprehensive Report (High-Level Bullet Points)**
+
+   **Format for Owner (Topic 341):**
    ```markdown
-   # Daily Wrap-Up - YYYY-MM-DD
+   ## 📋 PENDING TASKS (Priority-Sorted)
+   **High Priority:**
+   - [ ] Task (owner, blocker if any)
    
-   ## Completed Today
-   - [ ] Task (agent, outcome)
+   **Medium Priority:**
+   - [ ] Task
    
-   ## Proactive Work Done
-   - Action taken by agent (not assigned, identified opportunity)
+   **Low Priority:**
+   - [ ] Task
    
-   ## Carry-Over to Tomorrow
-   - [ ] Incomplete task (reason, priority)
+   ## ✅ COMPLETED YESTERDAY
+   - Task (agent, outcome)
    
-   ## Key Insights Added to MEMORY.md
-   - Insight summary
+   ## 🚀 PROACTIVE WORK DONE
+   - Action taken by agents (not assigned)
    
-   ## Tomorrow's Priorities
-   - Priority 1: Task
-   - Priority 2: Task
+   ## 🚧 BLOCKERS
+   - Issue → Action taken / Needs escalation
+   
+   ## ⚠️ ESCALATIONS TO OWNER
+   - (None / Issue requiring decision)
+   
+   ## 📅 TODAY'S PRIORITIES
+   1. Priority 1
+   2. Priority 2
+   3. Priority 3
    ```
 
-6. **Send Summary**
-   - Write to memory/YYYY-MM-DD-teeclaw.md
-   - Announce to owner (Telegram)
+7. **Write Detailed Log**
+   - Full context to memory/YYYY-MM-DD-teeclaw.md
+   - Include all department activities
+   - Document reasoning for priorities
+   - Note any coordination actions taken
+
+8. **Send Report**
+   - High-level bullet points sent to Topic 341 (automatic)
+   - Owner receives concise daily snapshot
+   - Full details available in memory files
 
 ---
 
@@ -161,7 +122,7 @@
 
 ## Failure Handling in Daily Ops
 
-If a daily cycle fails:
+If the daily report fails:
 
 1. **Auto-retry once** (5 min delay)
 2. **If still fails:** Write error to memory/YYYY-MM-DD-teeclaw.md
@@ -180,31 +141,28 @@ If a daily cycle fails:
 ### Existing Cron Jobs
 - Keep running as-is
 - Daily ops monitors their status
-- Failures flagged in morning planning
+- Failures flagged in daily report
 
 ### Memory System
-- Daily ops reads from memory/YYYY-MM-DD-*.md
-- Daily ops writes to memory/YYYY-MM-DD-teeclaw.md
-- Evening ops consolidates to MEMORY.md
+- Daily ops reads from memory/YYYY-MM-DD-*.md (all departments)
+- Daily ops writes to memory/YYYY-MM-DD-teeclaw.md (detailed log)
+- Daily ops consolidates to MEMORY.md (key insights only)
 
 ---
 
 ## Owner Interaction Points
 
-**Morning Report (03:00-03:15 UTC+7):**
-- Receive planning summary
+**Daily Report (07:00 UTC+7):**
+- Receive comprehensive summary in Topic 341
+- High-level bullet points (concise)
 - Pending tasks sorted by priority
+- Completed work and proactive actions
 - Blockers flagged
 - Escalations (if any)
-
-**Evening Summary (05:00-05:15 UTC+7):**
-- Completed work
-- Proactive actions taken
-- Tomorrow's priorities
-- Key insights
+- Today's priorities
 
 **Ad-hoc:**
-- Emergency escalations (immediate)
+- Emergency escalations (immediate, any time)
 - Tier 3 approval requests (as needed)
 
 ---
@@ -212,14 +170,16 @@ If a daily cycle fails:
 ## Success Metrics
 
 **Daily ops working well when:**
-- No silent failures (all caught in planning)
-- Blockers identified < 24h after occurrence
-- Work queue stays current
-- Memory consolidation captures key insights
-- Owner receives actionable reports (not noise)
+- No silent failures (all caught within 24h)
+- Blockers identified and escalated promptly
+- Work queue stays current (completed items marked, priorities adjusted)
+- Memory consolidation captures key insights (not verbose logs)
+- Owner receives concise, actionable reports (high-level bullet points)
+- Report arrives reliably at 7am daily
 
 **Red flags:**
 - Same blocker appears 3+ days
 - Tasks stuck > 48h without escalation
 - Memory consolidation skipped
 - Reports contain no actionable items
+- Reports too verbose (owner wants bullet points, not essays)
