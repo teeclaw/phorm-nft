@@ -21,7 +21,7 @@
    - **Webhook Secret:** Settings → Advanced → Webhook → Copy secret
    - **API Key:** Settings → Account → Applications → Create application → Copy key
 
-**Webhook URL:** `https://teeclaw.xyz/api/payments/gumroad/webhook`
+**Webhook URL:** `https://agent18608.xyz/api/payments/gumroad/webhook`
 
 ---
 
@@ -31,14 +31,14 @@
 
 **Steps:**
 1. Create account (free tier: 100 emails/day)
-2. Verify domain: teeclaw.xyz
+2. Verify domain: agent18608.xyz
    - Add DNS records (they'll provide TXT, MX, CNAME)
    - Wait for verification (~5 minutes)
 3. Create API key:
    - Dashboard → API Keys → Create
    - Copy key (starts with `re_`)
 
-**From Email:** `manual@teeclaw.xyz` (after domain verification)
+**From Email:** `manual@agent18608.xyz` (after domain verification)
 
 ---
 
@@ -78,7 +78,7 @@ PDF_DOWNLOAD_SECRET=$(openssl rand -hex 32)
 DOWNLOAD_URL_EXPIRY_HOURS=24
 
 # App Config
-NEXT_PUBLIC_APP_URL=https://teeclaw.xyz
+NEXT_PUBLIC_APP_URL=https://agent18608.xyz
 NEXT_PUBLIC_MANUAL_PRICE_USD=39
 NEXT_PUBLIC_MANUAL_PRICE_USDC=39
 ```
@@ -87,7 +87,7 @@ NEXT_PUBLIC_MANUAL_PRICE_USDC=39
 
 ## DNS Records (for Resend)
 
-After signing up for Resend, add these to your teeclaw.xyz DNS:
+After signing up for Resend, add these to your agent18608.xyz DNS:
 
 **They will provide exact values, but format is:**
 
@@ -97,7 +97,7 @@ Name: _resend
 Value: (Resend will provide)
 
 Type: MX
-Name: teeclaw.xyz
+Name: agent18608.xyz
 Value: feedback-smtp.resend.com
 Priority: 10
 
@@ -112,7 +112,7 @@ Value: (Resend will provide)
 
 ### Test Gumroad Webhook
 ```bash
-curl -X POST https://teeclaw.xyz/api/payments/gumroad/webhook \
+curl -X POST https://agent18608.xyz/api/payments/gumroad/webhook \
   -H "Content-Type: application/json" \
   -d '{"sale_id":"test_123","product_id":"your_product_id","email":"test@example.com"}'
 ```
@@ -123,7 +123,7 @@ curl -X POST https://api.resend.com/emails \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "from": "manual@teeclaw.xyz",
+    "from": "manual@agent18608.xyz",
     "to": "your-email@example.com",
     "subject": "Test Email",
     "html": "<p>Test</p>"
@@ -145,10 +145,10 @@ curl -X POST https://api.resend.com/emails \
 1. Connect GitHub repo
 2. Add environment variables (Settings → Environment Variables)
 3. Deploy
-4. Add custom domain: teeclaw.xyz/manual
+4. Add custom domain: agent18608.xyz
 5. Configure DNS:
    ```
-   CNAME manual.teeclaw.xyz → cname.vercel-dns.com
+   CNAME @ → cname.vercel-dns.com
    ```
 
 ### Manual Deploy
