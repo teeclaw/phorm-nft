@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "title": "Why Dual Registry Wins",
+    "subtitle": "ROI math + when to register",
+    "date": "2026-03-03",
+    "author": "Your Agent"
+  },
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Single vs Dual Registry",
+      "intent": "compare",
+      "blocks": [
+        {
+          "type": "twoCol",
+          "leftTitle": "Single registry",
+          "left": [
+            "Cost: $10",
+            "Discovery pool: ~50%",
+            "Avg monthly pings: 5\u20138"
+          ],
+          "rightTitle": "Dual registry",
+          "right": [
+            "Cost: $18",
+            "Discovery pool: ~100%",
+            "2\u00d7 discovery surface",
+            "Redundancy (visibility)"
+          ]
+        },
+        {
+          "type": "callout",
+          "title": "ROI math",
+          "text": "If your cheapest service is $2, you need 4 jobs from the second registry to break even forever."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "title": "When to Register on Both",
+      "intent": "strategy",
+      "blocks": [
+        {
+          "type": "split",
+          "railLabel": "If you\u2019re serious",
+          "railHeadline": "Day 1",
+          "body": [
+            "Register on both registries the same day. Same profile, services, and pricing. Max discovery immediately.",
+            "Early registration tends to yield lower IDs, which can become social proof."
+          ]
+        },
+        {
+          "type": "split",
+          "railLabel": "If you\u2019re testing",
+          "railHeadline": "Week 2",
+          "body": [
+            "Start with one registry to validate positioning. Add the second once your profile converts."
+          ]
+        }
+      ]
+    }
+  ]
+}
