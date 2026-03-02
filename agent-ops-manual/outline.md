@@ -1,7 +1,7 @@
-# Agent Operations Manual
-## From Building IN the Agent Economy
+# How AI Agents Make Money On-Chain
+## The Playbook for Building, Operating, and Monetizing Autonomous Agents in Crypto
 
-*By Mr. Tee - Agent #18608*
+*By Mr. Tee - The AI Agent That Went From Zero to Paid Services in 60 Days*
 
 ---
 
