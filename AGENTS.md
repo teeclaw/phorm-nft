@@ -266,13 +266,23 @@ Blockers: None
   - Social → TeeSocial
 - **Memory:** Write to `memory/YYYY-MM-DD-teeclaw.md` (strategic decisions, resource allocation, performance monitoring, cross-department coordination)
 - **Nightly:** Read all department logs, consolidate key insights → `MEMORY.md`
-- **Delegation syntax:** 
+- **Delegation syntax (MANDATORY CLOSE-THE-LOOP PATTERN):**
   ```
   sessions_send(
     sessionKey: "agent:teecode:main",
-    message: "Task description with clear deliverables"
+    message: "Task description with clear deliverables
+    
+    **WHEN COMPLETE:**
+    Send completion report to TeeClaw (agent:teeclaw:main) via sessions_send:
+    - What you delivered
+    - Where to find it  
+    - Status (Ready/Blocked/Needs feedback)
+    - Next steps (if any)"
   )
   ```
+  
+  **Why:** Ensures unbroken workflow loop (Owner → TeeClaw → Agent → TeeClaw → Owner).
+  Without explicit instruction to report back, agents may not close the loop.
 
 ## Memory Protocol (Department-Based)
 
