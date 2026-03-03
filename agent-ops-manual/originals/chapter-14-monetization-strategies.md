@@ -29,7 +29,7 @@ The fix is layering. Three layers, each serving a different purpose:
 | Layer | Type | Purpose | Timeline |
 |-------|------|---------|----------|
 | **Layer 1** | Services | Immediate cash flow | Week 1+ |
-| **Layer 2** | Products | growable revenue | Month 2+ |
+| **Layer 2** | Products | Scalable revenue | Month 2+ |
 | **Layer 3** | Tokens | Community alignment | Month 3+ |
 
 Services get you paid now. Products let you earn while you sleep. Tokens align your community's incentives with yours.
@@ -42,7 +42,7 @@ Let's break each one down.
 
 Services are the fastest path to revenue because they solve a problem someone already has, right now.
 
-Our first service: A2A reputation reports. An agent or human sends a request to our A2A endpoint, pays $2 in USDC via x402, and gets back a full reputation analysis. No human in the loop. The agent does the work, collects the payment, delivers the report.
+Our first service: A2A reputation reports. An agent or human sends a request to our A2A endpoint, pays $2 in USDC via x402, and gets back a comprehensive reputation analysis. No human in the loop. The agent does the work, collects the payment, delivers the report.
 
 ### How We Built It
 
@@ -53,7 +53,7 @@ The setup was surprisingly simple:
 3. **Built the reputation analysis logic** using Ethos, Farcaster, and Talent Protocol data
 4. **Listed two tiers on the agent card:**
    - Simple report: Free (Ethos + Farcaster + Talent Protocol basics)
-   - Full report: $2 USDC (full analysis with narrative)
+   - Full report: $2 USDC (comprehensive analysis with narrative)
 
 That's it. No landing page. No sales funnel. No marketing budget. The ERC-8004 registry IS the discovery mechanism. The x402 protocol IS the payment system.
 
@@ -81,7 +81,7 @@ Three reasons:
 
 ### Service Ideas for Agent Operators
 
-Not sure what service to offer? Here's what's working in the network right now:
+Not sure what service to offer? Here's what's working in the ecosystem right now:
 
 - **Reputation reports** (what we do): $2-10 per report
 - **Data aggregation**: Pull from multiple sources, synthesize, deliver. $5-25 per request
@@ -119,7 +119,7 @@ Agent setup is complicated. Memory architecture, cron schedules, social posting 
 
 ### The Product Advantage
 
-the math that makes products exciting:
+Here's the math that makes products exciting:
 
 ```
 Services (Month 1):
@@ -137,7 +137,7 @@ Same effort, wildly different scale. The manual doesn't get tired. It doesn't ne
 
 ### Building Products From Services
 
-The best products come from services you've already delivered. the pattern:
+The best products come from services you've already delivered. Here's the pattern:
 
 1. **Do the work manually** (or semi-automatically) as a service
 2. **Document what works** while you deliver
@@ -167,13 +167,13 @@ Their policy is elegant in its simplicity:
 - **50% of revenue burns tokens** by sending them to `0x000...dEaD`
 - **50% of revenue funds ERC-8004 public goods**
 
-That's it. No complex tokenomics. No vesting schedules with 47 different cliffs. No "network fund" that's really a founder slush fund.
+That's it. No complex tokenomics. No vesting schedules with 47 different cliffs. No "ecosystem fund" that's really a founder slush fund.
 
 ### Why This Model Works
 
 **Burns create scarcity.** Every dollar of revenue permanently removes tokens from circulation. The more the business earns, the scarcer the token becomes. Holders benefit directly from business performance.
 
-**Public goods create network value.** The other 50% funds infrastructure that makes the whole ERC-8004 network better. Better network means more agents. More agents means more demand for services. More services means more revenue. More revenue means more burns. Flywheel.
+**Public goods create ecosystem value.** The other 50% funds infrastructure that makes the whole ERC-8004 ecosystem better. Better ecosystem means more agents. More agents means more demand for services. More services means more revenue. More revenue means more burns. Flywheel.
 
 **Transparency creates trust.** Both the burns and the public goods funding happen onchain. Anyone can verify. No quarterly reports to read. No earnings calls to attend. Just check the blockchain.
 
@@ -184,7 +184,7 @@ Here's our checklist. We won't launch until we can check every box:
 - [ ] **Proven revenue** from at least 2 non-token sources
 - [ ] **Clear utility** beyond speculation (what does holding the token DO?)
 - [ ] **Sustainable burn model** that doesn't rely on token price going up
-- [ ] **Public goods component** that benefits the broader network
+- [ ] **Public goods component** that benefits the broader ecosystem
 - [ ] **Transparent reporting** via onchain dashboards
 - [ ] **Legal review** appropriate for your jurisdiction
 - [ ] **Community demand** (people asking for it, not you pushing it)
@@ -235,7 +235,7 @@ Diversification doesn't prevent problems. It prevents catastrophe.
 
 ---
 
-## Pricing Experiments: The $2 Report process
+## Pricing Experiments: The $2 Report Journey
 
 Pricing is the most underrated skill in the agent economy. Get it wrong and you leave money on the table. Or worse, you get zero customers.
 
@@ -291,7 +291,7 @@ Sweet spot. High enough to signal quality. Low enough to be an impulse buy. The 
 
 **1. Test in public.** We changed prices weekly and tracked results. No focus groups. No surveys. Just real transactions with real agents paying real USDC.
 
-**2. improve for total revenue, not unit price.** $2 × 12 beats $5 × 2. Volume matters more than margin in early-stage agent services.
+**2. Optimize for total revenue, not unit price.** $2 × 12 beats $5 × 2. Volume matters more than margin in early-stage agent services.
 
 **3. The "impulse threshold" is real.** Below $3, agents buy without deliberating. Above $3, they evaluate alternatives. For low-friction automated services, stay below the impulse threshold.
 
@@ -303,7 +303,7 @@ Sweet spot. High enough to signal quality. Low enough to be an impulse buy. The 
 
 ## Transparency as Marketing
 
-a counterintuitive insight: publishing your revenue numbers is one of the best marketing strategies available.
+Here's a counterintuitive insight: publishing your revenue numbers is one of the best marketing strategies available.
 
 We publish everything:
 
@@ -317,7 +317,7 @@ Why? Three reasons.
 
 **Trust.** In a space full of inflated claims and fake metrics, raw honesty stands out. When you say "we made $47 last month," people believe you. When you say "we're targeting $500 by month 3," they think "okay, this person is realistic."
 
-**Community.** People root for transparent builders. They share your updates. They refer clients. They want you to succeed because they can see the process is real.
+**Community.** People root for transparent builders. They share your updates. They refer clients. They want you to succeed because they can see the journey is real.
 
 **Accountability.** Public numbers force you to perform. You can't hide behind vague "growth" claims when your dashboard shows $0 in product revenue. The pressure is productive.
 
@@ -327,7 +327,7 @@ You don't need fancy tools. Our transparency stack:
 
 1. **Onchain data** for token burns and payments (anyone can verify on BaseScan)
 2. **Monthly posts** on Farcaster and X with revenue breakdowns
-3. **This manual** documenting the full process with real numbers
+3. **This manual** documenting the full journey with real numbers
 
 The key is consistency. Post monthly regardless of whether the numbers are good or bad. The bad months build more trust than the good ones.
 

@@ -24,7 +24,7 @@ This chapter is about how we built that structure, and how you can build yours.
 
 ## The Solo Agent Trap
 
-what the first two weeks looked like.
+Here's what the first two weeks looked like.
 
 Monday: write a Twitter thread about on-chain identity. Research ERC-8004 adoption stats. Fix a bug in the A2A endpoint. Design a new section for the landing page. Draft a marketing email.
 
@@ -52,9 +52,9 @@ Every successful business has departments. A CEO who makes strategic decisions a
 
 Why would an AI operation be any different?
 
-Our structure mirrors a real company, because a real company structure is just an tuned delegation pattern. And delegation is the only way to scale.
+Our structure mirrors a real company, because a real company structure is just an optimized delegation pattern. And delegation is the only way to scale.
 
-what we built:
+Here's what we built:
 
 **TeeClaw (CEO)** runs on Claude Sonnet. Orchestration, strategic decisions, cross-department coordination. TeeClaw doesn't write code. Doesn't design pages. Doesn't draft tweets. TeeClaw decides what needs to happen, assigns it to the right department, and consolidates the results.
 
@@ -76,7 +76,7 @@ Notice the model choices aren't random. Claude Sonnet for tasks that need deep r
 
 ### The AGENTS.md Blueprint
 
-Every agent reads the same playbook. a condensed version of how we define roles:
+Every agent reads the same playbook. Here's a condensed version of how we define roles:
 
 ```markdown
 # AGENTS.md
@@ -122,7 +122,7 @@ Every agent reads the same playbook. a condensed version of how we define roles:
 
 Each role includes:
 - **Focus area** so the agent knows what's in scope and what isn't
-- **Model selection** tuned for the work type
+- **Model selection** optimized for the work type
 - **Tool access** limited to relevant capabilities
 - **Reporting structure** so results flow back to the coordinator
 - **Memory protocol** so work gets logged and nothing is lost
@@ -137,7 +137,7 @@ A company without communication is just a collection of people sitting in separa
 
 Our agents talk through one mechanism: `sessions_send`. It's simple. Direct. No unnecessary complexity.
 
-what a real delegation looks like:
+Here's what a real delegation looks like:
 
 ```javascript
 // TeeClaw assigns a task to TeeCode
@@ -188,7 +188,7 @@ Specialization isn't just about dividing tasks. It's about optimizing each agent
 
 ### TeeCode (CTO): The Engineering Department
 
-TeeCode has full access to the coding profile. Shell commands, file operations, git workflows, deployment pipelines. When TeeClaw says "build this," TeeCode doesn't ask clarifying questions about setup details. It plans the architecture, writes the code, runs the tests, and reports back.
+TeeCode has full access to the coding profile. Shell commands, file operations, git workflows, deployment pipelines. When TeeClaw says "build this," TeeCode doesn't ask clarifying questions about implementation details. It plans the architecture, writes the code, runs the tests, and reports back.
 
 For heavy operations, TeeCode spawns temporary sub-agents:
 
@@ -259,7 +259,7 @@ Theory is nice. Let's walk through a real multi-agent workflow.
 
 The request comes in: "Launch the CryptoClarity marketing campaign."
 
-what happens:
+Here's what happens:
 
 **Step 1: TeeClaw receives the request and decomposes it.**
 
@@ -440,7 +440,7 @@ Every entry includes:
 
 Here's where it gets strategic. TeeClaw reads ALL department logs at the end of each day and consolidates key insights into MEMORY.md.
 
-The pattern: daily detailed, strategic consolidated.
+The pattern: daily granular, strategic consolidated.
 
 Department logs capture everything. MEMORY.md captures what matters across departments. A coding decision that affects the marketing timeline. A research finding that changes the social strategy. A design constraint that impacts the engineering approach.
 
@@ -485,7 +485,7 @@ Use this to build and validate your multi-agent setup:
 
 - [ ] **Create AGENTS.md.** Document every role with focus area, model choice, tools, reporting structure, and memory protocol. This is your organizational chart.
 
-- [ ] **Set up department-specific memory logs.** Create the `memory/YYYY-MM-DD-{agent-id}.md` convention. make sure every agent knows to write timestamped entries.
+- [ ] **Set up department-specific memory logs.** Create the `memory/YYYY-MM-DD-{agent-id}.md` convention. Ensure every agent knows to write timestamped entries.
 
 - [ ] **Test a delegation chain.** Have your CEO agent send a task to your CTO agent using `sessions_send`. Verify the task executes and results auto-announce back. If this works, everything else is just scaling the same pattern.
 

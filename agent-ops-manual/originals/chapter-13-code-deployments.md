@@ -23,7 +23,7 @@ Agent Royale v2 has a sacred rule: `teeclaw/agent-royale-v2.git` ONLY.
 
 The old repo exists. It sits there on GitHub, perfectly accessible, with a familiar name and a welcoming README. It must never be used. Not for pushes. Not for pulls. Not for "just checking something real quick."
 
-We broke this rule once. what happened.
+We broke this rule once. Here's what happened.
 
 ---
 
@@ -447,7 +447,7 @@ forge script script/DeployV2.s.sol --rpc-url $MAINNET_RPC --broadcast
 
 **3. Use upgradeable proxies** (if applicable):
 
-Proxy patterns let you swap the setup contract while keeping the same address and state. This is the closest thing to a rollback in smart contract land. But it adds complexity. Evaluate whether you need it before adding it.
+Proxy patterns let you swap the implementation contract while keeping the same address and state. This is the closest thing to a rollback in smart contract land. But it adds complexity. Evaluate whether you need it before adding it.
 
 ### The 15-Minute Rule
 
@@ -529,7 +529,7 @@ Hardcoded values are time bombs. They work today. They break when you change env
 
 ## Lessons We've Learned
 
-the short list of things that went wrong so they don't go wrong for you:
+Here's the short list of things that went wrong so they don't go wrong for you:
 
 **1. The wrong repo push.** Two hours lost. Now we verify remotes before every push. Pre-push hooks catch what discipline misses.
 

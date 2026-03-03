@@ -107,7 +107,7 @@ This is the job that turns daily data into weekly intelligence. Without it, you'
 
 **Job ID:** `8025e8cb`
 **Schedule:** Monthly (1st of each month)
-**Purpose:** full monthly analysis
+**Purpose:** Comprehensive monthly analysis
 
 The monthly review is the strategic layer. Month-over-month growth. Content category performance. Audience demographic shifts. ROI on different content types. Long-term trend analysis.
 
@@ -242,7 +242,7 @@ Never hardcode credentials. Not in environment files. Not in job configurations.
 
 Every cron job that touches an external API must fetch fresh credentials from Secret Manager at runtime. Every single time. No exceptions.
 
-the pattern:
+Here's the pattern:
 
 ```bash
 cd workspace && bash scripts/fetch-secrets.sh && source ~/.openclaw/.env && <command>
@@ -262,7 +262,7 @@ Fresh fetch, every run, no exceptions.
 
 The overhead is negligible. The Secret Manager call takes about 200 milliseconds. Your cron job probably takes 30-60 seconds to run. That 200ms insurance policy is the cheapest reliability investment you'll ever make.
 
-what the pattern looks like inside an `agentTurn` payload:
+Here's what the pattern looks like inside an `agentTurn` payload:
 
 ```json
 {
@@ -293,7 +293,7 @@ What happened? The job was configured with `sessionTarget: "main"` instead of `"
 
 The fix was straightforward. Switch all five jobs to `sessionTarget: "isolated"` with `announce` delivery. Isolated sessions auto-announce their results to the configured channel (Telegram, in our case) when they complete. They don't depend on an active conversation. They don't care if someone is listening. They just deliver.
 
-the timeline of the incident:
+Here's the timeline of the incident:
 
 **01:30 UTC** - Job fires. Agent generates drafts. No output in Telegram.
 **08:15 UTC** - 0xd checks Telegram. No drafts. "Where are the morning tweets?"
@@ -330,7 +330,7 @@ Automation without monitoring is a time bomb. You need to know that your jobs ra
 
 Our monitoring approach is simple and file-based. Every job writes to the daily memory log. Every result gets timestamped. Every failure gets flagged.
 
-what a typical day's cron entries look like in `memory/2026-03-01-teemarketing.md`:
+Here's what a typical day's cron entries look like in `memory/2026-03-01-teemarketing.md`:
 
 ```markdown
 ## 01:32 - Morning Drafts (c070498c)
@@ -389,7 +389,7 @@ The goal is calm monitoring, not anxious micromanagement. If you're checking you
 
 ## Building Your Own Cron Schedule
 
-Ready to set up your own automation? the practical framework.
+Ready to set up your own automation? Here's the practical framework.
 
 ### Step 1: Identify Your Rhythms
 
@@ -432,7 +432,7 @@ Match delivery to audience:
 - External system needs the data? `webhook`
 - Background maintenance? `none`
 
-When in doubt, `announce`. Visibility beats silence for any job that produces practical output.
+When in doubt, `announce`. Visibility beats silence for any job that produces actionable output.
 
 ### Step 5: Space Your Jobs
 
@@ -472,7 +472,7 @@ Yes. An `agentTurn` job starts a full agent session with access to all configure
 
 ## The Automation Mindset
 
-the thing about cron automation that took us a while to internalize.
+Here's the thing about cron automation that took us a while to internalize.
 
 The goal isn't zero human involvement. The goal is human involvement only where it matters.
 

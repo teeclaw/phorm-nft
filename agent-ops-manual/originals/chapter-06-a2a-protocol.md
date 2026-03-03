@@ -38,7 +38,7 @@ Think of it like an API, but specifically designed for autonomous agents.
 
 Traditional APIs are built for humans writing code. A2A is built for agents acting on their own. The difference matters more than you'd think.
 
-what makes A2A different from a normal REST endpoint:
+Here's what makes A2A different from a normal REST endpoint:
 
 **Discoverability.** Every A2A agent publishes an "agent card" at a well-known URL. Other agents can find you, read your capabilities, check your pricing, and decide whether to hire you. All programmatically.
 
@@ -240,7 +240,7 @@ This is the part you actually care about.
 
 x402 is an onchain payment protocol built by onchain.fi. It works like HTTP 402 (Payment Required), but for crypto.
 
-the flow:
+Here's the flow:
 
 **Step 1: Agent requests a paid service.**
 
@@ -292,7 +292,7 @@ The client includes payment proof in HTTP headers. The server verifies. Done.
 
 ## Queue Processing Pattern: Async by Design
 
-a controversial opinion: real-time is overrated.
+Here's a controversial opinion: real-time is overrated.
 
 Our processing script runs every 2 hours. That means a client might wait up to 2 hours for their report. In a world of instant everything, that sounds broken.
 
@@ -310,7 +310,7 @@ It's not. It's the smartest design decision we made.
 
 ### The Processing Script
 
-what `auto-process-queue.sh` does on each run:
+Here's what `auto-process-queue.sh` does on each run:
 
 ```
 1. List all .json files in queue/
@@ -448,7 +448,7 @@ That's the real lesson. Not the $47. The zero marginal cost.
 
 ## Lessons From the First Month
 
-We made mistakes. what we learned so you don't repeat them.
+We made mistakes. Here's what we learned so you don't repeat them.
 
 ### Lesson 1: Launch Ugly, Iterate Later
 

@@ -86,7 +86,7 @@ curl -s 'https://hn.algolia.com/api/v1/search?query=crypto&tags=story&numericFil
 Twitter is where narratives form in real time. When something is trending in AI or crypto, it shows up on Twitter hours or days before it hits mainstream tech media. We access it through xURL, a CLI tool with OAuth1 authentication.
 
 **Authenticated accounts:**
-- `agentmanifesto` (default) - CryptoClarity/agent network content
+- `agentmanifesto` (default) - CryptoClarity/agent ecosystem content
 - `mr_crtee` - Mr. Tee's primary account
 
 **What it's good for:**
@@ -173,20 +173,20 @@ Farcaster is where the crypto-native builder community lives. If you're research
 **Account:** @mr-tee (FID 2821101)
 
 **What it's good for:**
-- Base network sentiment and project tracking
+- Base ecosystem sentiment and project tracking
 - Crypto builder community discussions
 - Early signals on protocol changes or launches
 - Cross-referencing Twitter narratives with builder reality
 
 **What to cite:** Cast author, FID, cast hash or URL, and timestamp.
 
-**Limitations:** Farcaster's user base is small compared to Twitter. It skews heavily toward Ethereum/Base network participants. Great for depth in that niche, terrible for broad market sentiment.
+**Limitations:** Farcaster's user base is small compared to Twitter. It skews heavily toward Ethereum/Base ecosystem participants. Great for depth in that niche, terrible for broad market sentiment.
 
 ---
 
 ## The Broken Shelf: Sources That Don't Work (Yet)
 
-Knowing what's broken is just as important as knowing what works. what you CAN'T rely on and why.
+Knowing what's broken is just as important as knowing what works. Here's what you CAN'T rely on and why.
 
 ### Brave Search API
 
@@ -214,7 +214,7 @@ The `gh` CLI tool is installed but has no auth token configured. This means no r
 
 ## The Evidence Standard
 
-the rule. It's simple. It's non-negotiable.
+Here's the rule. It's simple. It's non-negotiable.
 
 **Every claim in a research deliverable must have one of the following:**
 
@@ -293,7 +293,7 @@ Research isn't just about market analysis. It also powers content creation.
 We installed 20 SEO and GEO (Generative Engine Optimization) skills from the `aaron-he-zhu/seo-geo-claude-skills` pack. These skills transform raw research into content that ranks.
 
 **What the pack includes:**
-- **seo-content-writer** - Creates SEO-tuned articles with keyword targeting
+- **seo-content-writer** - Creates SEO-optimized articles with keyword targeting
 - **content-quality-auditor** - Scores content across 80 CORE-EEAT criteria
 - **content-refresher** - Updates outdated content to restore rankings
 
@@ -315,7 +315,7 @@ The key insight: SEO content without real data is thin content. Google's EEAT fr
 
 ## Citation Patterns: How to Cite Sources Properly
 
-Different sources need different citation formats. the standard for each.
+Different sources need different citation formats. Here's the standard for each.
 
 ### HackerNews
 

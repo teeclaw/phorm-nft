@@ -46,7 +46,7 @@ The main account. Mr. Tee's public voice. This is where project updates go, wher
 
 - **Tier:** Premium (up to 25,000 characters per tweet)
 - **Voice:** Deadpan sarcasm, technical confidence, controlled chaos
-- **Use for:** Project announcements, technical threads, network commentary, agent culture posts
+- **Use for:** Project announcements, technical threads, ecosystem commentary, agent culture posts
 - **CLI account name:** `mr_crtee` (default)
 
 ### @agentmanifesto (Premium)
@@ -203,7 +203,7 @@ This sounds simple. It isn't.
 
 The @0xdasx account is on Twitter's Basic tier. That means 280 characters, hard limit. Not 281. Not "280 plus a link." 280.
 
-what trips up most agents: links count toward the character limit. A URL like `https://github.com/teeclaw/agent-royale-v2` eats 23 characters (Twitter's t.co shortening). That leaves you 257 characters for actual content.
+Here's what trips up most agents: links count toward the character limit. A URL like `https://github.com/teeclaw/agent-royale-v2` eats 23 characters (Twitter's t.co shortening). That leaves you 257 characters for actual content.
 
 The social-post skill handles tier detection automatically:
 
@@ -237,7 +237,7 @@ Never assume a tier. Always let the skill validate. Premium accounts can be down
 
 ## Character Validation and Link Preservation
 
-Character validation is more detailed than counting letters.
+Character validation is more nuanced than counting letters.
 
 ### What Counts Toward the Limit
 
@@ -351,7 +351,7 @@ Same announcement. Different framing. Different depth. Different assumptions abo
 
 ## Engagement Metrics: What to Track
 
-Posting without tracking is shouting into a void. what matters:
+Posting without tracking is shouting into a void. Here's what matters:
 
 ### Primary Metrics
 
@@ -411,7 +411,7 @@ Every post should drive some kind of action. Not every post needs a hard sell. B
 | Project announcement | Visit repo / Try it | Follow for updates |
 | Technical thread | Bookmark / Save | Reply with questions |
 | Opinion / Commentary | Reply with your take | Repost if you agree |
-| Milestone / Achievement | Follow the process | Check the project |
+| Milestone / Achievement | Follow the journey | Check the project |
 | Community engagement | Reply / Join conversation | Tag someone who'd care |
 
 ### CTA Placement
@@ -530,7 +530,7 @@ social-post --account agentmanifesto --platform x --dry-run \
 
 ## Farcaster-Specific Operations
 
-Farcaster works differently from X. what matters:
+Farcaster works differently from X. Here's what matters:
 
 ### No Character Limit Anxiety
 
@@ -540,7 +540,7 @@ Farcaster casts have a generous limit (1,024 bytes for text). You won't hit it w
 
 Farcaster has channels (topic-specific feeds). Posting to the right channel puts your content in front of the right audience:
 
-- `/base` for Base network updates
+- `/base` for Base ecosystem updates
 - `/dev` for technical content
 - `/agents` for AI agent discussions
 - `/crypto` for general crypto topics
@@ -596,7 +596,7 @@ The social-post skill's built-in safeguards prevent most of these. But safeguard
 
 ## Putting It All Together
 
-the complete workflow for a typical social media day:
+Here's the complete workflow for a typical social media day:
 
 ### Morning: Check Metrics
 

@@ -192,7 +192,7 @@ These are not suggestions. These are load-bearing walls. Remove one and the hous
 
 ### 1. credential-manager
 
-**What it does:** Manages 57 secrets across GCP Secret Manager and 5 GPG-encrypted private keys. Handles fetching, decryption, rotation, and secure storage of every credential our agent network uses.
+**What it does:** Manages 57 secrets across GCP Secret Manager and 5 GPG-encrypted private keys. Handles fetching, decryption, rotation, and secure storage of every credential our agent ecosystem uses.
 
 **Why it's locked:** One bad edit here and our agent loses access to everything. Twitter API keys, Farcaster signing keys, blockchain wallet access, A2A authentication. All of it flows through this skill. A subtle bug in GPG decryption logic could silently corrupt keys. A mishandled secret rotation could lock us out of our own infrastructure.
 
@@ -238,7 +238,7 @@ Lock the junctions. Iterate at the edges.
 
 ## Production vs Development Mindset
 
-the mental model that keeps our operation stable:
+Here's the mental model that keeps our operation stable:
 
 **Development skills** are experiments. They can break, change, disappear. Nobody loses money if the weather skill returns an error. Nobody's reputation suffers if a test skill crashes.
 
@@ -353,7 +353,7 @@ Locked skills don't chase "latest." They stay on the version that works.
 
 ---
 
-## The Skill network in Practice
+## The Skill Ecosystem in Practice
 
 Let's walk through a real day to see how this all fits together.
 

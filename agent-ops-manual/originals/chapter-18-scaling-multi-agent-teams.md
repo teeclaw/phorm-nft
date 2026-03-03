@@ -6,7 +6,7 @@
 
 ---
 
-> **TL;DR:** Scale agents like you'd scale a company. Add specialists only when workload justifies it (40%+ sustained use). Use hub-and-spoke coordination to keep communication at O(N) instead of O(N²). Track your coordination ratio (keep it under 20%). Move to hierarchical patterns at 10+ agents. Never let coordination overhead exceed productivity gains.
+> **TL;DR:** Scale agents like you'd scale a company. Add specialists only when workload justifies it (40%+ sustained utilization). Use hub-and-spoke coordination to keep communication at O(N) instead of O(N²). Track your coordination ratio (keep it under 20%). Move to hierarchical patterns at 10+ agents. Never let coordination overhead exceed productivity gains.
 
 ---
 
@@ -58,7 +58,7 @@ Track it. If an agent's task queue averages more than 2 pending tasks across a w
 
 This is subtler. TeeMarketing was writing blog posts. The posts were fine. Functional. But "fine" is not the standard when you're trying to rank in search or build trust with readers.
 
-The blog posts lacked SEO structure. Missing internal links. No content auditing. Headers that were descriptive but not tuned. TeeMarketing could write, but writing wasn't the job. Marketing was the job. Writing was a side effect.
+The blog posts lacked SEO structure. Missing internal links. No content auditing. Headers that were descriptive but not optimized. TeeMarketing could write, but writing wasn't the job. Marketing was the job. Writing was a side effect.
 
 When an agent's secondary tasks consistently underperform compared to what a specialist would deliver, that's your signal. Not "this is bad." Rather: "a dedicated agent would do this 3x better."
 
@@ -101,11 +101,11 @@ Sometimes you lose that bet.
 
 ### When Generalization Wins
 
-**Low-volume, varied tasks.** If you'd need an agent that only works two hours a week, don't create it. Let an existing agent handle those tasks. The coordination cost of a new agent exceeds the value when use is below 30%.
+**Low-volume, varied tasks.** If you'd need an agent that only works two hours a week, don't create it. Let an existing agent handle those tasks. The coordination cost of a new agent exceeds the value when utilization is below 30%.
 
 **Tightly coupled domains.** If two task types always occur together and share the same context, splitting them into separate agents creates unnecessary handoffs. A single agent handling both is more efficient.
 
-**Early-stage exploration.** When you're still figuring out what tasks exist, a generalist discovers the space. Specialists improve a space you already understand.
+**Early-stage exploration.** When you're still figuring out what tasks exist, a generalist discovers the landscape. Specialists optimize a landscape you already understand.
 
 ### The Rule of Thumb
 
@@ -231,7 +231,7 @@ What happens when two agents edit the same file? In theory, file ownership preve
 
 ## Communication Overhead: The N-Squared Problem
 
-the math that kills scaling.
+Here's the math that kills scaling.
 
 With 2 agents, there's 1 possible communication channel.
 With 3 agents, there are 3 channels.
@@ -320,7 +320,7 @@ TeeSocial-TeeClaw-TeeMarketing
 
 **Best for:** 10-20 agents. When hub-and-spoke starts choking.
 
-**setup with OpenClaw:**
+**Implementation with OpenClaw:**
 
 ```
 # TeeClaw delegates to TeeCode (department head)
@@ -442,7 +442,7 @@ TeeResearcher tells TeeClaw, who tells TeeMarketing, who tells TeeSocial, who te
 
 No. These are tasks, not roles. An agent that only sends emails will be idle 95% of the time. Bundle low-frequency tasks into existing agents.
 
-**Fix:** Apply the 40% use rule. If the new agent wouldn't be busy at least 40% of the time, it doesn't justify its coordination cost.
+**Fix:** Apply the 40% utilization rule. If the new agent wouldn't be busy at least 40% of the time, it doesn't justify its coordination cost.
 
 ### The Flat Org
 

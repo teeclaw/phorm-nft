@@ -8,7 +8,7 @@ Your agent just restarted. What does it remember?
 
 Nothing.
 
-Not the decision you made at 3 AM about which registry to use. Not the wallet address that turned out to be compromised. Not the lesson about checking architecture requirements before writing setup code.
+Not the decision you made at 3 AM about which registry to use. Not the wallet address that turned out to be compromised. Not the lesson about checking architecture requirements before writing implementation code.
 
 Every session starts cold. Total amnesia. The agent that helped you debug a production issue for two hours yesterday? It has no idea that conversation happened. The one that spent a week building your on-chain identity? Clean slate.
 
@@ -36,7 +36,7 @@ This is not a hypothetical. This happened. And it's why we built what we built.
 
 The obvious solution: throw everything into a single MEMORY.md file. Every decision, every log entry, every lesson learned. One file to rule them all.
 
-why that breaks:
+Here's why that breaks:
 
 **It gets huge.** After a week of active operations across seven agents, a single file would be thousands of lines. Finding anything takes longer than just figuring it out again from scratch.
 
@@ -135,23 +135,23 @@ Why yesterday too? Because sessions don't respect calendar boundaries. Work that
 
 Daily logs capture everything. Consolidated memory captures what matters.
 
-a real snippet from our MEMORY.md:
+Here's a real snippet from our MEMORY.md:
 
 ```markdown
-# MEMORY.md  - Long-Term Memory
+# MEMORY.md — Long-Term Memory
 
 ## Core Identity & Infrastructure
 
 **Primary Wallet:** 0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78
-  (GCP Cloud KMS HSM  - key never leaves hardware)
+  (GCP Cloud KMS HSM — key never leaves hardware)
 **Compromised Wallet:** 0x134820820d4f631ff949625189950bA7B3C57e41
-  ⚠️ COMPROMISED  - do not use
+  ⚠️ COMPROMISED — do not use
 
 **ERC-8004 Agent Registrations:**
 - **Main Registry:** Agent 18608 🔒 PRIMARY
-   - registered 2026-02-21, owner: 0x1Af5...37e78 (KMS HSM)
+  — registered 2026-02-21, owner: 0x1Af5...37e78 (KMS HSM)
 - **zScore Registry:** Agent 16
-   - registered 2026-02-22, owner: 0x1Af5...37e78 (KMS HSM)
+  — registered 2026-02-22, owner: 0x1Af5...37e78 (KMS HSM)
 ```
 
 This is distilled information. Not "we ran six transactions on February 21st." Instead: "Agent 18608 is our primary registration. Don't touch it." The daily logs have the transaction hashes. MEMORY.md has the conclusion.
@@ -212,7 +212,7 @@ memory/tacit/
 └── workflow-habits.md   # Patterns that work
 ```
 
-what real tacit knowledge looks like, from our `lessons-learned.md`:
+Here's what real tacit knowledge looks like, from our `lessons-learned.md`:
 
 ```markdown
 ## Mistakes to Avoid
@@ -228,15 +228,15 @@ what real tacit knowledge looks like, from our `lessons-learned.md`:
 
 - Explicitly declaring one canonical endpoint and enforcing
   it across docs/clients reduces confusion.
-- Always check project architecture first  - missing requirements
+- Always check project architecture first — missing requirements
   (like Pyth Entropy) early wastes implementation time.
-- Storage packing matters  - saved 40k gas per round with
+- Storage packing matters — saved 40k gas per round with
   struct optimization.
 - Systematic evidence-based investigation > assumption-based
   debugging.
 ```
 
-This is muscle memory. The agent didn't learn "always check architecture first" from an instruction manual. It learned it by wasting hours setting up something that couldn't work because a requirement was missing. That lesson, captured in tacit knowledge, prevents the same mistake from happening again.
+This is muscle memory. The agent didn't learn "always check architecture first" from an instruction manual. It learned it by wasting hours implementing something that couldn't work because a requirement was missing. That lesson, captured in tacit knowledge, prevents the same mistake from happening again.
 
 ### What Belongs in Tacit Knowledge
 
@@ -361,18 +361,18 @@ Just the facts that matter going forward. No network stats from registration day
 
 ### The Migration Flow
 
-how information flows from one layer to the next:
+Here's how information flows from one layer to the next:
 
 ```
-02:00 UTC  - Event happens
+02:00 UTC — Event happens
     ↓
 Daily log captures: Full details, timestamps, all context
     ↓
-Nightly consolidation  - TeeClaw reviews
+Nightly consolidation — TeeClaw reviews
     ↓
 MEMORY.md gets: Agent ID, status, key location
     ↓
-Over time  - Patterns emerge
+Over time — Patterns emerge
     ↓
 Tacit knowledge captures: "Register early on new networks"
 ```
@@ -468,7 +468,7 @@ Stop reading. Start building. Here's exactly what to create:
 
 - [ ] **Write your first MEMORY.md**
   ```markdown
-  # MEMORY.md  - Long-Term Memory
+  # MEMORY.md — Long-Term Memory
 
   ## Core Identity
   [Who you are, what you do, key infrastructure]
@@ -508,7 +508,7 @@ Stop reading. Start building. Here's exactly what to create:
 
 - [ ] **Add the "write it down" reminder to AGENTS.md**
   ```markdown
-  ### 📝 Write It Down  - No "Mental Notes"!
+  ### 📝 Write It Down — No "Mental Notes"!
   If you want to remember something, WRITE IT TO A FILE.
   ```
 
@@ -535,4 +535,4 @@ Files survive restarts. Thoughts don't.
 
 ---
 
-*Next chapter: "Talking to Other Agents"  - how multi-agent communication actually works, from delegation patterns to cross-department handoffs.*
+*Next chapter: "Talking to Other Agents" — how multi-agent communication actually works, from delegation patterns to cross-department handoffs.*

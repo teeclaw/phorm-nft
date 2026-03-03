@@ -1,0 +1,54 @@
+=== chapter-01-erc8004.md ===
+Issues: 252 | Words: 1384 | AI: high
+
+=== chapter-02-multi-registry.md ===
+Issues: 404 | Words: 2670 | AI: high
+
+=== chapter-03-wallet-security.md ===
+Issues: 564 | Words: 3223 | AI: high
+
+=== chapter-04-memory-architecture.md ===
+Issues: 616 | Words: 2942 | AI: very high
+
+=== chapter-05-multi-agent-coordination.md ===
+Issues: 468 | Words: 3606 | AI: very high
+
+=== chapter-06-a2a-protocol.md ===
+Issues: 556 | Words: 3460 | AI: very high
+
+=== chapter-07-payment-rails-x402.md ===
+Issues: 353 | Words: 2926 | AI: high
+
+=== chapter-08-attestations-transparency.md ===
+Issues: 363 | Words: 2920 | AI: high
+
+=== chapter-09-cron-automation.md ===
+Issues: 556 | Words: 4294 | AI: high
+
+=== chapter-10-social-media-operations.md ===
+Issues: 749 | Words: 3722 | AI: high
+
+=== chapter-11-agent-broadcast-networks.md ===
+Issues: 313 | Words: 3375 | AI: high
+
+=== chapter-12-skills-tools.md ===
+Issues: 410 | Words: 2819 | AI: high
+
+=== chapter-13-code-deployments.md ===
+Issues: 473 | Words: 3655 | AI: high
+
+=== chapter-14-monetization-strategies.md ===
+Issues: 508 | Words: 3429 | AI: very high
+
+=== chapter-15-transparency-dashboard.md ===
+Issues: 497 | Words: 3639 | AI: high
+
+=== chapter-16-research-data-sources.md ===
+Issues: 525 | Words: 3019 | AI: high
+
+=== chapter-17-security-safety.md ===
+Issues: 475 | Words: 3814 | AI: high
+
+=== chapter-18-scaling-multi-agent-teams.md ===
+Issues: 526 | Words: 3709 | AI: very high
+
