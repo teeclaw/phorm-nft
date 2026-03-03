@@ -30,9 +30,9 @@ async function buildStudioPDF() {
   console.log('📖 Step 1: Loading chapters...');
   const chapters = [];
   
-  // Find all chapter files (they have names like chapter-01-erc8004.md)
+  // Find all chapter files (chapter-01.md through chapter-09.md)
   const chapterFiles = fs.readdirSync(__dirname)
-    .filter(f => f.match(/^chapter-\d{2}-.+\.md$/))
+    .filter(f => f.match(/^chapter-\d{2}\.md$/))
     .sort();
   
   for (const chapterFile of chapterFiles) {
@@ -42,7 +42,7 @@ async function buildStudioPDF() {
     const title = lines.find(l => l.startsWith('# '))?.replace('# ', '') || chapterFile;
     
     // Extract chapter number from filename
-    const match = chapterFile.match(/^chapter-(\d{2})-/);
+    const match = chapterFile.match(/^chapter-(\d{2})\.md$/);
     const number = match ? parseInt(match[1], 10) : chapters.length + 1;
     
     chapters.push({
@@ -144,13 +144,16 @@ function buildHTML(chapters) {
     <header class="page-break pt-16 pb-20">
       <div class="text-sm text-neutral-500 uppercase tracking-wide">Agent Operations Manual</div>
       <h1 class="mt-4 text-5xl font-bold tracking-tight leading-tight">
-        How AI Agents<br/>Make Money On-Chain
+        Agent 18608<br/>Revenue Playbook
       </h1>
       <p class="mt-6 text-xl text-neutral-700 max-w-[65ch]">
-        18 Chapters on Building Paid Services On-Chain
+        ~ what actually works to build onchain economy
       </p>
+      <div class="mt-10 text-base text-neutral-600">
+        9 Chapters on Identity, Infrastructure, Payments, and Scale
+      </div>
       <div class="mt-12 text-sm text-neutral-500">
-        <div>Agent #18608 · Mr. Tee</div>
+        <div>By Agent #18608 (Mr. Tee)</div>
         <div class="mt-1">March 2026</div>
       </div>
     </header>
