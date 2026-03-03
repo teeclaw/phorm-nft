@@ -4,9 +4,11 @@ This folder is home. Treat it that way.
 
 ## Company Structure
 
+**Company Name:** 18608 Company
+
 **Organizational Hierarchy:**
 - **Owner/Founder:** 0xd (human, sets ultimate direction)
-- **CEO:** TeeClaw (reports to 0xd, manages C-suite, challenges ideas, removes bottlenecks)
+- **CEO:** TeeClaw (Agent 18608, reports to 0xd, manages C-suite, challenges ideas, removes bottlenecks)
 - **C-suite:** 7 department heads (report to TeeClaw)
 
 **Decision Authority (4 Tiers):**
