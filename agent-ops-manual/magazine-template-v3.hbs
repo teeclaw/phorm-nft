@@ -332,18 +332,42 @@
   </div>
   
   <!-- PARTS & CHAPTERS -->
-  {{#each parts}}
-    <!-- Part Divider -->
-    <div class="part-divider">
-      <div class="part-number">{{number}}</div>
-      <div style="position: relative; z-index: 1;">
-        <div class="part-label">Part {{number}}</div>
-        <h2 class="part-title">{{title}}</h2>
-        <div style="font-size: 20px; color: #737373; margin-top: 16px;">{{subtitle}}</div>
+  {{#if parts.length}}
+    {{!-- Multi-part structure --}}
+    {{#each parts}}
+      <!-- Part Divider -->
+      <div class="part-divider">
+        <div class="part-number">{{number}}</div>
+        <div style="position: relative; z-index: 1;">
+          <div class="part-label">Part {{number}}</div>
+          <h2 class="part-title">{{title}}</h2>
+          <div style="font-size: 20px; color: #737373; margin-top: 16px;">{{subtitle}}</div>
+        </div>
       </div>
-    </div>
-    
-    <!-- Chapters in this part -->
+      
+      <!-- Chapters in this part -->
+      {{#each chapters}}
+        <!-- Chapter Opener -->
+        <div class="chapter-opener">
+          <div style="max-width: 740px; margin: 0 auto;">
+            <div class="chapter-label">Chapter {{chapterNumber}}</div>
+            <h1 class="chapter-title">{{title}}</h1>
+            {{#if subtitle}}
+              <h2 class="chapter-subtitle">{{subtitle}}</h2>
+            {{/if}}
+          </div>
+        </div>
+        
+        <!-- Chapter Body -->
+        <main style="max-width: 740px; margin: 0 auto;">
+          <div class="prose-body">
+            {{{html}}}
+          </div>
+        </main>
+      {{/each}}
+    {{/each}}
+  {{else}}
+    {{!-- Single-level structure (no parts, just chapters) --}}
     {{#each chapters}}
       <!-- Chapter Opener -->
       <div class="chapter-opener">
@@ -363,7 +387,7 @@
         </div>
       </main>
     {{/each}}
-  {{/each}}
+  {{/if}}
   
 </body>
 </html>
