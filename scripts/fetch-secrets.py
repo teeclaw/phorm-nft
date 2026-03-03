@@ -2,13 +2,15 @@
 """Fetch all secrets from GCP Secret Manager and print as KEY=VALUE pairs for sourcing.
 
 Improvements:
-- Caching layer (1h TTL) to reduce GCP API calls
+- Encrypted caching layer (1h TTL) using machine-specific key
 - Error logging to stderr (doesn't interfere with export output)
 - Retry logic with exponential backoff
 - Validation for critical secrets
 - Optional debug metrics via DEBUG=1 env var
+
+Security: Cache files are encrypted using Fernet (AES-128-CBC + HMAC) with a machine-specific key.
 """
-import json, base64, urllib.request, urllib.error, sys, os, time
+import json, base64, urllib.request, urllib.error, sys, os, time, hashlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -48,12 +50,53 @@ def log(msg):
     """Log to stderr to not interfere with export output"""
     print(f"[fetch-secrets] {msg}", file=sys.stderr)
 
+def get_machine_key():
+    """Generate machine-specific encryption key from machine ID and username.
+    
+    Uses /etc/machine-id (or /var/lib/dbus/machine-id) + username hash.
+    Falls back to hostname if machine-id unavailable.
+    """
+    try:
+        # Try standard machine-id locations
+        for path in ["/etc/machine-id", "/var/lib/dbus/machine-id"]:
+            if os.path.exists(path):
+                with open(path) as f:
+                    machine_id = f.read().strip()
+                    break
+        else:
+            # Fallback to hostname
+            import socket
+            machine_id = socket.gethostname()
+        
+        # Combine with username for user isolation
+        username = os.getenv("USER") or "default"
+        key_material = f"{machine_id}:{username}".encode()
+        
+        # Derive 32-byte key using SHA-256
+        key = hashlib.sha256(key_material).digest()
+        return base64.urlsafe_b64encode(key)
+    
+    except Exception as e:
+        log(f"Warning: Failed to get machine key, using fallback: {e}")
+        # Emergency fallback (less secure)
+        fallback = hashlib.sha256(b"openclaw-fallback").digest()
+        return base64.urlsafe_b64encode(fallback)
+
+def get_cipher():
+    """Get Fernet cipher using machine-specific key"""
+    try:
+        from cryptography.fernet import Fernet
+        return Fernet(get_machine_key())
+    except ImportError:
+        log("Warning: cryptography not installed, cache encryption disabled")
+        return None
+
 def get_cache_path(name):
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    return CACHE_DIR / f"{name}.cache"
+    return CACHE_DIR / f"{name}.enc"
 
 def read_cache(name):
-    """Read from cache if fresh (within TTL)"""
+    """Read from encrypted cache if fresh (within TTL)"""
     path = get_cache_path(name)
     if not path.exists():
         return None
@@ -64,17 +107,35 @@ def read_cache(name):
             log(f"Cache expired for {name}")
         return None
     
+    cipher = get_cipher()
     try:
-        return path.read_text().strip()
+        encrypted = path.read_bytes()
+        if cipher:
+            decrypted = cipher.decrypt(encrypted)
+            return decrypted.decode()
+        else:
+            # Fallback: treat as plaintext if no cipher available
+            return encrypted.decode()
     except Exception as e:
         if DEBUG:
             log(f"Cache read error for {name}: {e}")
+        # Invalid cache file, delete it
+        try:
+            path.unlink()
+        except:
+            pass
         return None
 
 def write_cache(name, value):
-    """Write value to cache"""
+    """Write encrypted value to cache"""
+    cipher = get_cipher()
     try:
-        get_cache_path(name).write_text(value)
+        if cipher:
+            encrypted = cipher.encrypt(value.encode())
+            get_cache_path(name).write_bytes(encrypted)
+        else:
+            # Fallback: plaintext if encryption unavailable
+            get_cache_path(name).write_text(value)
     except Exception as e:
         if DEBUG:
             log(f"Cache write error for {name}: {e}")
@@ -86,7 +147,7 @@ def get_token():
         return json.loads(r.read())["access_token"]
 
 def fetch_secret(name, token, retries=3):
-    """Fetch secret with retry logic and caching"""
+    """Fetch secret with retry logic and encrypted caching"""
     # Check cache first
     cached = read_cache(name)
     if cached is not None:
@@ -156,7 +217,8 @@ if missing_critical:
 
 if DEBUG:
     elapsed = time.time() - start
-    log(f"Fetched {len(KEYS)} secrets in {elapsed:.2f}s ({cache_hits} from cache, {len(failed)} failed)")
+    cipher_status = "encrypted" if get_cipher() else "plaintext"
+    log(f"Fetched {len(KEYS)} secrets in {elapsed:.2f}s ({cache_hits} from cache, {len(failed)} failed, cache={cipher_status})")
 
 if failed and DEBUG:
     log(f"Failed to fetch: {', '.join(failed)}")

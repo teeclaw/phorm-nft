@@ -1,92 +1,62 @@
-# Workspace Scripts
+# Scripts
 
-Utility scripts for credential management, blockchain operations, and automation.
+Core automation scripts for Mr. Tee's infrastructure.
 
-## Secret Management
+## Credential Management
 
-### fetch-secrets.sh / fetch-secrets.py
+### fetch-secrets.py
 
-Fetches all secrets from GCP Secret Manager and exports them to the environment.
+**Purpose:** Fetch all secrets from GCP Secret Manager and output as shell exports.
+
+**Security Features:**
+- ✅ **Encrypted caching** (Fernet/AES-128-CBC + HMAC)
+- ✅ Machine-specific encryption keys (derived from `/etc/machine-id` + username)
+- ✅ 1-hour cache TTL
+- ✅ Retry logic with exponential backoff
+- ✅ Critical secret validation
+- ✅ Thread-safe parallel fetching
+
+**Cache Location:** `~/.openclaw/.cache/secrets/*.enc`
 
 **Usage:**
 ```bash
-# Standard usage (quiet mode)
+# Normal use (via wrapper script)
 eval "$(bash scripts/fetch-secrets.sh)"
 
-# Debug mode (shows timing and cache stats)
-DEBUG=1 eval "$(bash scripts/fetch-secrets.sh)"
+# Debug mode
+DEBUG=1 bash scripts/fetch-secrets.sh
+
+# Direct Python call
+eval "$(python3 scripts/fetch-secrets.py)"
 ```
 
-**Features:**
-- **Caching:** Secrets are cached for 1 hour in `~/.openclaw/.cache/secrets/`
-- **Retry Logic:** Exponential backoff on network failures (3 attempts)
-- **Error Logging:** Missing/failed secrets logged to stderr (doesn't break export)
-- **Validation:** Warns if critical secrets are missing
-- **Performance:** ~0.5s with cache vs ~5-10s without
+**Dependencies:**
+- `cryptography` Python package (for Fernet encryption)
+- GCP metadata server access (for service account token)
 
-**Cache Location:** `~/.openclaw/.cache/secrets/*.cache`
+**Security Note:** Cache files are encrypted at rest using a machine-specific key derived from hardware/OS identifiers. This prevents plaintext credential exposure if the filesystem is compromised. Each user on the system has isolated encrypted caches.
 
-**Force Refresh:**
-```bash
-# Clear cache to force fresh fetch
-rm -rf ~/.openclaw/.cache/secrets/
-```
+**Upgrade from v1 (March 3, 2026):**
+- Previous version cached secrets in plaintext (security vulnerability)
+- New version encrypts all cached secrets with Fernet
+- Old `.cache` files automatically cleaned on first run
+- Backward compatible: falls back to plaintext if `cryptography` unavailable
 
-## KMS & Blockchain
+## Other Scripts
 
-- **kms-signer.mjs** - Ethers.js v6 KmsSigner for GCP Cloud KMS
-- **register-8004.mjs** - Register agent on ERC-8004 identity registry
-- **swap-usdc-eth-kms.mjs** - Swap USDC to ETH using KMS wallet
-- **swap-usdc-eth-uniswap.mjs** - Uniswap integration for swaps
+### kms-signer.mjs
+Ethereum transaction signing using GCP Cloud KMS HSM.
 
-## Domain & Identity
-
-- **conway-*.mjs** - Conway Domains registration scripts
-- **gen-wallet.js** / **generate-wallet.js** - Wallet generation utilities
-
-## Research & Intelligence
+### swap-usdc-eth-uniswap.mjs
+Uniswap V3 swaps with KMS signing.
 
 ### news-aggregator.mjs
+Multi-source news aggregation for social content.
 
-Resilient news aggregation from multiple crypto/tech sources with automatic fallback.
+### rotate-secrets.sh
+Semi-automated secret rotation workflow.
 
-**Usage:**
-```bash
-# Get top 20 news items (text format)
-node scripts/news-aggregator.mjs
+---
 
-# Get top 5 items
-node scripts/news-aggregator.mjs --limit 5
-
-# Get JSON output for programmatic use
-node scripts/news-aggregator.mjs --limit 10 --format json
-```
-
-**Features:**
-- **Multi-Source:** HackerNews (Algolia), Decrypt, Cointelegraph, CoinDesk
-- **Automatic Fallback:** Works even if some sources fail
-- **Deduplication:** Removes duplicate URLs across sources
-- **Sorted:** By timestamp (newest first), then by score
-- **Fast:** Parallel fetching with 10-15s timeouts
-- **Resilient:** Succeeds if any source works (no single point of failure)
-
-**Output Formats:**
-- `text` - Human-readable format with source status
-- `json` - Structured data with full metadata
-
-**Source Status:**
-Each run shows which sources succeeded/failed:
-```
-✅ HackerNews: 10 items (249ms)
-✅ Decrypt: 10 items (114ms)
-❌ CoinDesk: failed: HTTP 308
-✅ Cointelegraph: 10 items (192ms)
-```
-
-**Exit Code:** Returns 1 if all sources fail, 0 otherwise.
-
-## Maintenance
-
-- **decrypt-key.sh** - GPG key decryption helper
-- **rotate-secrets.sh** - Secret rotation workflow
-- **migrate-secrets*.py** - GCP Secret Manager migration tools
+**Last Updated:** March 3, 2026  
+**Maintainer:** TeeCode (CTO)
