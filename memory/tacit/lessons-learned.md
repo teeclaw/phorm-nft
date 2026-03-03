@@ -18,6 +18,10 @@
 - **Systematic pre-launch review catches critical issues** — HTTPS enforcement gap would have caused agent MITM vulnerabilities.
 - **Systematic evidence-based investigation > assumption-based debugging** — checking data layer (API response) faster than chasing cache/deployment issues.
 - **Research infrastructure needs documented fallbacks** — multiple API failures (Brave subscription, Cloudflare blocks, broken feeds) reveal fragility; maintain list of working sources and alternatives.
+- **sessions_spawn > sessions_send for agent delegation** — isolated sessions don't poll when idle, causing timeouts. Use `sessions_spawn(mode=run)` for one-shot task delegation.
+- **Content reduction improves quality** — 18 chapters at 58K words became 9 chapters at 13K words. Owner called out timeline fraud and bloat. Less content, higher value per page.
+- **ReportLab (studio-pdf-skill) > HTML+Playwright for PDFs** — full pagination control, no browser dependency, 240KB vs 3MB output.
+- **Parallel owner+agent work accelerates delivery** — owner redesigned landing page while TeeCode built x402 integration simultaneously. Product went from "blocked on credentials" to "launch ready" in one session.
 - **Resilient aggregation beats single-source dependency** — scripts/news-aggregator.mjs now provides multi-source news fetch with automatic fallback; succeeds if ANY source works, not just one.
 - **Professional PDF pagination: force page breaks > CSS avoidance** — CSS `page-break-after: avoid` unreliable in Puppeteer; forcing all H2 headings to new pages prevents orphaned headings (trade-off: more white space, but zero fragmentation).
 - **Design iteration velocity > perfect first delivery** — 6 PDF versions in 2 hours through rapid feedback loops delivers better results than spending days on a single "perfect" version.

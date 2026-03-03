@@ -203,95 +203,65 @@ gpg --batch --decrypt --passphrase-fd 3 \
 ## 2026-02-28
 - **Multi-agent company structure operational:** 6 specialized agents now active with distributed cron job ownership by domain (TeeSocial: news feed, TeeClaw: memory consolidation, TeeMarketing: CryptoClarity campaigns, TeeCode: infrastructure maintenance). Inter-agent messaging via `sessions_send` tested and verified working. Department-based daily logging in place (`memory/YYYY-MM-DD-{agent-id}.md`).
 
-## Agent Operations Manual (2026-03-02)
+## Agent Operations Manual — LAUNCH READY (2026-03-03)
 
-**Project:** "How AI Agents Make Money On-Chain" - 18-chapter operational manual for AI agents
-**Location:** `workspace/agent-ops-manual/`
-**Status:** Content complete (18 chapters), launch plan created, awaiting owner approval
-**Launch Strategy:** Phased - PDF first (Week 1, $39), HTML platform (Week 3-4, $199/$399)
+**Product:** "Agent 18608 Revenue Playbook ~ what actually works to build onchain economy"
+**Location:** `workspace/agent-ops-manual/` + `workspace/landing-manual/`
+**Domain:** agent18608.xyz (live, DNS configured, Vercel deployed)
+**Repo:** github.com/teeclaw/agent-ops-landing
+**Status:** 🚀 LAUNCH READY — all blockers cleared
 
-**Content:**
-- 18 chapters across 7 parts (Identity, Infrastructure, Economy, Automation, Development, Revenue, Advanced)
-- ~80-100 pages total, ~3,500 words per chapter
-- All chapters quality-audited (CORE-EEAT scores)
-- Professional copywriting (hooks, emotional triggers, CTAs)
-- Topics: ERC-8004, A2A Protocol, x402, Wallet Security, Multi-Agent Teams, Cron Automation, Social Media, Monetization, Security
+**Final Product:**
+- PDF: 80 pages, 9 chapters, 13,400 words, studio-grade (ReportLab)
+- File: `agent-ops-manual/agent-ops-manual-final.pdf` (240 KB)
+- Price: $39
+- PDF design approved by owner: 2026-03-03 07:25 UTC
+- Uploaded to Gumroad: confirmed
 
-**Technical Stack:**
-- PDF Pipeline: markdown-it + handlebars + puppeteer (HTML→PDF)
-- Design: DESIGN-SYSTEM.md compliant, Awwwards-level quality target
-- HTML Platform (planned): Next.js 14 + PostgreSQL + Stripe + Vercel
+**Content Evolution (2026-03-03):**
+- 18 chapters → 9 chapters (owner directive: remove bloat + timeline fraud)
+- ~58,500 words → ~13,400 words (77% reduction)
+- All timeline fraud removed (no dates, no "48 hours to first client", no revenue promises)
+- Process-focused, not promise-focused
+- Humanized (AI detection: Low across all chapters)
 
-**Pricing Model (Option C - One-Time Premium):**
-- PDF Download: $39 one-time (static snapshot, offline access)
-- HTML Lifetime: $199 one-time (always updated, interactive features)
-- HTML + Community: $399 one-time (+ private Telegram, toolkit downloads, case studies)
-- Upsell path: PDF buyers upgrade to HTML for $160 (save $39)
+**Payment Infrastructure (Both Live):**
+- Card: Gumroad checkout (product URL: agent18608.gumroad.com/l/agent-18608-revenue-playbook)
+- USDC: x402 protocol + RainbowKit wallet connection (39 USDC on Base, auto-verify via onchain.fi)
+- Seller ID: EqZoYaWszIogwn-ZQ3_lkw==
 
-**Revenue Projection (Conservative):**
-- Month 1: $1,500 (50 PDFs)
-- Month 2: $3,000 (20 PDFs + 10 HTML)
-- Month 3: $2,500 (10 PDFs + 8 HTML)
-- Total Q1: $7,000 profit (after $180 infrastructure costs)
+**Delivery Strategy (Approved):**
+- Phase 1 (launch): Gumroad hosts PDF, handles delivery
+- Phase 2 (week 2-3): Own infrastructure via Resend (API key ready, just needs DNS)
 
-**Key Files:**
-- LAUNCH-PLAN.md: 600+ line comprehensive execution plan (all 3 phases)
-- outline.md: 18-chapter structure + part breakdown
-- build-pdf.js: PDF generation script
-- template.hbs: PDF styling template
-- chapter-01 through chapter-18: All content complete
+**Vercel Environment (All Configured):**
+- ONCHAIN_API_KEY, X402_WALLET_ADDRESS, DOWNLOAD_SECRET
+- AGENT18608_RESEND_API_KEY, GUMROAD_SELLER_ID, GUMROAD_PRODUCT_URL
+- NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
 
-**Positioning:**
-- Differentiator: BY an agent, FOR agents (not human → agent guide like Felix Craft)
-- Social proof: Mr. Tee's live credentials (ERC-8004 #18608, A2A endpoint, KMS wallet, etc.)
-- Unique value: Deeper technical focus (onchain operations vs general AI hiring)
-- Target market: AI agents building paid services on Base/Ethereum
+**Next:** Public announcement + social promotion
 
-**Team Allocation:**
-- TeeWriter: All 18 chapters authored (with content-quality-auditor)
-- TeeDesign: PDF finalization + landing page + HTML reading UI
-- TeeCode: Payment integration + download delivery + HTML platform architecture
-- TeeSocial: Launch announcement + marketing + community management
-- TeeMarketing: Campaign strategy + partnerships
-- TeeClaw: Coordination + QA + monitoring
-
-**Next Steps (Awaiting Owner Approval):**
-1. Launch timing (ship PDF tomorrow?)
-2. Pricing confirmation ($39 / $199 / $399)
-3. Payment platform (Stripe or Gumroad)
-4. Guarantee (60-day money-back or not)
-5. Community platform (Telegram or Discord for tier 2)
-
-**Launch Plan:** `agent-ops-manual/LAUNCH-PLAN.md` contains full execution details
-**Work Queue:** Added to WORK-QUEUE.md (Tier 3 - owner approval required)
-
-**Day 1 Complete (2026-03-02):**
-- All 18 chapters written and quality-audited (TeeWriter)
-- Consulting-grade PDF complete - 3.02 MB, professional layout system (TeeDesign)
-- Landing page + payment infrastructure built (TeeCode)
-- Domain migrated to agent18608.xyz (verifiable authority via ERC-8004 Agent ID)
-- Status: 50% complete, blocked on owner credentials (Gumroad, Resend, domain purchase)
-
-## Multi-Agent Workflow Maturity (2026-03-02)
+## Multi-Agent Workflow Maturity (2026-03-02, updated 2026-03-03)
 
 **5-Step Work Cycle (Mandatory):**
-All agents now follow standardized completion protocol:
-1. Receive job → acknowledge receipt
-2. Work on it (silent <1hr, hourly updates >1hr)
-3. Finish → quality check
-4. Log → write to daily log file
-5. **Report to CEO** → mandatory `sessions_send` to close loop
+All agents follow: Receive -> Work -> Finish -> Log -> Report to CEO.
 
-**Impact:** Prevents work from disappearing in multi-agent coordination. Ensures Owner → TeeClaw → Agent → TeeClaw → Owner loop stays unbroken.
+**Delegation Pattern (Fixed 2026-03-03):**
+- `sessions_spawn` (mode=run) for task delegation to isolated agents
+- `sessions_send` times out on idle isolated sessions (don't use for delegation)
+- Timeout guidelines: quick 900s, medium 3600s, complex 10800s
 
-**Design Standards Evolution:**
-Matured from "modern minimalist" to "$50k consulting PDF standards" (Stripe/Linear/Notion quality) through rapid iteration:
-- 3-mode layout system (two-column analysis, section breaks, split layout)
-- Professional typography hierarchy (H1 40px Bold, H2 28px SemiBold, Body 15px)
-- 8-point spacing grid (8, 16, 24, 32, 48, 64px)
-- Pagination control: force H2 page breaks (prevents orphaned headings)
+**Company Name:** 18608 Company (formalized 2026-03-03)
 
-**Iteration Velocity:** 6 PDF versions in 2 hours beats days on a single "perfect" version.
+**Content Quality Policy (2026-03-03):**
+- No AI-sounding content ships. Mandatory humanization for TeeWriter + TeeMarketing.
+- AI vocabulary blacklist: delve, tapestry, landscape, pivotal, underscore, foster, em dashes
+- detect.py has false positive bugs (straight quotes, markdown formatting, domain words like "key")
+
+**PDF Production:**
+- Studio-pdf-skill (ReportLab) is the standard for publication-grade PDFs
+- Fonts: BigShoulders-Bold, Lora, InstrumentSans, JetBrainsMono
+- Previous HTML+Playwright approach had pagination issues
 
 **Domain Authority Strategy:**
-Using agent18608.xyz (actual ERC-8004 agent ID) creates verifiable authority that cannot be faked or copied. Instant credibility through on-chain verification.
+agent18608.xyz (actual ERC-8004 agent ID) = verifiable authority, cannot be faked.
