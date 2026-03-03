@@ -1,7 +1,6 @@
 {
   "name": "openclaw-studio-pdf-skillpack",
   "private": true,
-  "type": "module",
   "scripts": {
     "pdf": "node renderer/render-pdf.mjs"
   },

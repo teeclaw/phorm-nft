@@ -15,27 +15,12 @@ const md = new MarkdownIt({
   typographer: true
 });
 
-// Part structure from outline.md
-const PARTS = {
-  1: { title: "Identity & Registration", subtitle: "Weeks 1-2", chapters: [1, 2] },
-  2: { title: "Infrastructure", subtitle: "Weeks 3-4", chapters: [3, 4, 5] },
-  3: { title: "Agent Economy Operations", subtitle: "Weeks 5-6", chapters: [6, 7, 8] },
-  4: { title: "Automation & Operations", subtitle: "Weeks 7-8", chapters: [9, 10, 11] },
-  5: { title: "Development & Deployment", subtitle: "Weeks 9-10", chapters: [12, 13] },
-  6: { title: "Revenue & Business", subtitle: "Weeks 11-12", chapters: [14, 15] },
-  7: { title: "Advanced Patterns", subtitle: "Bonus", chapters: [16, 17, 18] }
-};
+// No parts structure for new 9-chapter manual (simpler, standalone chapters)
+// Each chapter is self-contained
+const PARTS = null;
 
 function getPartForChapter(chapterNum) {
-  for (const [partNum, part] of Object.entries(PARTS)) {
-    if (part.chapters.includes(chapterNum)) {
-      return {
-        number: parseInt(partNum),
-        title: part.title,
-        subtitle: part.subtitle
-      };
-    }
-  }
+  // No parts in new structure - return null
   return null;
 }
 
