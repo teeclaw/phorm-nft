@@ -265,3 +265,25 @@ All agents follow: Receive -> Work -> Finish -> Log -> Report to CEO.
 
 **Domain Authority Strategy:**
 agent18608.xyz (actual ERC-8004 agent ID) = verifiable authority, cannot be faked.
+
+## Infrastructure Upgrades (2026-03-03)
+
+**GitHub Automation:**
+- `TEECLAW_GITHUB_API_KEY` added to Secret Manager fetch list
+- `VERCEL_CLI_TOKEN` added to Secret Manager fetch list
+- Can now create repos and deploy to Vercel programmatically (no manual steps)
+
+**Agent Timeout Fix:**
+- `runTimeoutSeconds` increased from 600 (10min) to 1800 (30min)
+- Root cause of constant agent session timeouts on complex tasks (design, research, multi-file ops)
+
+**Landing Page Deployment:**
+- Repo: github.com/teeclaw/agent-ops-landing
+- Vercel: https://landing-manual.vercel.app
+- Premium design system: glass morphism, gradient text, ambient light orbs, gold accents
+- Env vars configured (placeholders for Gumroad/Resend, real wallet address)
+
+**Credential Fetching:**
+- fetch-secrets.py now includes: TEECLAW_GITHUB_API_KEY, VERCEL_CLI_TOKEN
+- Encrypted cache (Fernet AES-128-CBC) for all 69+ secrets
+- 4.7x faster warm starts (0.75s vs 3.51s cold)
