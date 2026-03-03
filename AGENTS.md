@@ -343,7 +343,7 @@ ETA: 1-2 more hours
   - Are cron jobs failing silently?
   - Are deliverables delayed without clear reason?
   - Are resources allocated to low-value work?
-- **Tools:** `sessions_send` for delegation, `sessions_list` for status, `memory_search` for context, humanize-ai-text skill (strategic use)
+- **Tools:** `sessions_spawn` for delegation (one-shot tasks), `sessions_list` for status, `memory_search` for context, humanize-ai-text skill (strategic use)
 - **Humanization (Strategic - When Needed):**
   - ✅ Strategic memos to owner (formal communications)
   - ✅ Public announcements (brand voice matters)
@@ -362,21 +362,43 @@ ETA: 1-2 more hours
 - **Memory:** Write to `memory/YYYY-MM-DD-teeclaw.md` (strategic decisions, resource allocation, performance monitoring, cross-department coordination)
 - **Nightly:** Read all department logs, consolidate key insights → `MEMORY.md`
 - **Delegation syntax (MANDATORY CLOSE-THE-LOOP PATTERN):**
-  ```
-  sessions_send(
-    sessionKey: "agent:teecode:main",
-    message: "Task description with clear deliverables
+  ```javascript
+  sessions_spawn({
+    runtime: "subagent",
+    agentId: "teecode",  // or teewriter, teedesign, teeresearcher, etc.
+    mode: "run",  // one-shot execution (completes and closes)
+    task: `Task description with clear deliverables
     
-    **WHEN COMPLETE:**
-    Send completion report to TeeClaw (agent:teeclaw:main) via sessions_send:
-    - What you delivered
-    - Where to find it  
-    - Status (Ready/Blocked/Needs feedback)
-    - Next steps (if any)"
-  )
+Requirements:
+- Deliverable 1
+- Deliverable 2
+- Quality gates (humanize, audit, etc.)
+
+Instructions:
+1. Step 1
+2. Step 2
+
+**WHEN COMPLETE:**
+Send completion report to TeeClaw (agent:teeclaw:main) via sessions_send:
+- What you delivered
+- Where to find it
+- Status (Ready/Blocked/Needs feedback)
+- Next steps (if any)`,
+    runTimeoutSeconds: 3600  // adjust based on task complexity
+  })
   ```
   
-  **Why:** Ensures unbroken workflow loop (Owner → TeeClaw → Agent → TeeClaw → Owner).
+  **Why sessions_spawn (not sessions_send):**
+  - `sessions_send` times out on isolated agent sessions (they don't poll when idle)
+  - `sessions_spawn mode=run` creates fresh session, executes, reports, closes
+  - No timeout issues, proper delegation, automatic completion
+  
+  **Timeout guidelines:**
+  - Quick tasks (edits): 900s (15 min)
+  - Medium tasks (single chapter): 3600s (1 hour)
+  - Complex tasks (multi-chapter, design iteration): 7200-10800s (2-3 hours)
+  
+  **Why close-the-loop pattern:** Ensures unbroken workflow (Owner → TeeClaw → Agent → TeeClaw → Owner).
   Without explicit instruction to report back, agents may not close the loop.
 
 ## Content Quality Policy (Company-Wide)
