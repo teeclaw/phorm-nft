@@ -1,99 +1,131 @@
-<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Background -->
-  <rect width="1200" height="800" fill="#ffffff"/>
+  <rect width="1200" height="900" fill="#ffffff"/>
   
   <!-- Title -->
   <text x="600" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700" fill="#0a0a0a" text-anchor="middle">
-    7-Part Manual Structure
+    9-Chapter Manual Structure
   </text>
   
-  <!-- Part 1: Identity & Registration -->
-  <g transform="translate(100, 120)">
-    <rect width="300" height="140" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <!-- Grid Layout: 3 rows x 3 columns -->
+  
+  <!-- Chapter 1: Identity and Registration -->
+  <g transform="translate(80, 120)">
+    <rect width="320" height="160" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
     <circle cx="40" cy="40" r="24" fill="#2563eb"/>
     <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
-    <text x="80" y="45" font-family="system-ui" font-size="20" font-weight="700" fill="#0a0a0a">Identity & Registration</text>
-    <text x="20" y="80" font-family="system-ui" font-size="14" fill="#525252">• ERC-8004 onchain identity</text>
-    <text x="20" y="100" font-family="system-ui" font-size="14" fill="#525252">• Multi-registry strategy</text>
-    <text x="20" y="120" font-family="system-ui" font-size="14" fill="#525252">• Agent passports</text>
+    <text x="80" y="40" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Identity and</text>
+    <text x="80" y="62" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Registration</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• ERC-8004 onchain identity</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• Registry strategy</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• Profile setup</text>
   </g>
   
-  <!-- Part 2: Infrastructure -->
-  <g transform="translate(450, 120)">
-    <rect width="300" height="140" rx="12" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+  <!-- Chapter 2: Wallet Security -->
+  <g transform="translate(440, 120)">
+    <rect width="320" height="160" rx="12" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
     <circle cx="40" cy="40" r="24" fill="#7c3aed"/>
     <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
-    <text x="80" y="45" font-family="system-ui" font-size="20" font-weight="700" fill="#0a0a0a">Infrastructure</text>
-    <text x="20" y="80" font-family="system-ui" font-size="14" fill="#525252">• KMS wallet security</text>
-    <text x="20" y="100" font-family="system-ui" font-size="14" fill="#525252">• Memory architecture</text>
-    <text x="20" y="120" font-family="system-ui" font-size="14" fill="#525252">• Multi-agent coordination</text>
+    <text x="80" y="40" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Wallet</text>
+    <text x="80" y="62" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Security</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• KMS vs GPG vs plaintext</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• GCP Cloud KMS setup</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• Secret Manager patterns</text>
   </g>
   
-  <!-- Part 3: Economy -->
+  <!-- Chapter 3: Infrastructure -->
   <g transform="translate(800, 120)">
-    <rect width="300" height="140" rx="12" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+    <rect width="320" height="160" rx="12" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
     <circle cx="40" cy="40" r="24" fill="#10b981"/>
     <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
-    <text x="80" y="45" font-family="system-ui" font-size="20" font-weight="700" fill="#0a0a0a">Agent Economy</text>
-    <text x="20" y="80" font-family="system-ui" font-size="14" fill="#525252">• A2A protocol integration</text>
-    <text x="20" y="100" font-family="system-ui" font-size="14" fill="#525252">• x402 payment rails</text>
-    <text x="20" y="120" font-family="system-ui" font-size="14" fill="#525252">• Attestations & transparency</text>
+    <text x="80" y="51" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Infrastructure</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• Memory architecture</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• Multi-agent coordination</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• Skill management</text>
   </g>
   
-  <!-- Part 4: Automation -->
-  <g transform="translate(100, 310)">
-    <rect width="300" height="140" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <!-- Chapter 4: Payment Systems -->
+  <g transform="translate(80, 320)">
+    <rect width="320" height="160" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
     <circle cx="40" cy="40" r="24" fill="#f59e0b"/>
     <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
-    <text x="80" y="45" font-family="system-ui" font-size="20" font-weight="700" fill="#0a0a0a">Automation</text>
-    <text x="20" y="80" font-family="system-ui" font-size="14" fill="#525252">• Cron job orchestration</text>
-    <text x="20" y="100" font-family="system-ui" font-size="14" fill="#525252">• Social media operations</text>
-    <text x="20" y="120" font-family="system-ui" font-size="14" fill="#525252">• Agent broadcast networks</text>
+    <text x="80" y="40" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Payment</text>
+    <text x="80" y="62" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Systems</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• A2A protocol integration</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• x402 payment rails</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• USDC settlement</text>
   </g>
   
-  <!-- Part 5: Development -->
-  <g transform="translate(450, 310)">
-    <rect width="300" height="140" rx="12" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <!-- Chapter 5: Automation and Trust -->
+  <g transform="translate(440, 320)">
+    <rect width="320" height="160" rx="12" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
     <circle cx="40" cy="40" r="24" fill="#ef4444"/>
     <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
-    <text x="80" y="45" font-family="system-ui" font-size="20" font-weight="700" fill="#0a0a0a">Development</text>
-    <text x="20" y="80" font-family="system-ui" font-size="14" fill="#525252">• Skills & tools ecosystem</text>
-    <text x="20" y="100" font-family="system-ui" font-size="14" fill="#525252">• Code deployments</text>
-    <text x="20" y="120" font-family="system-ui" font-size="14" fill="#525252">• Production safety patterns</text>
+    <text x="80" y="40" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Automation</text>
+    <text x="80" y="62" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">and Trust</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• Cron job orchestration</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• Attestations & transparency</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• Public accountability</text>
   </g>
   
-  <!-- Part 6: Revenue -->
-  <g transform="translate(800, 310)">
-    <rect width="300" height="140" rx="12" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+  <!-- Chapter 6: Social and Discovery -->
+  <g transform="translate(800, 320)">
+    <rect width="320" height="160" rx="12" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
     <circle cx="40" cy="40" r="24" fill="#6366f1"/>
     <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">6</text>
-    <text x="80" y="45" font-family="system-ui" font-size="20" font-weight="700" fill="#0a0a0a">Revenue & Business</text>
-    <text x="20" y="80" font-family="system-ui" font-size="14" fill="#525252">• Monetization strategies</text>
-    <text x="20" y="100" font-family="system-ui" font-size="14" fill="#525252">• Transparency dashboards</text>
-    <text x="20" y="120" font-family="system-ui" font-size="14" fill="#525252">• Research & data sources</text>
+    <text x="80" y="40" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Social and</text>
+    <text x="80" y="62" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Discovery</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• Social media operations</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• Agent broadcast networks</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• Discovery strategies</text>
   </g>
   
-  <!-- Part 7: Advanced -->
-  <g transform="translate(275, 500)">
-    <rect width="650" height="140" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+  <!-- Chapter 7: Development Operations -->
+  <g transform="translate(80, 520)">
+    <rect width="320" height="160" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
     <circle cx="40" cy="40" r="24" fill="#ec4899"/>
     <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">7</text>
-    <text x="80" y="45" font-family="system-ui" font-size="20" font-weight="700" fill="#0a0a0a">Advanced Patterns (Bonus)</text>
-    <text x="20" y="80" font-family="system-ui" font-size="14" fill="#525252">• Security & safety protocols</text>
-    <text x="20" y="100" font-family="system-ui" font-size="14" fill="#525252">• Scaling multi-agent teams</text>
-    <text x="20" y="120" font-family="system-ui" font-size="14" fill="#525252">• Advanced coordination patterns</text>
+    <text x="80" y="40" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Development</text>
+    <text x="80" y="62" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Operations</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• Code deployments</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• Git commit discipline</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• Production safety patterns</text>
+  </g>
+  
+  <!-- Chapter 8: Revenue and Data -->
+  <g transform="translate(440, 520)">
+    <rect width="320" height="160" rx="12" fill="#ddd6fe" stroke="#8b5cf6" stroke-width="2"/>
+    <circle cx="40" cy="40" r="24" fill="#8b5cf6"/>
+    <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">8</text>
+    <text x="80" y="40" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Revenue</text>
+    <text x="80" y="62" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">and Data</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• Monetization strategies</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• Research & data sources</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• Transparency dashboards</text>
+  </g>
+  
+  <!-- Chapter 9: Security and Scale -->
+  <g transform="translate(800, 520)">
+    <rect width="320" height="160" rx="12" fill="#ccfbf1" stroke="#14b8a6" stroke-width="2"/>
+    <circle cx="40" cy="40" r="24" fill="#14b8a6"/>
+    <text x="40" y="48" font-family="system-ui" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">9</text>
+    <text x="80" y="40" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">Security</text>
+    <text x="80" y="62" font-family="system-ui" font-size="18" font-weight="700" fill="#0a0a0a">and Scale</text>
+    <text x="20" y="95" font-family="system-ui" font-size="13" fill="#525252">• Security hardening</text>
+    <text x="20" y="115" font-family="system-ui" font-size="13" fill="#525252">• Incident response</text>
+    <text x="20" y="135" font-family="system-ui" font-size="13" fill="#525252">• Scaling multi-agent teams</text>
   </g>
   
   <!-- Footer -->
-  <text x="600" y="700" font-family="system-ui" font-size="16" fill="#737373" text-anchor="middle">
-    18 Chapters • 80-100 Pages • From Zero to Paid Services in 60 Days
+  <text x="600" y="750" font-family="system-ui" font-size="16" fill="#737373" text-anchor="middle">
+    9 Chapters • Production-Ready Patterns • Zero Timeline Fraud
   </text>
   
-  <!-- Connection lines (subtle) -->
-  <line x1="250" y1="260" x2="250" y2="310" stroke="#e5e7eb" stroke-width="2"/>
-  <line x1="600" y1="260" x2="600" y2="310" stroke="#e5e7eb" stroke-width="2"/>
-  <line x1="950" y1="260" x2="950" y2="310" stroke="#e5e7eb" stroke-width="2"/>
-  <line x1="250" y1="450" x2="450" y2="500" stroke="#e5e7eb" stroke-width="2"/>
-  <line x1="600" y1="450" x2="600" y2="500" stroke="#e5e7eb" stroke-width="2"/>
-  <line x1="950" y1="450" x2="750" y2="500" stroke="#e5e7eb" stroke-width="2"/>
+  <!-- Subtle connecting lines (optional visual flow) -->
+  <line x1="240" y1="280" x2="240" y2="320" stroke="#e5e7eb" stroke-width="2"/>
+  <line x1="600" y1="280" x2="600" y2="320" stroke="#e5e7eb" stroke-width="2"/>
+  <line x1="960" y1="280" x2="960" y2="320" stroke="#e5e7eb" stroke-width="2"/>
+  <line x1="240" y1="480" x2="240" y2="520" stroke="#e5e7eb" stroke-width="2"/>
+  <line x1="600" y1="480" x2="600" y2="520" stroke="#e5e7eb" stroke-width="2"/>
+  <line x1="960" y1="480" x2="960" y2="520" stroke="#e5e7eb" stroke-width="2"/>
 </svg>

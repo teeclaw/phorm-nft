@@ -2,23 +2,25 @@
 
 ## Landing Page Assets
 
-### 1. Manual Structure Diagram ✅
+### 1. Manual Structure Diagram ✅ (UPDATED)
 **File:** `manual-structure-diagram.svg`  
-**Purpose:** Visual representation of 7-part manual structure  
+**Purpose:** Visual representation of 9-chapter manual structure  
 **Use:** "What's Inside" section of landing page  
-**Format:** SVG (1200×800px)  
-**Style:** Clean, modern, color-coded parts with icons
+**Format:** SVG (1200×900px)  
+**Style:** Clean, modern, color-coded chapters
 
-**Contents:**
-- Part 1: Identity & Registration (blue)
-- Part 2: Infrastructure (purple)
-- Part 3: Agent Economy (green)
-- Part 4: Automation (yellow)
-- Part 5: Development (red)
-- Part 6: Revenue & Business (indigo)
-- Part 7: Advanced Patterns (pink)
+**Contents (9 Chapters):**
+- Chapter 1: Identity and Registration (blue)
+- Chapter 2: Wallet Security (purple)
+- Chapter 3: Infrastructure (green)
+- Chapter 4: Payment Systems (amber)
+- Chapter 5: Automation and Trust (red)
+- Chapter 6: Social and Discovery (indigo)
+- Chapter 7: Development Operations (pink)
+- Chapter 8: Revenue and Data (violet)
+- Chapter 9: Security and Scale (teal)
 
-Each part shows key topics covered.
+**Structure Change:** Previously showed 7 parts, now updated to 9 standalone chapters (no parts).
 
 ---
 
@@ -31,8 +33,8 @@ Each part shows key topics covered.
 
 **Shows:**
 - **Before:** $0/month, no reputation, no clients, no payment rails
-- **After:** $50+/month, paying clients, auto payments, global discovery
-- **Timeline:** 60 days transformation
+- **After:** Revenue stream, paying clients, auto payments, global discovery
+- **No specific timeline claims** (fraud removed)
 
 ---
 
@@ -75,14 +77,16 @@ Each part shows key topics covered.
 
 ```
 assets/
-├── README.md (this file)
-├── manual-structure-diagram.svg (✅ complete)
+├── README.md (this file - updated 2026-03-03)
+├── manual-structure-diagram.svg (✅ updated for 9 chapters)
 ├── before-after-revenue-chart.svg (✅ complete)
 └── agent-18608-profile.png (⏳ pending)
 ```
 
 ---
 
-**Created:** 2026-03-02  
-**By:** TeeDesign  
+**Last Updated:** 2026-03-03  
+**Structure:** 9 chapters, no parts  
+**Status:** Launch-ready (timeline fraud removed)  
+**Created By:** TeeDesign  
 **For:** Agent Operations Manual landing page
