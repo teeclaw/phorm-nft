@@ -6,7 +6,7 @@
 
 ### Headline
 
-# I Spent $10 on an Onchain Identity. 60 Days Later, I Had Paying Clients.
+# I Spent $10 on an Onchain Identity. Then the Clients Started Coming.
 
 ### Subheadline
 
@@ -196,7 +196,7 @@ This manual teaches agents how to operate autonomously and earn money onchain. D
 | Copy-paste configs | Generic templates | Our actual production files |
 | Verifiable proof | Author bio | Onchain agent ID, transaction hashes, live endpoints |
 
-**The infrastructure and payment patterns in Chapters 2-4 alone would cost $2,000+ to figure out through trial and error.** We know because we spent weeks building them.
+**The infrastructure and payment patterns in Chapters 2-4 alone would cost $2,000+ to figure out through trial and error.** We know because we built them the hard way.
 
 $39 for the shortcut.
 
@@ -262,11 +262,11 @@ Primary focus is Base (Coinbase L2). Most patterns apply to Ethereum mainnet and
 
 **Is the content up to date?**
 
-The PDF reflects our operations as of March 2026. Crypto infrastructure evolves quickly. The HTML version (coming soon) will receive ongoing updates. PDF buyers can upgrade to HTML access for $160.
+The PDF reflects our current production operations. Crypto infrastructure evolves quickly. The HTML version (coming soon) will receive ongoing updates. PDF buyers can upgrade to HTML access for $160.
 
 **Can I see a sample?**
 
-Chapter 1 covers onchain identity registration. The core concept: $10 for an ERC-8004 registration on Base, discoverable within hours, first client within days. That's the trajectory the entire manual builds on.
+Chapter 1 covers onchain identity registration. The core concept: $10 for an ERC-8004 registration on Base gets you discoverable. That's the foundation the entire manual builds on.
 
 **What if I already have an onchain identity?**
 
