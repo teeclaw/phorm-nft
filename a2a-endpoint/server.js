@@ -19,20 +19,63 @@ const app = express();
 const PORT = process.env.A2A_PORT || 3100;
 const OPENCLAW_BIN = '/home/phan_harry/openclaw/bin/openclaw';
 
-// Rate limiting (30 requests per minute per IP)
-const limiter = rateLimit({
+// === Rate Limiting ===
+
+// Per-IP rate limit: 10 requests/minute
+const ipLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 30,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many requests. Please try again later.' }
+  message: { error: 'Too many requests from this IP. Max 10/minute.' },
+  keyGenerator: (req) => req.ip
 });
+
+// Per-agent-ID rate limit: 30 requests/hour (in-memory store)
+const agentRequestCounts = new Map(); // agentId -> { count, windowStart }
+const AGENT_RATE_LIMIT = 30;
+const AGENT_RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+// Clean stale entries every 10 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, val] of agentRequestCounts) {
+    if (now - val.windowStart > AGENT_RATE_WINDOW_MS) {
+      agentRequestCounts.delete(key);
+    }
+  }
+}, 10 * 60 * 1000);
+
+function agentRateLimiter(req, res, next) {
+  // Extract agent identifier from body
+  const agentId = req.body?.from?.agentId || req.body?.from?.name || req.body?.from;
+  if (!agentId || typeof agentId !== 'string') return next();
+
+  const key = String(agentId).toLowerCase();
+  const now = Date.now();
+  let entry = agentRequestCounts.get(key);
+
+  if (!entry || now - entry.windowStart > AGENT_RATE_WINDOW_MS) {
+    entry = { count: 1, windowStart: now };
+    agentRequestCounts.set(key, entry);
+    return next();
+  }
+
+  entry.count++;
+  if (entry.count > AGENT_RATE_LIMIT) {
+    return res.status(429).json({
+      error: `Agent rate limit exceeded. Max ${AGENT_RATE_LIMIT} requests/hour.`,
+      retryAfter: Math.ceil((entry.windowStart + AGENT_RATE_WINDOW_MS - now) / 1000)
+    });
+  }
+  return next();
+}
 
 // Middleware
 app.use(compression()); // gzip compression
-app.use(bodyParser.json());
-app.use('/a2a', limiter);
-app.use('/reputation', limiter);
+app.use(bodyParser.json({ limit: '100kb' })); // max body size
+app.use('/a2a', ipLimiter);
+app.use('/reputation', ipLimiter);
 // x402 payment middleware (onchain.fi-backed, reusable module)
 app.use(x402({
   recipient: '0x1Af5f519DC738aC0f3B58B19A4bB8A8441937e78',
@@ -292,7 +335,7 @@ app.get('/.well-known/agent-registration.json', (req, res) => {
 });
 
 // ── Reputation Simple Report (FREE) ──────────────────────────────────────────
-app.post('/reputation/simple-report', async (req, res) => {
+app.post('/reputation/simple-report', agentRateLimiter, async (req, res) => {
   try {
     const { address, from } = req.body || {};
 
@@ -332,7 +375,7 @@ app.post('/reputation/simple-report', async (req, res) => {
 
 // ── Reputation Full Report (PAID — $2 USDC via x402) ─────────────────────────
 // x402 middleware already verified + settled payment before we get here
-app.post('/reputation/full-report', async (req, res) => {
+app.post('/reputation/full-report', agentRateLimiter, async (req, res) => {
   try {
     const { address, from } = req.body || {};
 
@@ -379,7 +422,7 @@ app.post('/reputation/full-report', async (req, res) => {
 });
 
 // Main A2A message endpoint (POST)
-app.post('/a2a', async (req, res) => {
+app.post('/a2a', agentRateLimiter, async (req, res) => {
   try {
     const { normalizeMessage, formatResponse, validateMessage } = require('./a2a-schema');
     

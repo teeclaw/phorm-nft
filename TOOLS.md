@@ -58,7 +58,7 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 - **User ID:** 2017644981176201216
 - **Profile:** https://twitter.com/mr_crtee
 - **CLI Account Name:** `mr_crtee` (default)
-- **Tier:** Premium (up to 25,000 chars per tweet, not limited to 280)
+- **Pricing:** Pay-per-usage (no subscription tiers since ~2026)
 
 **Secondary Account (0xdas):**
 - **Username:** @0xdasx

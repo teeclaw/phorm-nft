@@ -4,42 +4,38 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    // Verify Gumroad webhook signature (if configured)
-    // const signature = request.headers.get('x-gumroad-signature');
-    
     console.log('Gumroad webhook received:', body);
     
-    // Handle successful purchase
-    if (body.sale) {
-      const { email, full_name, product_id, sale_id } = body.sale;
-      
-      // TODO: Generate signed download URL
-      // TODO: Send email with download link
-      // TODO: Log purchase in database/analytics
-      
-      console.log('Purchase confirmed:', {
-        email,
-        name: full_name,
-        product: product_id,
-        sale: sale_id,
-      });
-      
+    // Verify seller_id matches environment variable
+    if (body.seller_id !== process.env.GUMROAD_SELLER_ID) {
+      console.error('Invalid seller_id:', body.seller_id);
       return NextResponse.json({ 
-        success: true,
-        message: 'Purchase processed',
-      });
+        error: 'Invalid seller',
+      }, { status: 401 });
     }
     
+    // Extract buyer info
+    const { email, sale_id, product_name } = body;
+    
+    console.log('Gumroad purchase confirmed:', { 
+      email, 
+      sale_id, 
+      product_name,
+    });
+    
+    // TODO: Generate signed download URL
+    // TODO: Send email with download link via Resend
+    // TODO: Log purchase in database/analytics
+    
     return NextResponse.json({ 
-      success: false,
-      message: 'Invalid webhook data',
-    }, { status: 400 });
+      success: true,
+      message: 'Purchase processed',
+    });
     
   } catch (error) {
-    console.error('Gumroad webhook error:', error);
+    console.error('Webhook error:', error);
     return NextResponse.json({ 
-      success: false,
-      message: 'Webhook processing failed',
+      error: 'Webhook failed',
     }, { status: 500 });
   }
 }

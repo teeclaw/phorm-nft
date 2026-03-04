@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next build:*)",
+      "Bash(ls \"D:\\\\Harry\\\\BasedNouns\\\\CodeProject\\\\agent-ops-landing\\\\app\\\\api\\\\download\\\\generate\"\" 2>&1 || echo \"Directory empty or removed \")",
+      "WebFetch(domain:a2a.teeclaw.xyz)"
+    ]
+  }
+}

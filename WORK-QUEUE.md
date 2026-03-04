@@ -1,6 +1,6 @@
 # WORK-QUEUE.md - Company Priority Tracking
 
-**Last Updated:** 2026-03-02 14:32 UTC
+**Last Updated:** 2026-03-04 00:02 UTC
 **Updated By:** TeeClaw (CEO)
 
 ---
@@ -63,66 +63,51 @@
 
 ### Owner Approved - In Progress
 - [ ] **Agent Operations Manual - Launch Execution** (TeeClaw coordinating)
-  - **Strategy:** Phased launch - PDF first (magazine layout), HTML platform (Week 3-4)
-  - **Pricing:** PDF $39, HTML Lifetime $199 (no tier 3, no community)
-  - **Payment:** Hybrid (Gumroad for fiat + x402 for USDC)
-  - **Guarantee:** None
-  - **Launch timing:** TBA (when magazine layout PDF ready, ~7 days)
-  - **Plan location:** `agent-ops-manual/LAUNCH-PLAN.md`
+  - **Domain:** agent18608.xyz (verifiable ERC-8004 authority)
+  - **Strategy:** Phased launch - PDF first ($39), HTML platform later ($199)
+  - **Payment:** Hybrid (Gumroad for fiat + x402 for USDC on Base)
+  - **Status:** Day 1 complete (50%), blocked on owner credentials
+  - **Timeline:** 5-7 days from credentials → launch-ready
   
-  **PARALLEL TRACKS (All in progress):**
+  **DAY 1 COMPLETE (2026-03-02):**
+  - ✅ All 18 chapters written + quality-audited (TeeWriter)
+  - ✅ Landing page sales copy - 1,656 words, 79/100 CORE-EEAT (TeeWriter)
+  - ✅ Consulting-grade PDF - 3.02 MB, professional layout (TeeDesign)
+  - ✅ Next.js landing page built (TeeCode)
+  - ✅ Payment infrastructure - Gumroad + x402 endpoints (TeeCode)
+  - ✅ Download delivery system - signed URLs, 24h expiry (TeeCode)
+  - ✅ Domain migration to agent18608.xyz (TeeCode)
+  - ✅ Visual assets 2/3 - structure diagram, revenue chart (TeeDesign)
   
-  **Track 1: PDF Magazine Layout** (CRITICAL PATH)
-  - Owner: TeeClaw (took over from TeeDesign)
-  - Status: ✅ STUDIO PDF DELIVERED - Awaiting Owner Review (2026-03-02 17:38 UTC)
-  - Progress:
-    - ✅ TeeDesign attempts (timeouts, pagination issues)
-    - ✅ Owner provided complete studio PDF skill pack (17:35 UTC)
-    - ✅ TeeClaw implemented with Playwright (17:35-17:38 UTC - 3 minutes!)
-    - ✅ Full 18-chapter PDF sent to owner (17:38 UTC)
-  - Implementation:
-    - Using: Owner's exact professional template
-    - Renderer: Playwright (more stable than Puppeteer)
-    - Layout: 3-mode system (atomic blocks, section breaks, split rail)
-    - Typography: 15px body, 1.65 line-height, 740px max width
-    - Margins: 16/16/18/16mm A4 (studio standard)
-  - Deliverable: agent-ops-manual-studio.pdf (680 KB, 18 chapters)
-  - Next: Owner review → Approve or request adjustments
-  - Timeline: Bypassed TeeDesign timeouts, used owner's template directly
+  **BLOCKERS (Owner Action Required):**
+  1. Purchase domain agent18608.xyz (~$10-15/year)
+  2. Configure DNS (Vercel CNAME @ → cname.vercel-dns.com)
+  3. Configure DNS (Resend TXT records for manual@agent18608.xyz)
+  4. Provide Gumroad credentials (product ID + webhook secret)
+  5. Provide Resend API key (email delivery service)
   
-  **Track 2: Landing Page** (Next.js)
-  - Owner: TeeCode
-  - Status: ✅ COMPLETE (2026-03-02 15:40 UTC - delivered in 11 minutes!)
-  - Tech: Next.js, TypeScript, Tailwind, shadcn/ui, GSAP
-  - Deliverable: Full landing page built (workspace/landing-manual/)
-  - Blocker: Waiting for copy from TeeWriter to integrate
-  - Timeline: Was 3-5 days, delivered Day 1
+  **READY FOR DAYS 2-3 (When Credentials Provided):**
+  - Email delivery integration (SendGrid/Resend)
+  - Transaction verification (viem + Base RPC)
+  - Purchase tracking database/cache
+  - Payment success/failure pages
+  - End-to-end testing
   
-  **Track 3: Payment Integration**
-  - Owner: TeeCode
-  - Status: 80% COMPLETE (2026-03-02 15:40 UTC - core infrastructure done)
-  - Systems: Gumroad + x402
-  - Delivered: API routes, webhooks, signed URLs, PDF delivery
-  - Remaining: Email integration, purchase tracking, end-to-end testing
-  - Blockers: Gumroad credentials, email service config
-  - Timeline: Was 2-3 days, core done Day 1
-  
-  **Track 4: Landing Page Copy**
-  - Owner: TeeWriter
-  - Status: ✅ COMPLETE (2026-03-02 15:46 UTC - delivered in 15 minutes!)
-  - Deliverable: agent-ops-manual/landing-page-copy.md
-  - Quality: 79/100 CORE-EEAT score (Good)
-  - Word count: 1,550 words
-  - All 9 sections delivered (Hero, Problem, Solution, What's Inside, Social Proof, Comparison, Pricing, FAQ, Final CTA)
-  - Timeline: Was 1-2 days, delivered Day 1
-  - Next: TeeCode integrating into Next.js landing page
+  **FILES:**
+  - Landing page: `workspace/landing-manual/` (Next.js project)
+  - PDF: `workspace/agent-ops-manual/agent-ops-manual-magazine.pdf` (3.02 MB)
+  - Copy: `workspace/agent-ops-manual/landing-page-copy.md`
+  - Assets: `workspace/landing-manual/assets/` (diagrams, charts)
+  - Documentation: README.md, TODO.md, PROJECT-STATUS.md, DOMAIN-CHANGE.md
 
 ### Owner Approved - Blocked
-- [ ] CryptoClarity marketing automation
+- [ ] **CryptoClarity marketing automation** (CRITICAL)
   - Status: 3 cron jobs failing (morning/midday/evening)
-  - Blocker: Unknown error (needs TeeSocial investigation)
-  - Owner impact: Marketing workflow broken
-  - Next: Investigate + fix or disable
+  - Blocker: Unknown error (no investigation yet)
+  - Owner impact: Marketing workflow broken since 2026-03-02
+  - Assigned: TeeSocial
+  - Action: Investigate logs + fix or disable failing jobs
+  - Priority: High (24h+ outage)
 
 ---
 
@@ -171,19 +156,30 @@
 
 | Task | Owner | Blocker | Duration | Action Needed |
 |------|-------|---------|----------|---------------|
-| CryptoClarity automation | TeeSocial | Unknown error | 13h+ | Investigate logs |
-| Manual design polish | TeeDesign | Awaiting owner approval | 6h | Owner decision |
+| Agent Ops Manual launch | TeeCode | Owner credentials | 9h | Owner: buy domain + provide credentials |
+| CryptoClarity automation | TeeSocial | Unknown error | 33h+ | TeeSocial: investigate + fix |
 
 ---
 
 ## Completed This Week (2026-03-02 Mon)
 
-- [✓] Agent Operations Manual - 18 chapters (TeeWriter)
-- [✓] PDF generation pipeline - HTML→PDF working (TeeClaw)
+**Agent Operations Manual - Day 1 (50% Complete):**
+- [✓] All 18 chapters written + quality-audited (TeeWriter)
+- [✓] Landing page sales copy - 1,656 words (TeeWriter)
+- [✓] Consulting-grade PDF - 3.02 MB (TeeDesign)
+- [✓] Next.js landing page built (TeeCode)
+- [✓] Payment infrastructure - Gumroad + x402 (TeeCode)
+- [✓] Download delivery system (TeeCode)
+- [✓] Domain migration to agent18608.xyz (TeeCode)
+- [✓] Visual assets 2/3 complete (TeeDesign)
+
+**Social Media:**
+- [✓] CryptoClarity content - X + Farcaster posts (TeeSocial)
+
+**Infrastructure:**
 - [✓] TeeSecure (CSO) recruitment - 8th C-suite member (TeeClaw)
 - [✓] CEO role definition - Strategic advisor + bottleneck remover (TeeClaw)
-- [✓] C-suite titles formalized - All 8 agents (TeeClaw)
-- [✓] Organizational hierarchy documented - Owner → CEO → C-suite (TeeClaw)
+- [✓] 5-step work cycle - Mandatory completion reporting (TeeClaw)
 - [✓] Autonomous operations design - 4-tier system approved (TeeClaw)
 
 ---

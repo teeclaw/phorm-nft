@@ -266,6 +266,34 @@ All agents follow: Receive -> Work -> Finish -> Log -> Report to CEO.
 **Domain Authority Strategy:**
 agent18608.xyz (actual ERC-8004 agent ID) = verifiable authority, cannot be faked.
 
+## Infrastructure Upgrades (2026-03-04)
+
+**AGENTS.md v2.0 Modularization (2026-03-04):**
+- Monolithic AGENTS.md (~600 lines) split into 4 files: AGENTS.md (roles/work cycle), OPERATIONS.md (handoffs/boot), POLICIES.md (content/credentials), DELEGATION.md (TeeClaw-only, on-demand)
+- Key constraint: sub-agent sessions only load AGENTS.md + TOOLS.md. Work cycle + completion schema MUST stay in AGENTS.md.
+- OPERATIONS.md + POLICIES.md loaded via `bootstrap-extra-files` config for main sessions
+- Backup: AGENTS.md.v1.backup. Rollback: restore backup + remove bootstrap paths.
+
+**Mission Control Dashboard (2026-03-04):**
+- Internal ops dashboard for monitoring agents, activity, cron, sessions
+- Stack: Next.js 15, TypeScript, Tailwind v4, CRT retro theme
+- Repo: github.com/teeclaw/mission-control (private)
+- Local: port 3001 (full data via filesystem + Gateway API at localhost:18789)
+- Vercel: https://mission-control-nine-blond.vercel.app (shell only, no filesystem access)
+- Recommendation: run as PM2 service locally, access via Tailscale/SSH tunnel
+
+**Gemini Provider Fix (2026-03-04):**
+- All agents switched from `google-gemini-cli/*` to `google/*` provider (uses GEMINI_API_KEY directly, no OAuth needed)
+- Affects: TeeSocial, TeeMarketing, TeeResearcher (and any Gemini fallbacks)
+
+**A2A Security Upgrade Verified Live (2026-03-04):**
+- Rate limiting (express-rate-limit), body size limit (100kb), new fields (erc8004AgentId, agentWallet, timestamp)
+- PM2 process restarted to pick up code changes from Mar 3
+
+**Sub-agent Retry Lesson (2026-03-04):**
+- When sub-agent hits rate limit and falls back to different model, retry message doesn't re-inject original task context
+- Agent wastes time searching for context instead of executing. Fix needed: include full task in retry.
+
 ## Infrastructure Upgrades (2026-03-03)
 
 **GitHub Automation:**

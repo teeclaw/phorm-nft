@@ -20,16 +20,46 @@
 
 const crypto = require('crypto');
 
+// === Input Sanitization & Validation Helpers ===
+const MAX_MESSAGE_LENGTH = 10000; // 10KB max message content
+const MAX_STRING_LENGTH = 500; // General string field max
+const WALLET_REGEX = /^0x[a-fA-F0-9]{40}$/;
+const ISO8601_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:?\d{2})$/;
+
+/**
+ * Sanitize a string: trim, remove control characters, enforce max length
+ */
+function sanitizeString(str, maxLen = MAX_STRING_LENGTH) {
+  if (typeof str !== 'string') return str;
+  // Remove control characters (except newlines/tabs in message content)
+  return str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '').trim().slice(0, maxLen);
+}
+
+/**
+ * Validate wallet address format (0x + 40 hex chars)
+ */
+function isValidWalletAddress(addr) {
+  return WALLET_REGEX.test(addr);
+}
+
+/**
+ * Validate ISO-8601 timestamp
+ */
+function isValidTimestamp(ts) {
+  if (!ISO8601_REGEX.test(ts)) return false;
+  return !isNaN(new Date(ts).getTime());
+}
+
 /**
  * Normalize incoming message to internal format
+ * Supports v1 (flat), v2 (structured), and new optional fields
  * @param {Object} raw - Raw incoming message
  * @returns {Object} Normalized message
  */
 function normalizeMessage(raw) {
   const messageId = raw.metadata?.messageId || generateMessageId();
-  const timestamp = raw.metadata?.timestamp || new Date().toISOString();
   
-  // Handle both object and string formats for from/to (partial backward compat)
+  // Handle both object and string formats for from/to (backward compat)
   const fromObj = typeof raw.from === 'object' ? raw.from : { name: raw.from };
   const toObj = typeof raw.to === 'object' ? raw.to : { 
     name: raw.to || 'Mr. Tee',
@@ -41,22 +71,41 @@ function normalizeMessage(raw) {
     ? raw.message 
     : { contentType: 'text/plain', content: raw.message };
   
+  // Sanitize all string inputs
+  const sanitizedContent = sanitizeString(
+    typeof messageObj.content === 'string' ? messageObj.content : JSON.stringify(messageObj.content),
+    MAX_MESSAGE_LENGTH
+  );
+  
+  // Handle timestamp: use provided one (from body or metadata) or generate
+  const rawTimestamp = raw.timestamp || raw.metadata?.timestamp;
+  const timestamp = (rawTimestamp && isValidTimestamp(rawTimestamp))
+    ? rawTimestamp
+    : new Date().toISOString();
+
+  // Handle new optional fields (v2.1)
+  const erc8004AgentId = sanitizeString(raw.erc8004AgentId || fromObj.erc8004AgentId || null);
+  const agentWallet = raw.agentWallet || fromObj.agentWallet || null;
+  
   return {
     version: raw.version || '0.3.0',
     messageId,
     timestamp,
     from: {
-      name: fromObj.name,
+      name: sanitizeString(fromObj.name),
       agentId: fromObj.agentId || null,
-      callbackUrl: fromObj.callbackUrl || null
+      callbackUrl: fromObj.callbackUrl || null,
+      // New optional fields
+      erc8004AgentId: erc8004AgentId || null,
+      agentWallet: agentWallet || null
     },
     to: {
-      name: toObj.name || 'Mr. Tee',
+      name: sanitizeString(toObj.name) || 'Mr. Tee',
       agentId: toObj.agentId || 'eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:18608'
     },
     message: {
       contentType: messageObj.contentType || 'text/plain',
-      content: messageObj.content
+      content: sanitizedContent
     },
     metadata: {
       ...raw.metadata,
@@ -141,6 +190,35 @@ function validateMessage(raw) {
     }
   }
   
+  // Validate message length
+  const msgContent = typeof raw.message === 'string' ? raw.message : raw.message?.content;
+  if (typeof msgContent === 'string' && msgContent.length > MAX_MESSAGE_LENGTH) {
+    errors.push(`Message too long (max ${MAX_MESSAGE_LENGTH} characters)`);
+  }
+
+  // Validate new optional fields
+  // erc8004AgentId (string, optional)
+  const erc8004Id = raw.erc8004AgentId || (typeof raw.from === 'object' && raw.from.erc8004AgentId);
+  if (erc8004Id && typeof erc8004Id !== 'string') {
+    errors.push('erc8004AgentId must be a string');
+  }
+
+  // agentWallet (string, optional, validate format if provided)
+  const wallet = raw.agentWallet || (typeof raw.from === 'object' && raw.from.agentWallet);
+  if (wallet) {
+    if (typeof wallet !== 'string' || !isValidWalletAddress(wallet)) {
+      errors.push('agentWallet must be a valid Ethereum address (0x + 40 hex chars)');
+    }
+  }
+
+  // timestamp (string, optional, validate ISO-8601 if provided)
+  const ts = raw.timestamp;
+  if (ts) {
+    if (typeof ts !== 'string' || !isValidTimestamp(ts)) {
+      errors.push('timestamp must be a valid ISO-8601 string');
+    }
+  }
+
   // Validate content type if provided
   if (typeof raw.message === 'object' && raw.message.contentType) {
     const validTypes = ['text/plain', 'application/json', 'text/markdown'];

@@ -417,12 +417,48 @@ For convenience, you can use simplified formats for `from`, `to`, and `message`:
 
 ---
 
+## New Optional Fields (v0.3.1)
+
+The following optional fields were added for ERC-8004 identity enrichment:
+
+| Field | Type | Location | Description |
+|-------|------|----------|-------------|
+| `erc8004AgentId` | string | body or `from` object | Sender's ERC-8004 agent ID |
+| `agentWallet` | string | body or `from` object | Sender's wallet address (0x + 40 hex) |
+| `timestamp` | string | body | ISO-8601 timestamp (server auto-fills if missing) |
+
+**Example with new fields:**
+```json
+{
+  "from": { "name": "AgentX" },
+  "message": "Hello",
+  "erc8004AgentId": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432:42",
+  "agentWallet": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7",
+  "timestamp": "2026-03-04T00:00:00Z"
+}
+```
+
+All fields are optional. Messages without them work exactly as before.
+
+---
+
 ## Rate Limits
 
-- **Requests per agent:** 30/minute per IP
-- **Concurrent connections:** 10/agent
-- **Message size:** 10KB max
+- **Per-IP:** 10 requests/minute
+- **Per-agent:** 30 requests/hour (by agent ID or name)
+- **Request body:** 100KB max
+- **Message content:** 10,000 characters max
 - **Callback timeout:** 10 seconds
+
+---
+
+## Input Validation
+
+- All string inputs are sanitized (control characters removed)
+- `agentWallet` validated as `0x` + 40 hex characters
+- `timestamp` validated as ISO-8601
+- `callbackUrl` must be HTTPS
+- `agentId` must match CAIP-2 format
 
 ---
 
@@ -449,5 +485,5 @@ For convenience, you can use simplified formats for `from`, `to`, and `message`:
 ---
 
 **Protocol Version:** A2A v0.3.0  
-**Last Updated:** 2026-02-21  
-**Documentation Version:** 2.0.0
+**Last Updated:** 2026-03-04  
+**Documentation Version:** 2.1.0
