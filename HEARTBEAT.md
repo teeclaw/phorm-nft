@@ -17,5 +17,14 @@ Check every heartbeat (improved workflow as of 2026-02-28):
 
 # Note: Moltbook checks are handled by a separate cron job (every 3 hours), not heartbeat.
 
+## Cron Health Check (automated)
+Check every heartbeat:
+1. Run: bash /home/phan_harry/.openclaw/workspace/scripts/cron-health-check.sh --quiet
+2. If exit code is 1 (errors found):
+   - Re-run without --quiet to get details
+   - Report failing cron job names to 0xd via Telegram
+   - Include suggestion: "Run `openclaw cron runs <id>` to debug"
+3. If exit code is 0: continue silently
+
 ## X Permission Retry Reminder (agentmanifesto)
 # ✅ RESOLVED 2026-02-27 15:12 UTC — credentials rotated, posting confirmed working
