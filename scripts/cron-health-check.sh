@@ -23,7 +23,7 @@ RAW=$(openclaw cron list 2>/dev/null)
 
 # Parse error crons (status column = "error")
 ERROR_LINES=$(echo "$RAW" | grep -E '\s+error\s+' || true)
-ERROR_COUNT=$(echo "$ERROR_LINES" | grep -c 'error' || echo 0)
+ERROR_COUNT=$(echo "$ERROR_LINES" | grep -c 'error')
 
 # Parse running crons that seem stuck (last run > 1 hour ago but still "running")
 # This is a heuristic check from the list output
