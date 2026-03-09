@@ -1,0 +1,8 @@
+## UNDELIVERED REPORT
+REPORT: BLOCKED
+TASK: CryptoClarity Weekly Marketing Review
+AGENT: TeeSocial
+TIME: 2026-03-09T04:00:00Z
+PROGRESS: 0% - Unable to fetch required credentials for CryptoClarity.
+BLOCKER: Missing `CRYPTOCLARITY_ACCOUNT`, `CRYPTOCLARITY_USERNAME`, `CRYPTOCLARITY_ACCESS_TOKEN`, `CRYPTOCLARITY_API_KEY_SECRET`, `CRYPTOCLARITY_CLIENT_SECRET_ID`, `CRYPTOCLARITY_API_KEY`, `CRYPTOCLARITY_BEARER_TOKEN`, and `CRYPTOCLARITY_ACCESS_TOKEN_SECRET` in Secret Manager.
+NEED: Access to the CryptoClarity social media credentials to proceed with the review.
